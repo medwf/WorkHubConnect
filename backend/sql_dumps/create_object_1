@@ -1,0 +1,49 @@
+#create User name="Mohamed" email="med@gmail.com" password="123" city_id=4
+#create User name="Aboubakr" email="aboubakr@gmail.com" password="321" city_id=103
+#create User name="lahcen" email="lahcen@gmail.com" password="321" city_id=103
+#create User name="mustapha" email="mustapha@gmail.com" password="123" city_id=4
+#create User name="ali" email="ali@gmail.com" password="123" city_id=4
+#create User name="adil" email="adil@gmail.com" password="123" city_id=4
+#
+#create Service en_name="Electricity" ar_name="trissyan" description="rani_tanssayb_ay_haja_dyal_do"
+#create Service en_name="informaticien" ar_name="m3lomati" description="rani_tanssayb_ay_haja_dyal_piciyat"
+#create Service en_name="plombier" ar_name="plombiii" description="rani_tanssayb_ay_haja_dyal_lma"
+#create Service en_name="jlayji" ar_name="mol_zlij" description="rani_tanssayb_ay_haja_dyal_zlij"
+#create Service en_name="economie" ar_name="eccnomie" description="rani_economist"
+#
+#create Worker user_id=1 service_id=1 description="mohamed_trissyan" city_id=4
+#create Worker user_id=2 service_id=2 description="aboubakr_info" city_id=103
+#create Worker user_id=3 service_id=5 description="lahcen_economie" city_id=103
+#create Worker user_id=4 service_id=2 description="essalhi_info" city_id=4
+#create Worker user_id=5 service_id=1 description="ali_trissyan" city_id=4
+#create Worker user_id=6 service_id=1 description="adil_trissyan" city_id=4
+#
+
+
+create Project worker_id=1 title="project_villa_Casa" description="had_project_nadi"
+create Project worker_id=1 title="project_riad_rabat" description="had_project_mzyan"
+create Project worker_id=1 title="project_doaur_9etta_henna" description="had_project_ns_ns"
+create Project worker_id=2 title="project_gueliz" description="had_project_mabihch"
+create Project worker_id=2 title="project_douar_lhna" description="had_project_informatique"
+create Project worker_id=2 title="project_douar_koko" description="had_project_5/5"
+
+create Image url="/images/img1_1.png" project_id=1
+create Image url="/images/img1_2.png" project_id=1
+create Image url="/images/img1_3.png" project_id=1
+create Image url="/images/img2_1.png" project_id=2
+create Image url="/images/img3_1.png" project_id=3
+create Image url="/images/img4_1.png" project_id=4
+create Image url="/images/img4_2.png" project_id=4
+create Image url="/images/img5_1.png" project_id=5
+create Image url="/images/img5_2.png" project_id=5
+create Image url="/images/img6_1.png" project_id=5
+
+
+create Review worker_id=1 user_id=2 text="ly3tik_sehha_mohamed_project_mzn_khdma_n9iya"
+create Review worker_id=1 user_id=4 text="ly3tik_sehha_mohamed_project_mzn_khdma_mzyana_ana_essalhi"
+create Review worker_id=2 user_id=1 text="ly3tik_sehha_aboubakr_project_mzn_khdma_mzyana_ana_mohamed"
+create Review worker_id=2 user_id=3 text="ly3tik_sehha_aboubakr_project_mzn_khdma_mzyana_ana_lahcen"
+
+
+
+

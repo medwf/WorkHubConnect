@@ -14,7 +14,7 @@ class User(BaseModel, Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(String(50), nullable=False, unique=True)
-    password = Column(String(16), nullable=False)
+    password = Column(String(80), nullable=False)
     first_name = Column(String(20), nullable=True)
     last_name = Column(String(20), nullable=True)
     city_id = Column(Integer, ForeignKey('cities.id'), nullable=False)
