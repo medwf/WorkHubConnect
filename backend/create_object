@@ -1,0 +1,5 @@
+create Worker user_id=1 service_id=1 description="mohamed_trissyan"
+create Worker user_id=2 service_id=2 description="aboubakr_info"
+create Worker user_id=3 service_id=2 description="essalhi_info"
+create Worker user_id=4 service_id=1 description="ali_trissyan"
+create Worker user_id=5 service_id=1 description="adil_trissyan"

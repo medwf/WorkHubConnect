@@ -1,0 +1,11 @@
+#create User name="Mohamed" email="med@gmail.com" password="123" city_id=1
+#create User name="Aboubakr" email="aboubakr@gmail.com" password="321" city_id=1
+#create User name="mustapha" email="mustapha@gmail.com" password="123" city_id=1
+#create User name="ali" email="ali@gmail.com" password="123" city_id=2
+#create User name="adil" email="adil@gmail.com" password="123" city_id=2
+
+#create Service en_name="Electricity" ar_name="trissyan" description="rani_tanssayb_ay_haja_dyal_do"
+#create Service en_name="informaticien" ar_name="m3lomati" description="rani_tanssayb_ay_haja_dyal_piciyat"
+#create Service en_name="plombier" ar_name="plombiii" description="rani_tanssayb_ay_haja_dyal_lma"
+#create Service en_name="jlayji" ar_name="mol_zlij" description="rani_tanssayb_ay_haja_dyal_zlij"
+
