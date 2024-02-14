@@ -28,6 +28,6 @@ def not_found(EXP):
 
 
 if __name__ == "__main__":
-    HOST = os.getenv('HBNB_API_HOST', "0.0.0.0")
-    PORT = int(os.getenv('HBNB_API_PORT', 5000))
+    HOST = os.getenv('WORKHUB_API_HOST', "0.0.0.0")
+    PORT = int(os.getenv('WORKHUB_API_PORT', 5000))
     app.run(host=HOST, port=PORT, threaded=True)

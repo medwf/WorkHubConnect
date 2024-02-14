@@ -9,10 +9,10 @@ from models.city import City
 from models.state import State
 
 
-@app_views.route("/states/<state_id>/cities",
+@app_views.route("/states/<int:state_id>/cities",
                  strict_slashes=False,
                  methods=["GET"])
-@app_views.route("/cities/<city_id>", strict_slashes=False, methods=["GET"])
+@app_views.route("/cities/<int:city_id>", strict_slashes=False, methods=["GET"])
 def cities(state_id=None, city_id=None):
     """Retrieves the list of all City objects of a State"""
     if state_id:
@@ -30,7 +30,7 @@ def cities(state_id=None, city_id=None):
     return make_response(jsonify({"error": "Not found"}), 404)
 
 
-@app_views.route("/cities/<city_id>", strict_slashes=False, methods=["DELETE"])
+@app_views.route("/cities/<int:city_id>", strict_slashes=False, methods=["DELETE"])
 def delete_city(city_id):
     """return a JSON: delete a state object that match city_id
     or Not found if id not exist"""
@@ -42,7 +42,7 @@ def delete_city(city_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route("/states/<state_id>/cities",
+@app_views.route("/states/<int:state_id>/cities",
                  strict_slashes=False,
                  methods=["POST"])
 def Create_city(state_id):
@@ -70,7 +70,7 @@ def Create_city(state_id):
         return make_response("Not a JSON", 400)
 
 
-@app_views.route("/cities/<city_id>", strict_slashes=False, methods=["PUT"])
+@app_views.route("/cities/<int:city_id>", strict_slashes=False, methods=["PUT"])
 def Update_city(city_id):
     """update city"""
     obj = storage.get(City, city_id)

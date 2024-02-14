@@ -25,7 +25,7 @@ def states(state_id=None):
         return jsonify(state.to_dict())
 
 
-@app_views.route("/states/<state_id>",
+@app_views.route("/states/<int:state_id>",
                  strict_slashes=False,
                  methods=["DELETE"])
 def delete_states(state_id):
@@ -60,7 +60,7 @@ def Create_state():
         return make_response("Not a JSON", 400)
 
 
-@app_views.route("/states/<state_id>", strict_slashes=False, methods=["PUT"])
+@app_views.route("/states/<int:state_id>", strict_slashes=False, methods=["PUT"])
 def Update_state(state_id):
     """
     If the HTTP body request is not valid JSON,
