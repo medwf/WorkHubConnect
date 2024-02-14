@@ -67,7 +67,7 @@ def create_worker(city_id):
     json_data = request.get_json(force=True, silent=True)
     if json_data:
         if not storage.get(City, city_id):
-            return make_response(jsonify({"error": "Not found"}), 404)
+            return make_response(jsonify({"Error": "City not found"}), 404)
 
         if "user_id" not in json_data:
             return make_response("Missing user_id", 400)
@@ -77,11 +77,11 @@ def create_worker(city_id):
 
         user_id = json_data["user_id"]
         if not storage.get(User, user_id):
-            return make_response(jsonify({"error": "user not found"}), 404)
+            return make_response(jsonify({"Error": "User not found"}), 404)
         
         service_id = json_data["service_id"]
-        if not storage.get(User, service_id):
-            return make_response(jsonify({"error": "service not found"}), 404)
+        if not storage.get(Service, service_id):
+            return make_response(jsonify({"Error": "Service not found"}), 404)
 
         json_data["city_id"] = city_id
         instance = Worker(**json_data)
@@ -100,16 +100,14 @@ def update_worker(worker_id):
     if not data:
         return make_response("Not a JSON", 400)
     worker.certifications = data.get("certifications", worker.certifications)
-    worker.description = data.get("description",
-                                 worker.description)
-    worker.diplome = data.get("diplome",
-                                  worker.diplome)
+    worker.description = data.get("description", worker.description)
+    worker.diplome = data.get("diplome", worker.diplome)
     worker.fb_url = data.get("fb_url", worker.fb_url)
     worker.insta_url = data.get("insta_url", worker.insta_url)
     worker.tiktok_url = data.get("tiktok_url", worker.tiktok_url)
     worker.linkedin_url = data.get("linkedin_url", worker.linkedin_url)
     worker.website_url = data.get("website_url", worker.website_url)
-    worker.user_id = worker.user_id
+    # worker.user_id = worker.user_id
     worker.save()
     return jsonify(worker.to_dict()), 200
 
@@ -128,27 +126,31 @@ def workers_search():
     amenities: list of Amenity ids
     """
     json_data = request.get_json(force=True, silent=True)
-    # print(json_data)
     if json_data is None:
         return make_response("Not a JSON", 400)
     result = []
     if len(json_data) == 0 or \
             all(value == [] for value in json_data.values()):
-        workers = storage.all(worker).values()
+        workers = storage.all(Worker).values()
         for worker in workers:
             result.append(worker.to_dict())
         return jsonify(result)
-
     for state_id in json_data.get("states", []):
         state = storage.get(State, state_id)
+        if state is None:
+            return make_response(jsonify({"error": "Region not found"}), state_id)
         if state:
             for city in state.cities:
                 if city:
                     for worker in city.workers:
                         result.append(worker)
 
+    if len(json_data.get("cities", [])) > 0:
+        result = []
     for city_id in json_data.get("cities", []):
         city = storage.get(City, city_id)
+        if city is None:
+            return make_response(jsonify({"error": "City not found"}), 404)
         if city:
             for worker in city.workers:
                 if worker not in result:
@@ -157,11 +159,14 @@ def workers_search():
     if len(result) == 0:
         result = list(storage.all(worker).values())
     for worker in result.copy():
-        for service_id in json_data.get("servies", []):
+        for service_id in json_data.get("services", []):
             service = storage.get(Service, service_id)
-            if service.id != worker.service_id:
-                result.remove(worker)
-                break
+            if service is None:
+                return make_response(jsonify({"error": "Service not found"}), 404)
+            if service:
+                if service.id != worker.service_id:
+                    result.remove(worker)
+                    break
 
     workers = []
     for worker in result:
