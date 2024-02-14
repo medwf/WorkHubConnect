@@ -5,47 +5,47 @@ from flask import jsonify, make_response, request
 
 from api.v1.views import app_views
 from models import storage
-from models.amenity import Amenity
+from models.project import Project
 
 
-@app_views.route("/amenities/<amenity_id>",
+@app_views.route("/projects/<project_id>",
                  strict_slashes=False,
                  methods=["GET"])
-@app_views.route("/amenities", strict_slashes=False, methods=["GET"])
-def amenities(amenity_id=None):
-    """return a JSON: list of all Amenity objects or one Amenity,
+@app_views.route("/projects", strict_slashes=False, methods=["GET"])
+def projects(project_id=None):
+    """return a JSON: list of all Project objects or one Project,
     Or not found if id not exsit"""
-    if amenity_id is None:
+    if project_id is None:
         result = []
-        amenities = storage.all(Amenity).values()
-        for amenity in amenities:
-            result.append(amenity.to_dict())
+        projects = storage.all(Project).values()
+        for project in projects:
+            result.append(project.to_dict())
         return jsonify(result)
     else:
-        amenity = storage.get(Amenity, amenity_id)
-        if amenity is None:
+        project = storage.get(Project, project_id)
+        if project is None:
             return make_response(jsonify({"error": "Not found"}), 404)
-        return jsonify(amenity.to_dict())
+        return jsonify(project.to_dict())
 
 
-@app_views.route("/amenities/<amenity_id>",
+@app_views.route("/projects/<project_id>",
                  strict_slashes=False,
                  methods=["DELETE"])
-def Delete_amenity(amenity_id):
-    """return a JSON: delete a Amenity object that match <amenity_id>
+def Delete_project(project_id):
+    """return a JSON: delete a project object that match <project_id>
     or Not found if id not exist"""
-    amenity = storage.get(Amenity, amenity_id)
-    if amenity is None:
+    project = storage.get(Project, project_id)
+    if project is None:
         return make_response(jsonify({"error": "Not found"}), 404)
-    storage.delete(amenity)
+    storage.delete(project)
     storage.save()
     return make_response(jsonify({}), 200)
 
 
-@app_views.route("/amenities", strict_slashes=False, methods=["POST"])
-def Create_amenity():
+@app_views.route("/projects", strict_slashes=False, methods=["POST"])
+def Create_project():
     """
-    Create Amenity :
+    Create Project :
     If the HTTP body request is not valid JSON,
         raise a 400 error with the message Not a JSON
     If the dictionary doesn't contain the key name,
@@ -55,7 +55,7 @@ def Create_amenity():
     json_data = request.get_json(force=True, silent=True)
     if json_data:
         if "name" in json_data:
-            instance = Amenity(**json_data)
+            instance = Project(**json_data)
             instance.save()
             return make_response(jsonify(instance.to_dict()), 201)
         else:
@@ -64,11 +64,11 @@ def Create_amenity():
         return make_response("Not a JSON", 400)
 
 
-@app_views.route("/amenities/<amenity_id>", strict_slashes=False,
+@app_views.route("/projects/<project_id>", strict_slashes=False,
                  methods=["PUT"])
 def update_amenity(amenity_id):
     """update amenity"""
-    obj = storage.get(Amenity, amenity_id)
+    obj = storage.get(Project, amenity_id)
     if obj is None:
         return make_response(jsonify({"error": "Not found"}), 404)
     data = request.get_json(force=True, silent=True)
