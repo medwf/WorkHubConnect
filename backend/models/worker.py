@@ -13,7 +13,7 @@ class Worker(BaseModel, Base):
     """Representation of a worker """
     __tablename__ = 'workers'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(Integer, ForeignKey('users.id'), nullable=False, onupdate="CASCADE")
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     service_id = Column(Integer, ForeignKey('services.id'), nullable=False)
     city_id = Column(Integer, ForeignKey('cities.id'), nullable=False)
     description = Column(String(255), nullable=True)
