@@ -10,6 +10,5 @@ from api.v1.views.cities import *
 from api.v1.views.users import *
 from api.v1.views.projects import *
 from api.v1.views.workers import *
-
-# from api.v1.views.places_reviews import *
-# from api.v1.views.places_amenities import *
+from api.v1.views.images import *
+from api.v1.views.workers_reviews import *

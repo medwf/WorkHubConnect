@@ -7,6 +7,18 @@ from flask import jsonify, make_response, request
 from api.v1.views import app_views
 from models import storage
 from models.user import User
+from models.city import City
+import re
+
+email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+
+def is_valid_email(email):
+    return re.match(email_regex, email) is not None
+
+phone_regex = r'^(\+212|06)\d{9}$'
+
+def is_valid_phone_number(phone):
+    return re.match(phone_regex, phone) is not None
 
 
 @app_views.route("/users/<user_id>", strict_slashes=False, methods=["GET"])
@@ -55,16 +67,41 @@ def Create_user():
     if json_data:
         if "email" not in json_data:
             return make_response("Missing email", 400)
+        if not is_valid_email(json_data['email']):
+            return make_response("invalid address email", 400)
+        if len(json_data['email']) > 50:
+            return make_response("Input email must be less than 50 characters", 400)
+
         if "password" not in json_data:
             return make_response("Missing password", 400)
+        if len(json_data['password']) > 80:
+            return make_response("Input password must be less than 80 characters", 400)
+        if len(json_data['password']) < 6:
+            return make_response("Password very weak. It should be at least 6 characters long.", 400)
+
         if "city_id" not in json_data:
             return make_response("Missing city_id", 400)
+        if not storage.get(City, json_data['city_id']):
+            return make_response(jsonify({"error": "city not found"}), 400)
+
+        if len(json_data.get('first_name', "")) > 20:
+            return make_response("Input first_name must be less than 20 characters", 400)
+        if len(json_data.get('last_name', "")) > 20:
+            return make_response("Input last_name must be less than 20 characters", 400)
+
+        phone = json_data.get('phone_number', "")
+        if len(phone) > 0:
+            Phone = phone.replace(" ", "")
+            if not is_valid_phone_number(Phone):
+                return make_response("invalid phone Number most be (+212..) or (06...) or (07..) or (05...)", 400)
+            if len(Phone) > 16:
+                return make_response("Input phone_number must be less than 16 characters", 400)
+            json_data['phone_number'] = Phone
         users = storage.all(User).values()
         for user in users:
             if (user.email == json_data['email']):
                 return make_response("Email already exists", 400)
-        if len(json_data['password']) < 6:
-            return make_response("Password very weak. It should be at least 6 characters long.", 400)
+        
         instance = User(**json_data)
         instance.save()
         return make_response(jsonify(instance.to_dict()), 201)
@@ -82,8 +119,27 @@ def update_user(user_id):
     data = request.get_json(force=True, silent=True)
     if not data:
         return make_response("Not a JSON", 400)
+    if len(data.get("password", "")) > 80:
+        return make_response("Input password must be less than 80 characters", 400)
+    if not storage.get(City, data['city_id']):
+        return make_response(jsonify({"error": "city not found"}), 400)
+    if len(data.get("first_name", "")) > 20:
+        return make_response("Input first_name must be less than 20 characters", 400)
+    if len(data.get("last_name", "")) > 20:
+        return make_response("Input last_name must be less than 20 characters", 400)
+    phone = data.get('phone_number', "")
+    if len(phone) > 0:
+        Phone = phone.replace(" ", "")
+        if not is_valid_phone_number(Phone):
+            return make_response("invalid phone Number most be (+212..) or (06...) or (07..) or (05...)", 400)
+        if len(Phone) > 16:
+            return make_response("Input phone_number must be less than 16 characters", 400)
+        data['phone_number'] = Phone
     obj.password = data.get("password", obj.password)
     obj.first_name = data.get("first_name", obj.first_name)
     obj.last_name = data.get("last_name", obj.last_name)
+    obj.phone_number = data.get("phone_number", obj.phone_number)
+    obj.is_active = data.get("is_active", obj.is_active)
+    obj.city_id = data.get("city_id", obj.city_id)
     obj.save()
     return jsonify(obj.to_dict()), 200

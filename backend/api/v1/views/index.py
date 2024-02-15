@@ -40,6 +40,5 @@ def stats():
         "images": images,
         "reviews": reviews,
         "states": states,
-        "cities": cities,
-        
+        "cities": cities
     }

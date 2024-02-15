@@ -51,6 +51,8 @@ def Create_state():
     json_data = request.get_json(force=True, silent=True)
     if json_data:
         if "name" in json_data:
+            if len(json_data['name']) > 128:
+                return make_response("Input name must be less than 128 characters", 400)
             instance = State(**json_data)
             instance.save()
             return make_response(jsonify(instance.to_dict()), 201)
@@ -71,6 +73,8 @@ def Update_state(state_id):
     if obj is None:
         return make_response(jsonify({"error": "Not found"}), 404)
     data = request.get_json(force=True, silent=True)
+    if len(data['name']) > 128:
+        return make_response("Input name must be less than 128 characters", 400)
     if not data:
         return make_response("Not a JSON", 400)
     obj.name = data.get("name", obj.name)
