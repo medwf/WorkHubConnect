@@ -15,13 +15,13 @@ email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
 def is_valid_email(email):
     return re.match(email_regex, email) is not None
 
-phone_regex = r'^(\+212|06)\d{9}$'
+phone_regex = r'^(\+212|0)([5-7]\d{8}|[6-7]\d{8})$'
 
 def is_valid_phone_number(phone):
     return re.match(phone_regex, phone) is not None
 
 
-@app_views.route("/users/<user_id>", strict_slashes=False, methods=["GET"])
+@app_views.route("/users/<int:user_id>", strict_slashes=False, methods=["GET"])
 @app_views.route("/users", strict_slashes=False, methods=["GET"])
 def users(user_id=None):
     """return a JSON: list of all users objects or one User,
@@ -101,7 +101,8 @@ def Create_user():
         for user in users:
             if (user.email == json_data['email']):
                 return make_response("Email already exists", 400)
-        
+        if 'id' in json_data:
+            del json_data['id']
         instance = User(**json_data)
         instance.save()
         return make_response(jsonify(instance.to_dict()), 201)
@@ -115,7 +116,7 @@ def update_user(user_id):
     """update user"""
     obj = storage.get(User, user_id)
     if obj is None:
-        return make_response(jsonify({"error": "Not found"}), 404)
+        return make_response(jsonify({"error": "User Not found"}), 404)
     data = request.get_json(force=True, silent=True)
     if not data:
         return make_response("Not a JSON", 400)
