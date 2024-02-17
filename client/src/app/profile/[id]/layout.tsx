@@ -6,7 +6,7 @@ export default function ProfileLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section className="flex">
+    <section className="flex min-h-screen">
       {/* Include shared UI here e.g. a header or sidebar */}
       <SideBar />
 

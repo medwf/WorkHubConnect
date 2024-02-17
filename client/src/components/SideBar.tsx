@@ -78,9 +78,9 @@ export default function SideBar({ params }: any) {
       ]
     }
   ];
-
+//min-h-[calc(100vh - 4rem)] 
   return (
-    <div className='fixed  left-0 flex flex-col  w-[300px] min-w-[300px] border-r min-h-[calc(100vh - 4rem)]  p-4 gap-4 overflow-y-auto bg'>
+    <div className='fixed  left-0 flex flex-col  w-[300px] min-w-[300px] border-r h-full  p-4 gap-4  '>
       <div className='flex items-center justify-center gap-2 border rounded-md p-2'>
         <div className='avatar rounded-full min-h-8 min-w-8 h-12 w-12 bg-gray-400 text-white font-[700] 
           flex items-center justify-center'>
