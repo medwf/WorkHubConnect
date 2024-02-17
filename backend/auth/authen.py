@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 from flask import Flask, request, make_response, jsonify
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from datetime import timedelta
 from models.user import User
 from hashlib import md5
 from models import storage
@@ -8,6 +9,8 @@ from models import storage
 app = Flask(__name__)
 
 app.config["SECRET_KEY"] = "Bla-Bla"
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
+app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=30)
 jwt = JWTManager(app)
 
 @app.route('/token', methods=["POST"])
