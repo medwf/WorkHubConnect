@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { string } from "zod";
 
 const userSchema = new mongoose.Schema({
     first_name:{
@@ -27,20 +28,20 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
     cityId:{
-        type: Array<string>,
-        required: true,
-    },
-    profession:{
         type: String,
         required: true,
+    },
+    service:{
+        type: String,
+        
     },
     isVerified:{
         type: Boolean,
         default: false,
     },
-    isWorker:{
-        type: Boolean,
-        default: false,
+    type:{
+        type: String,
+        required: true,
     },
     forgotPasswordToken:String,
     forgotPasswordExpires:Date,

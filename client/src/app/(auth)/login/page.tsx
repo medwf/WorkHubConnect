@@ -98,9 +98,13 @@ export default function Signup() {
     <MaxWidthWrapper>
 
   
-    <div className="md:px-2 py-10 mt-10 bg-opacity-70 bg-white-50  mx-auto  flex flex-col items-center max-w-xl border-gray-300 border-2  rounded-lg">
+    <div className="md:px-2 py-10 mt-10 bg-opacity-70 bg-white-50  mx-auto  flex flex-col items-center max-w-md border-gray-100 border-1 bg-[#f8f9fa] rounded-lg shadow-lg">
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-2 ">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-4/5 space-y-2 ">
+        <div className="flex items-center justify-center py-8">
+
+           <p className="text-xl text-gray-950 font-bold">WorkHubConnect</p>
+        </div>
       <Button variant="outline" type="button" className="w-full mx-auto border-slate-400" disabled={isLoading}>
         {isLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
@@ -151,6 +155,9 @@ export default function Signup() {
     
     
       </form>
+      <div className=" flex justify-center items-center pt-3">
+        <p className="text-md font-medium text-muted-foreground">don't have an account ?<span className="text-blue-600 hover:underline"><Link href={'/signup'}>sign up</Link></span> </p>
+      </div>
     </Form>
     </div>
     </MaxWidthWrapper>

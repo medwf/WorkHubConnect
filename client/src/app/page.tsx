@@ -4,12 +4,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getUserDataFromToken } from "@/helpers/authHelp";
 
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  
 
   // const handleSearch = () => {
   //   const mockData = [
@@ -62,6 +64,8 @@ export default function Home() {
               className="max-h-[70vh object-contain object-center 2xl:max-h-[50vh]"
             />
           </div>
+          hi
+         
         </section>
       </MaxWidthWrapper>
     </>
