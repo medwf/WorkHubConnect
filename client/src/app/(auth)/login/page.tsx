@@ -3,7 +3,6 @@ import React,{useState} from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { toast as Ttoast } from "react-hot-toast";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -30,7 +29,9 @@ import { useForm } from "react-hook-form";
 import { Icons } from "@/components/icons";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { FaGoogle } from "react-icons/fa";
-import { useToast } from "@/components/ui/use-toast"
+import { toast } from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { setLogin } from "@/state";
 const FormSchema = z.object({
   Email: z.string().min(2),
   password: z.string().min(2),
@@ -41,8 +42,9 @@ export default function Signup() {
   const [selectedRegion, setSelectedRegion] = useState("");
   const [RegionName, setRegionName] = useState("");
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const dispatch = useDispatch();
   const router = useRouter();
-  const { toast } = useToast()
+  
   
 
   const [user, setUser] = React.useState({
@@ -66,8 +68,19 @@ export default function Signup() {
          email: data.Email,
         password: data.password,
       });
+      console.log(response);
       
       const userData = response.data;
+      if(userData){
+        dispatch(
+          setLogin({
+            token: userData.token,
+            user: userData.user._id,
+          })
+        )
+        
+      }
+      toast.success(response.data.message);
       const userId = userData.id;
       // form.reset();
       // setRegionName('');
@@ -76,6 +89,7 @@ export default function Signup() {
       
     } catch (error:any) {
       console.error("Error submitting form:", error);
+      toast.error(error.message);
     } finally {
       setIsLoading(false);
     }

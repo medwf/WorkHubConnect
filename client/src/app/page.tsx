@@ -6,7 +6,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { getUserDataFromToken } from "@/helpers/authHelp";
-
+import { useSelector } from 'react-redux';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -25,6 +25,8 @@ export default function Home() {
 
   //   setSearchResults(filteredResults);
   // };
+  const token = useSelector(state => state.token);
+  const user = useSelector(state => state.user) 
   return (
     <>
       <MaxWidthWrapper>
@@ -64,7 +66,10 @@ export default function Home() {
               className="max-h-[70vh object-contain object-center 2xl:max-h-[50vh]"
             />
           </div>
-          hi
+          <h2>User Data</h2>
+          <pre>{JSON.stringify(user, null, 2)}</pre>
+          <pre>{JSON.stringify(token, null, 2)}</pre>
+
          
         </section>
       </MaxWidthWrapper>

@@ -2,10 +2,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "react-hot-toast";
+
 import { Poppins } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import {ReduxStore} from "@/Redux/provider"
 const poppins = Poppins({
   subsets: ["latin"],
   display: "swap",
@@ -34,11 +36,19 @@ export default function RootLayout({
         >
           <main className="relative flex flex-col min-h-screen">
             <div className="flex-grow  flex-1">
+            <ReduxStore>
+            
               <Navbar />
-              <Toaster />
+              <Toaster
+              position="top-center"
+              reverseOrder={false}
+            />
+            <Toaster/>
               {children}
-
+             
               <Footer />
+           </ReduxStore>
+             
             </div>
           </main>
         </body>

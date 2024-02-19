@@ -1,25 +1,15 @@
-
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 export async function connect() {
     try {
-        console.log(`Connecting to MongoDB at ${process.env.MONGO_URI}`);
-        await mongoose.connect("mongodb://localhost:27017/mydata");
-        const connection = mongoose.connection;
-        console.log("now");
-        
-        connection.on('connected',() => {
-            console.log('MongoDB connected');
+        await mongoose.connect("mongodb://localhost:27017/mydata", { 
+            retryWrites: true, 
+            w: 'majority' 
         });
-
-        connection.on('error',(err) => {
-            console.log('MongoDb connection error, please mure sure MongoDB is Running');
-            console.log('MongoDB error',err);
-            process.exit();
-        });
-        
+        console.log(`Running on ENV = ${process.env.NODE_ENV}`);
+        console.log('Connected to MongoDB.');
     } catch (error) {
-        console.log("Error connecting to MongoDB!");
+        console.error('Unable to connect.');
         console.error(error);
     }
 }

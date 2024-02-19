@@ -33,6 +33,9 @@ import { FaGoogle } from "react-icons/fa";
 import { regions } from "@/helpers/regions";
 import { cities } from "@/helpers/cities";
 import { useToast } from "@/components/ui/use-toast";
+import { useDispatch } from "react-redux";
+import { setLogin } from "@/state";
+
 const FormSchema = z.object({
   first_name: z.string().min(2),
   last_name: z.string().min(2),
@@ -81,7 +84,8 @@ export default function Signup() {
       type: "",
     },
   });
-
+  const [pageType, setPageType] = useState("login");
+  const dispatch = useDispatch();
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     // console.log(data);
     data.region = RegionName;
@@ -96,16 +100,20 @@ export default function Signup() {
       const res = await axios.post("/api/users/signup", formDataWithCityId)
   
       const resData = res.data
+      if(resData){
+        dispatch(
+          setLogin({
+            token: resData.token,
+            user: resData.user._id,
+          })
+        )
+      }
       console.log(resData);
+      console.log(resData.token);
       console.log(resData.user._id);
       const id  = resData.user._id;
-      toast({
-        title: "You submitted the following values:",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            <code className="text-white">{resData.message}</code>
-          </pre>
-        ),})
+
+     
       // router.push(`/profile/${res.user.id}/myprofile`)
       router.push(`/profile/${id}/myprofile`)
       Ttoast.success("Form submitted successfully!");
@@ -114,14 +122,7 @@ export default function Signup() {
     } catch (error:any) {
       console.error("Essalhi",error);
       Ttoast.error(error.message);
-      toast({
-        title: "You submitted the following values:",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            <code className="text-white">{error.response.data.message}</code>
-          
-          </pre>
-        ),})
+     
       // form.reset();
       // setRegionName("");
 

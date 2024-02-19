@@ -5,7 +5,7 @@ export async function GET(){
         const response = NextResponse.json(
             {
                 message: "Logout successfully",
-                status: 200,
+                success: true,
             }
         );
         // response.cookies.remove('token');
