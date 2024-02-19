@@ -78,7 +78,7 @@ def Create_user():
             return make_response("Input password must be less than 80 characters", 400)
         if len(json_data['password']) < 6:
             return make_response("Password very weak. It should be at least 6 characters long.", 400)
-
+        # most cast city id.
         if "city_id" not in json_data:
             return make_response("Missing city_id", 400)
         if not storage.get(City, json_data['city_id']):

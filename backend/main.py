@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ Test link Many-To-Many Place <> Amenity
 """
-from models import *
+from models import storage
 from models.city import City
 from models.user import User
 from models.state import State
@@ -31,5 +31,3 @@ for state in states:
 					print(f"\t\tProject :  {user.email} : {project.title}")
 					for image in project.images:
 						print(f"\t\t\tImage: {image.url}")
-						
-
