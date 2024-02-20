@@ -23,7 +23,7 @@ def create_token():
                 return make_response(jsonify({"error": "bad user or password"}), 401)
             generate_token = create_access_token(identity=user.id)
             print("login success", generate_token)
-            return make_response(jsonify({"token": generate_token, "user_id": user.id}))
+            return make_response(jsonify({"token": generate_token, "user_id": user.id, "message": "Login success"}))
         if not email or len(email) == 0:
             return make_response(jsonify({"error": "Eamil required"}), 401)
         if not password or len(password) == 0:
