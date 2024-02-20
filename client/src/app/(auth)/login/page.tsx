@@ -26,7 +26,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { ToastAction } from "@/components/ui/toast"
 import { useForm } from "react-hook-form";
-import { Icons } from "@/components/icons";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { FaGoogle } from "react-icons/fa";
 import { toast } from "react-hot-toast";
@@ -64,7 +63,9 @@ export default function Signup() {
   async  function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
       setIsLoading(true);
-      const response = await axios.post("/api/users/login", {  //under construction ghada in cha lah
+
+
+      const response = await axios.post("http://127.0.0.1:5001/login", {  //under construction ghada in cha lah
          email: data.Email,
         password: data.password,
       });
@@ -75,17 +76,17 @@ export default function Signup() {
         dispatch(
           setLogin({
             token: userData.token,
-            user: userData.user._id,
+            user: userData.user_id,
           })
         )
         
       }
       toast.success(response.data.message);
-      const userId = userData.id;
+    
       // form.reset();
       // setRegionName('');
 
-      router.push(`/profile/${userId}`);
+      router.push(`/profile`);
       
     } catch (error:any) {
       console.error("Error submitting form:", error);
@@ -119,14 +120,14 @@ export default function Signup() {
 
            <p className="text-xl text-gray-950 font-bold">WorkHubConnect</p>
         </div>
-      <Button variant="outline" type="button" className="w-full mx-auto border-slate-400" disabled={isLoading}>
+      {/* <Button variant="outline" type="button" className="w-full mx-auto border-slate-400" disabled={isLoading}>
         {isLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (
           <FaGoogle className="mr-2 h-4 w-4" />
         )}{" "}
         Google
-      </Button>
+      </Button> */}
       <div
         className="mx-auto my-4 flex w-full items-center justify-evenly  before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 
         after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400  "

@@ -17,8 +17,8 @@ import {
   Inbox,
   MessageSquare,
   Settings,
-  Smile,
   User,
+  UserRoundX
 } from "lucide-react";
 
 import {
@@ -31,11 +31,11 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@/components/ui/command";
-import { Bilbo } from 'next/font/google';
+
 import Link from 'next/link';
 
 export default function SideBar({ params }: any) {
-  const [isOpen, setIsOpen] = useState(true); // State to manage sidebar visibility
+  const [isOpen, setIsOpen] = useState(false); // State to manage sidebar visibility
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -45,12 +45,12 @@ export default function SideBar({ params }: any) {
       group: "General",
       items: [
         {
-          link: '/',
+          link: '/profile',
           icon:<User/>,
           text: 'Profile'
         },
         {
-          link: '/',
+          link: '/profile/inbox',
           icon:<Inbox/>,
           text: 'Inbox'
         },
@@ -70,17 +70,17 @@ export default function SideBar({ params }: any) {
       group: "Settings",
       items: [
         {
-          link: '/',
+          link: '/profile/settings',
           icon:<Settings/>,
           text: 'General Settings'
         },
         {
           link: '/',
-          icon:<Cookie />,
-          text: 'Privacy'
+          icon:<UserRoundX />,
+          text: 'Delete Account'
         },
         {
-          link: '/',
+          link: '/profile/notifications',
           icon:<Bell/>,
           text: 'Notification'
         }
@@ -89,19 +89,22 @@ export default function SideBar({ params }: any) {
   ];
 //min-h-[calc(100vh - 4rem)] 
 return (
-  <div className='fixed left-0 flex flex-col border-r h-full p-4 gap-4'>
+  <aside className={` relative left-0 flex flex-col border-r min-h-screen md:p-5 p-2 gap-4 transition-all`}>
+
+{/* fixed wrapper left-0 flex flex-col border-r h-full p-4 gap-4 */}
+  <div className=''>
     <div className='absolute right-0 top-0 -mr-4  mt-1 hover:border-gray-800 hover:rounded-md border-gray-100 border bg-white '>
       {isOpen ? (<ChevronLeft className='w-6 h-6' onClick={toggleSidebar} /> ):(<ChevronRight className='w-6 h-6' onClick={toggleSidebar} /> )}
     </div>
     {isOpen ? (
-      <div className='  min-w-[200px]'>
+      <div className='  md:min-w-[200px] min-w-[120px] m-2'>
         <div className='flex items-center justify-center gap-2 border rounded-md p-2 mx-auto'>
-          <div className='avatar rounded-full min-h-8 min-w-8 h-10 w-10 bg-gray-400 text-white font-[700] flex items-center justify-center'>
-            <span>ME</span>
+          <div className='avatar rounded-full md:min-h-8 md:min-w-8 min-h-6 min-w-6 bg-gray-400 text-white font-[700] flex items-center justify-center'>
+            <span className='text-[8px]'>ME</span>
           </div>
           <div>
-            <p className='text-[16px] font-bold'>ESSALHI MUSTAPHA</p>
-            <p className='text-[12px] text-natural-500'>essalhimu@gmail.com</p>
+            <p className='md:text-[16px] text-[10px] font-bold'>ESSALHI MUSTAPHA</p>
+            <p className='md:text-[12px] text-[7px] text-natural-500'>essalhimu@gmail.com</p>
           </div>
         </div>
         <div>
@@ -164,6 +167,7 @@ return (
       </div>
     )}
   </div>
+  </aside>
 );
 
 }

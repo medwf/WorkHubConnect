@@ -66,9 +66,12 @@ export default function Home() {
               className="max-h-[70vh object-contain object-center 2xl:max-h-[50vh]"
             />
           </div>
+          <div className="max-w-[20vw] flex flex-col">
           <h2>User Data</h2>
           <pre>{JSON.stringify(user, null, 2)}</pre>
-          <pre>{JSON.stringify(token, null, 2)}</pre>
+          <pre className="flex">{JSON.stringify(token, null, 2)}</pre>
+          </div>
+         
 
          
         </section>

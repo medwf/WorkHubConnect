@@ -8,48 +8,34 @@ connect();
 
 export async function POST(request: NextRequest) {
   try {
-    // Parse the JSON body of the request
-    const reqBody = await request.json();
-    const { username, password } = reqBody;
 
-    // Check if user exists
-    const user = await User.findOne({ username });
+    const reqBody = await request.json();
+    const { email, password } = reqBody;
+
+
+    const user = await User.findOne({ email });
     if (!user) {
-      const res = NextResponse.json(
-        { error: "User does not exist" },
-        { status: 400 }
-      );
-      return res;
+      return NextResponse.json({ error: "User does not exist" }, { status: 400 });
     }
+// console.log(`User ${user}`);
 
     const isMatch = await bcryptjs.compare(password, user.password);
     if (!isMatch) {
-      const res = NextResponse.json(
-        { error: "Password is not valid" },
-        { status: 400 }
-      );
-      return res;
+      return NextResponse.json({ error: "Password is not valid" }, { status: 400 });
     }
+// console.log(`User ${isMatch}`);
 
-   
+    const token = jwt.sign({ userId: user._id }, "WorkerHubALXStudent", { expiresIn: "1d" });
+    if (!token) {
+      return NextResponse.json({ error: "Failed to generate token" }, { status: 500 });
+    }
+// console.log(token);
 
-    const token = jwt.sign(user, process.env.ACCESS_TOKEN!, {
-      expiresIn: "1d",
-    });
-    console.log(user);
-    console.log(token);
-
-    const response = NextResponse.json({
-      message: "Login successful",
-      success: true,
-    });
-
-    response.cookies.set("token", token, {
-      httpOnly: true,
-    });
-
+    const response = NextResponse.json({ message: "Login successful", success: true,user,token });
+    response.cookies.set("token", token, { httpOnly: true });
     return response;
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (error: any) {
+    console.error("Error during login:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

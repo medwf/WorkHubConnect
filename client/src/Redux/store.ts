@@ -1,4 +1,5 @@
 import authReducer from "../state";
+import  storage  from "./storage";
 import { configureStore } from '@reduxjs/toolkit'
 import {
     persistStore,
@@ -10,7 +11,7 @@ import {
     PURGE,
     REGISTER,
 } from "redux-persist"
-import storage from 'redux-persist/lib/storage'
+
 import logger from 'redux-logger'
 
 
@@ -32,3 +33,5 @@ export const store = configureStore({
 //     }),
 });
 
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

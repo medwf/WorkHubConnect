@@ -60,17 +60,17 @@ const logoutAction = async () => {
     },
     {
       label: "Inbox",
-      path: "/profile/1/inbox",
+      path: "/profile/inbox",
       icon: <CreditCard className="mr-2 h-4 w-4" />,
     },
     {
       label: "Settings",
-      path: "/profile/1/settings",
+      path: "/profile/settings",
       icon: <Settings className="mr-2 h-4 w-4" />,
     },
     {
       label: "Log out",
-      path: "/",
+      path:"",
       icon: <LogOut className="mr-2 h-4 w-4" />,
       onclick: logoutAction, 
     },
@@ -83,7 +83,7 @@ const logoutAction = async () => {
   const isAuth = Boolean(useSelector((state: any) => state.token));
 
   return (
-    <div className="bg-white sticky z-50 top-0 inset-x-0 h-16">
+    <div className="bg-white sticky z-50 top-0 inset-x-0 h-16 w-full">
       <header className="relative bg-gray">
         <MaxWidthWrapper>
           <div className="border-b border-gray-200">
@@ -109,9 +109,9 @@ const logoutAction = async () => {
                   ))}
 
                   {isAuth ? (
-                    <div>
+                    
                       <DropdownMenuProfile />
-                    </div>
+                    
                   ) : (
                     <div>
                       <Button variant={"outline"}>

@@ -15,13 +15,38 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar"
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import {logout} from "@/state";
+import { useDispatch } from 'react-redux';
 export function DropdownMenuProfile() {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const logoutAction = async () => {
+    try {
+      // Make a request to logout endpoint
+      console.log("logged out");
+      dispatch(logout());
+      const response = await axios.get("/api/users/logout");
+      console.log(response);
+      // Handle response if needed
+      toast.success(response.data.message);
+      
+      router.push('/')
+      // Optionally, perform any client-side cleanup (e.g., clearing local storage, resetting state)
+    } catch (error) {
+      // Handle errors
+      toast.error("Logout failed");
+      // Optionally, dispatch an action to handle logout failure (e.g., show error message)
+    }
+  };
   // Define an array of menu items with name, link, and icon
   const menuItems = [
-    { name: 'Profile', link: '/profile/1/myprofile', icon: <User className="mr-2 h-4 w-4" /> },
-    { name: 'Inbox', link: '/profile/1/inbox', icon: <CreditCard className="mr-2 h-4 w-4" /> },
-    { name: 'Settings', link: '/profile/1/settings', icon: <Settings className="mr-2 h-4 w-4" /> },
-    { name: 'Log out', link: '/', icon: <LogOut className="mr-2 h-4 w-4" /> },
+    { name: 'Profile', link: '/profile', icon: <User className="mr-2 h-4 w-4" /> },
+    { name: 'Inbox', link: '/profile/inbox', icon: <CreditCard className="mr-2 h-4 w-4" /> },
+    { name: 'Settings', link: '/profile/settings', icon: <Settings className="mr-2 h-4 w-4" /> },
+    { name: 'Log out', link: '/', icon: <LogOut className="mr-2 h-4 w-4" /> ,onclick: logoutAction},
   ];
 
   return (
@@ -46,10 +71,15 @@ export function DropdownMenuProfile() {
         <DropdownMenuGroup>
           {menuItems.map((item, index) => (
             <DropdownMenuItem key={index}>
-              <Link href={item.link} passHref className=' flex items-center'>
+              <Link href={item.link} passHref 
+              className=' flex items-center'
+              onClick={() => {
+                if (item.onclick) item.onclick();}}
+              >
                
                   {item.icon}
                   <span>{item.name}</span>
+                  
                
               </Link>
             </DropdownMenuItem>

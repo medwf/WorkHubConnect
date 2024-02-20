@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { NextApiRequest } from "next";
-require('dotenv').config();
+
 
 connect();
 

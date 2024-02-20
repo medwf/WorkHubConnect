@@ -27,7 +27,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { ToastAction } from "@/components/ui/toast";
 import { useForm } from "react-hook-form";
-import { Icons } from "@/components/icons";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { FaGoogle } from "react-icons/fa";
 import { regions } from "@/helpers/regions";
@@ -68,7 +67,7 @@ export default function Signup() {
     region: "",
     city: "",
     service: "",
-    CityId: "",
+    city_id: "",
     type: "",
   });
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -91,13 +90,14 @@ export default function Signup() {
     data.region = RegionName;
     const selectedCity = cities.find((city) => city.ville === data.city);
 
-    const formDataWithCityId = {
+    const formDataWithcity_id = {
       ...data,
-      cityId: selectedCity?.id,
+      city_id: selectedCity?.id,
     };
  
     try {
-      const res = await axios.post("/api/users/signup", formDataWithCityId)
+      // const res = await axios.post("/api/users/signup", formDataWithcity_id)
+      const res = await axios.post("http://127.0.0.1:5001/login", formDataWithcity_id)
   
       const resData = res.data
       if(resData){
@@ -115,7 +115,7 @@ export default function Signup() {
 
      
       // router.push(`/profile/${res.user.id}/myprofile`)
-      router.push(`/profile/${id}/myprofile`)
+      router.push(`/`)
       Ttoast.success("Form submitted successfully!");
       form.reset();
       setRegionName("");
@@ -315,11 +315,11 @@ export default function Signup() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full mt-6">
+              <Button type="submit" className="w-full mt-7">
                 Sign up
               </Button>
 
-              <div
+              {/* <div
                 className="mx-auto my-4 flex w-full items-center justify-evenly  before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 
         after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400  "
               >
@@ -332,7 +332,7 @@ export default function Signup() {
                   <FaGoogle className="mr-2 h-4 w-4" />
                 )}{" "}
                 Google
-              </Button>
+              </Button> */}
             </form>
           </Form>
         </div>
