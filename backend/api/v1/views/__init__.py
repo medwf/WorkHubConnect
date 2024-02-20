@@ -12,3 +12,4 @@ from api.v1.views.projects import *
 from api.v1.views.workers import *
 from api.v1.views.images import *
 from api.v1.views.workers_reviews import *
+from api.v1.views.authentication import *
