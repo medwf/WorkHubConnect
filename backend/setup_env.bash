@@ -9,3 +9,11 @@ find . -type d -name '__pycache__' -exec rm -r {} +
 
 
 WORKHUB_MYSQL_USER="workhub_user" WORKHUB_MYSQL_PWD="123" WORKHUB_MYSQL_HOST="localhost" WORKHUB_MYSQL_DB="workhubconnect_db" python3 -m auth.authen
+
+
+# install nodejs vesrsion 20 :
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+source ~/.bashrc
+nvm install 20.11.1
+nvm use 20.11.1
+
