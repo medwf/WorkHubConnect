@@ -114,6 +114,7 @@ def Create_user():
                  methods=["PUT"])
 def update_user(user_id):
     """update user"""
+    print("in user")
     obj = storage.get(User, user_id)
     if obj is None:
         return make_response(jsonify({"error": "User Not found"}), 404)
@@ -122,7 +123,7 @@ def update_user(user_id):
         return make_response("Not a JSON", 400)
     if len(data.get("password", "")) > 80:
         return make_response("Input password must be less than 80 characters", 400)
-    if not storage.get(City, data['city_id']):
+    if "city_id" in data and not storage.get(City, data['city_id']):
         return make_response(jsonify({"error": "city not found"}), 400)
     if len(data.get("first_name", "")) > 20:
         return make_response("Input first_name must be less than 20 characters", 400)
