@@ -18,7 +18,7 @@ export default function ProfilePage() {
     first_name: "",
     last_name: "",
     email: "",
-    phone: "",
+    phone_number: "",
     address: "",
     city: "",
     region: "",
@@ -33,7 +33,7 @@ export default function ProfilePage() {
       try {
         
         console.log(`Fetching user info ${userId}`); // Log before making the API call
-        const response = await axios.get(`http://localhost:5000/api/v1/users/2`);
+        const response = await axios.get(`http://localhost:5000/api/v1/users/${userId}`);
         // const response = await axios(`/api/users/profile/${userId}`);
         console.log(`response ${response}`)
         console.log("API response:", response.data); // Log the response data
@@ -70,8 +70,8 @@ export default function ProfilePage() {
                   />
                 ) : (
                   <div className="w-full h-full flex justify-center items-center">
-                   {userInfo.first_name.charAt(0)}
-                  {userInfo.last_name.charAt(0)}
+                   {userInfo.first_name[0]}
+                  {userInfo.last_name[0]}
                   </div>
                 )}
               </div>
@@ -137,7 +137,7 @@ export default function ProfilePage() {
                   <p className={labelClass}>{userInfo.email}</p>
                   <br />
                   <h1 className={titleClass}>Phone</h1>
-                  <p className={labelClass}>{userInfo.phone}</p>
+                  <p className={labelClass}>{userInfo.phone_number}</p>
                   <br />
                 </div>
               </>

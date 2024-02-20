@@ -65,7 +65,7 @@ export default function Signup() {
       setIsLoading(true);
 
 
-      const response = await axios.post("http://127.0.0.1:5001/login", {  //under construction ghada in cha lah
+      const response = await axios.post("http://127.0.0.1:5000/api/v1/login", {  //under construction ghada in cha lah
          email: data.Email,
         password: data.password,
       });
