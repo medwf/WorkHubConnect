@@ -8,6 +8,7 @@ from api.v1.views import app_views
 from models import storage
 from models.user import User
 from models.city import City
+from models.service import Service
 import re
 
 email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
@@ -41,6 +42,9 @@ def users(user_id=None):
             data['type'] = "client"
         else:
             data = user.to_dict()
+            service_id = user.worker.service_id
+            ServiceName = storage.get(Service, service_id).en_name
+            data['service'] = ServiceName
             data['type'] = "worker"
         del data['worker']
         return jsonify(data)
