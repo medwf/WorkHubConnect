@@ -16,18 +16,22 @@ from models.project import Project
 # city = storage.get(City, 1)
 # print(city.name)
 # users = city.users
-states = storage.all(State).values()
-for state in states:
-	# print(state.name)
-	for city in state.cities:
-		if city.name in ("Marrakech", "Casablanca"):
-			print(f"City : {city.name}")
-			for worker in city.workers:
-				user = storage.get(User, worker.user_id) 
-				print(f"\tWorker : {worker.description}has email :  {user.email}")
-				for review in worker.reviews:
-					print(f"\t\tReview : {review.text}")
-				for project in worker.projects:
-					print(f"\t\tProject :  {user.email} : {project.title}")
-					for image in project.images:
-						print(f"\t\t\tImage: {image.url}")
+# states = storage.all(State).values()
+# for state in states:
+# 	# print(state.name)
+# 	for city in state.cities:
+# 		if city.name in ("Marrakech", "Casablanca"):
+# 			print(f"City : {city.name}")
+# 			for worker in city.workers:
+# 				user = storage.get(User, worker.user_id) 
+# 				print(f"\tWorker : {worker.description}has email :  {user.email}")
+# 				for review in worker.reviews:
+# 					print(f"\t\tReview : {review.text}")
+# 				for project in worker.projects:
+# 					print(f"\t\tProject :  {user.email} : {project.title}")
+# 					for image in project.images:
+# 						print(f"\t\t\tImage: {image.url}")
+users = storage.all(User).values()
+for user in users:
+    print(user.first_name, user.worker)
+    
