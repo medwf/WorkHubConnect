@@ -1,9 +1,7 @@
 #!/usr/bin/python3
 """Importing modules"""
 import hashlib
-
 from flask import jsonify, make_response, request
-
 from api.v1.views import app_views
 from models import storage
 from models.user import User
@@ -12,9 +10,11 @@ from models.city import City
 from models.worker import Worker
 import re
 from api.v1.views.users import *
-
+from sendmail.send_email import SendMail
 
 email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+email_regex =  r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
+
 
 def is_valid_email(email):
     return re.match(email_regex, email) is not None
@@ -23,6 +23,34 @@ phone_regex = r'^(\+212|0)([5-7]\d{8}|[6-7]\d{8})$'
 
 def is_valid_phone_number(phone):
     return re.match(phone_regex, phone) is not None
+
+Subject = "Welcome to WorkHubConnect – Your Professional Network"
+def MailBody(first_name):
+    content = f"""Dear {first_name},
+
+Welcome to WorkHubConnect! We are thrilled to have you as a new member of our professional network.
+Your journey to connecting with like-minded professionals, exploring opportunities, and fostering collaboration starts now.
+
+Here are a few things you can do to get started:
+
+1. Complete Your Profile: Enhance your presence on WorkHubConnect by completing your profile. 
+    Add a professional photo, update your bio, and highlight your skills and experiences.
+2. Discover Opportunities: Explore job listings, projects, and collaboration opportunities tailored to your skills and interests.
+3. Take a Site Tour: Familiarize yourself with WorkHubConnect by taking a quick site tour. Navigate through key features,
+    learn how to connect with professionals, and discover the full range of possibilities our platform offers
+
+Remember, WorkHubConnect is all about empowering professionals like you. If you have any questions or need assistance,
+feel free to reach out to our support team at [workhubconnect.2024@gmail.com].
+
+Once again, welcome to WorkHubConnect! We look forward to seeing you thrive in our community.
+visit Now : https://workhubconnect.com/
+
+Best Regards,
+The WorkHubConnect Team
+[WorkHubConnect]
+[workhubconnect.2024@gmail.com]
+ """
+    return (content)
 
 
 
@@ -95,6 +123,8 @@ def register_client_worker():
             json_data['user_id'] = user_id
             instance = Worker(**json_data)
             instance.save()
+            content = MailBody(json_data['first_name'])
+            SendMail(json_data['email'], Subject, content)
             return make_response(jsonify(instance.to_dict()), 201)
         # Case register as client
         if json_data['type'] == "client":
