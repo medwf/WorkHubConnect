@@ -89,7 +89,7 @@ export default function SideBar({ params }: any) {
   ];
 //min-h-[calc(100vh - 4rem)] 
 return (
-  <aside className={` relative left-0 flex flex-col border-r min-h-screen md:p-5 p-2 gap-4 transition-all`}>
+  <aside className={`hidden md:flex relative left-0  flex-col border-r min-h-screen md:p-5 p-2 gap-4 transition-all`}>
 
 {/* fixed wrapper left-0 flex flex-col border-r h-full p-4 gap-4 */}
   <div className=''>

@@ -19,7 +19,7 @@ export default function ProfileLayout({
       <SideBar />
       
         {/* Main content */}
-        <div className="flex-grow p-7">{children}</div>
+        <div className="flex-grow ">{children}</div>
      
     </div>
   );
