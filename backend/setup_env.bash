@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+note
 
 cat sql_dumps/setup_mysql_database.sql | sudo mysql -uroot -p
 cat cat backup_workhubconnect20022024.sql | sudo mysql -uroot -p workhubconnect_db
@@ -16,4 +16,14 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 source ~/.bashrc
 nvm install 20.11.1
 nvm use 20.11.1
+sudo apt install npm
+npm install react-icons
+npm install
 
+install next js :
+    npm install next
+    npm install -g next
+    next -v
+
+run frontend : 
+    - npm run dev 

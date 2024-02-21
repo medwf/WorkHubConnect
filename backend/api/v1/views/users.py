@@ -114,7 +114,7 @@ def Create_user():
                  methods=["PUT"])
 def update_user(user_id):
     """update user"""
-    print("in user")
+    # print("in user")
     obj = storage.get(User, user_id)
     if obj is None:
         return make_response(jsonify({"error": "User Not found"}), 404)
@@ -137,7 +137,10 @@ def update_user(user_id):
         if len(Phone) > 16:
             return make_response("Input phone_number must be less than 16 characters", 400)
         data['phone_number'] = Phone
-    obj.password = data.get("password", obj.password)
+    # fix problem encrection password 2 times.
+    pss = data.get("password", None)
+    if pss:
+        obj.password = pss
     obj.first_name = data.get("first_name", obj.first_name)
     obj.last_name = data.get("last_name", obj.last_name)
     obj.phone_number = data.get("phone_number", obj.phone_number)
