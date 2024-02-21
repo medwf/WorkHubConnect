@@ -26,8 +26,6 @@ def is_valid_phone_number(phone):
 
 
 
-
-
 @app_views.route("/register", strict_slashes=False, methods=["POST"])
 def register_client_worker():
     """
