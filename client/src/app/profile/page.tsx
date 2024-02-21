@@ -28,27 +28,27 @@ export default function ProfilePage() {
     service: "",
   });
 
-  // useEffect(() => {
-  //   console.log("Inside useEffect"); // Log when useEffect is executed
-  //   const fetchUserInfo = async () => {
-  //     try {
-  //       console.log(`Fetching user info ${userId}`); // Log before making the API call
-  //       const response = await axios.get(
-  //         `http://localhost:5000/api/v1/users/${userId}`
-  //       );
-  //       // const response = await axios(`/api/users/profile/${userId}`);
-  //       console.log(`response ${response}`);
-  //       console.log("API response:", response.data); // Log the response data
-  //       setUserInfo(response.data);
-  //     } catch (error) {
-  //       console.error("Error fetching user information:", error);
-  //     }
-  //   };
+  useEffect(() => {
+    console.log("Inside useEffect"); // Log when useEffect is executed
+    const fetchUserInfo = async () => {
+      try {
+        console.log(`Fetching user info ${userId}`); // Log before making the API call
+        const response = await axios.get(
+          `http://localhost:5000/api/v1/users/${userId}`
+        );
+        // const response = await axios(`/api/users/profile/${userId}`);
+        console.log(`response ${response}`);
+        console.log("API response:", response.data); // Log the response data
+        setUserInfo(response.data);
+      } catch (error) {
+        console.error("Error fetching user information:", error);
+      }
+    };
 
-  //   if (userId) {
-  //     fetchUserInfo();
-  //   }
-  // }, [userId]);
+    if (userId) {
+      fetchUserInfo();
+    }
+  }, [userId]);
 
   console.log("userInfo:", userInfo);
 
