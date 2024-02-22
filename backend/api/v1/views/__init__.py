@@ -14,3 +14,4 @@ from api.v1.views.images import *
 from api.v1.views.workers_reviews import *
 from api.v1.views.authentication import *
 from api.v1.views.register import *
+from api.v1.views.services import *
