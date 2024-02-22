@@ -8,6 +8,7 @@ from api.v1.views import app_views
 from models import storage
 from models.user import User
 from models.city import City
+from models.state import State
 from models.service import Service
 import re
 
@@ -44,11 +45,20 @@ def users(user_id=None):
             user_data = user.to_dict()
             service_id = user.worker.service_id
             ServiceName = storage.get(Service, service_id).en_name
+            CityName = storage.get(City, user.city_id).name
+            StateName = storage.get(State, (storage.get(City, user.city_id).state_id)).name
             user_data['service'] = ServiceName
+            user_data['city'] = CityName
+            user_data['region'] = StateName
             user_data['type'] = "worker"
             worker_data = user.worker.to_dict()
             del worker_data['__class__']
             user_data.update(worker_data)
+        
+        city = storage.get(City, user.city_id)
+        StateName = storage.get(State, city.state_id).name
+        user_data['city'] = city.name
+        user_data['region'] = StateName
         del user_data['worker']
         del user_data['__class__']
         return jsonify(user_data)

@@ -22,7 +22,7 @@ class User(BaseModel, Base):
     phone_number = Column(String(16), nullable=True)
     is_active = Column(Boolean, unique=False, default=True)
     reviews = relationship("Review", backref="user", cascade="all, delete, save-update")
-    worker = relationship("Worker", backref="user", uselist=False, cascade="all, delete, save-update")
+    worker = relationship("Worker", backref="user", uselist=False,  cascade="all, delete, save-update")
 
     def __init__(self, *args, **kwargs):
         """initializes user"""
