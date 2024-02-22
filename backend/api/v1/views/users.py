@@ -8,6 +8,7 @@ from api.v1.views import app_views
 from models import storage
 from models.user import User
 from models.city import City
+from models.service import Service
 import re
 
 email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
@@ -35,8 +36,22 @@ def users(user_id=None):
     else:
         user = storage.get(User, user_id)
         if user is None:
-            return make_response(jsonify({"error": "Not found"}), 404)
-        return jsonify(user.to_dict())
+            return make_response(jsonify({"error": "User Not found"}), 404)
+        if user.worker is None:
+            user_data = user.to_dict()
+            user_data['type'] = "client"
+        else:
+            user_data = user.to_dict()
+            service_id = user.worker.service_id
+            ServiceName = storage.get(Service, service_id).en_name
+            user_data['service'] = ServiceName
+            user_data['type'] = "worker"
+            worker_data = user.worker.to_dict()
+            del worker_data['__class__']
+            user_data.update(worker_data)
+        del user_data['worker']
+        del user_data['__class__']
+        return jsonify(user_data)
 
 
 @app_views.route("/users/<int:user_id>", strict_slashes=False, methods=["DELETE"])
@@ -49,6 +64,46 @@ def delete_user(user_id):
     storage.delete(user)
     storage.save()
     return make_response(jsonify({}), 200)
+
+
+@app_views.route("/users/<user_id>", strict_slashes=False,
+                 methods=["PUT"])
+def update_user(user_id):
+    """update user"""
+    # print("in user")
+    obj = storage.get(User, user_id)
+    if obj is None:
+        return make_response(jsonify({"error": "User Not found"}), 404)
+    data = request.get_json(force=True, silent=True)
+    if not data:
+        return make_response("Not a JSON", 400)
+    if len(data.get("password", "")) > 80:
+        return make_response("Input password must be less than 80 characters", 400)
+    if "city_id" in data and not storage.get(City, data['city_id']):
+        return make_response(jsonify({"error": "city not found"}), 400)
+    if len(data.get("first_name", "")) > 20:
+        return make_response("Input first_name must be less than 20 characters", 400)
+    if len(data.get("last_name", "")) > 20:
+        return make_response("Input last_name must be less than 20 characters", 400)
+    phone = data.get('phone_number', "")
+    if len(phone) > 0:
+        Phone = phone.replace(" ", "")
+        if not is_valid_phone_number(Phone):
+            return make_response("invalid phone Number most be (+212..) or (06...) or (07..) or (05...)", 400)
+        if len(Phone) > 16:
+            return make_response("Input phone_number must be less than 16 characters", 400)
+        data['phone_number'] = Phone
+    # fix problem encrection password 2 times.
+    pss = data.get("password", None)
+    if pss:
+        obj.password = pss
+    obj.first_name = data.get("first_name", obj.first_name)
+    obj.last_name = data.get("last_name", obj.last_name)
+    obj.phone_number = data.get("phone_number", obj.phone_number)
+    obj.is_active = data.get("is_active", obj.is_active)
+    obj.city_id = data.get("city_id", obj.city_id)
+    obj.save()
+    return jsonify(obj.to_dict()), 200
 
 
 @app_views.route("/users", strict_slashes=False, methods=["POST"])
@@ -110,38 +165,4 @@ def Create_user():
         return make_response("Not a JSON", 400)
 
 
-@app_views.route("/users/<user_id>", strict_slashes=False,
-                 methods=["PUT"])
-def update_user(user_id):
-    """update user"""
-    print("in user")
-    obj = storage.get(User, user_id)
-    if obj is None:
-        return make_response(jsonify({"error": "User Not found"}), 404)
-    data = request.get_json(force=True, silent=True)
-    if not data:
-        return make_response("Not a JSON", 400)
-    if len(data.get("password", "")) > 80:
-        return make_response("Input password must be less than 80 characters", 400)
-    if "city_id" in data and not storage.get(City, data['city_id']):
-        return make_response(jsonify({"error": "city not found"}), 400)
-    if len(data.get("first_name", "")) > 20:
-        return make_response("Input first_name must be less than 20 characters", 400)
-    if len(data.get("last_name", "")) > 20:
-        return make_response("Input last_name must be less than 20 characters", 400)
-    phone = data.get('phone_number', "")
-    if len(phone) > 0:
-        Phone = phone.replace(" ", "")
-        if not is_valid_phone_number(Phone):
-            return make_response("invalid phone Number most be (+212..) or (06...) or (07..) or (05...)", 400)
-        if len(Phone) > 16:
-            return make_response("Input phone_number must be less than 16 characters", 400)
-        data['phone_number'] = Phone
-    obj.password = data.get("password", obj.password)
-    obj.first_name = data.get("first_name", obj.first_name)
-    obj.last_name = data.get("last_name", obj.last_name)
-    obj.phone_number = data.get("phone_number", obj.phone_number)
-    obj.is_active = data.get("is_active", obj.is_active)
-    obj.city_id = data.get("city_id", obj.city_id)
-    obj.save()
-    return jsonify(obj.to_dict()), 200
+
