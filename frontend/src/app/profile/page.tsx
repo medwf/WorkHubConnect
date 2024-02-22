@@ -136,7 +136,7 @@ export default function ProfilePage() {
             </Label>
             <Input
               id="link"
-              defaultValue="https://ui.shadcn.com/docs/installation"
+              defaultValue="..."
               readOnly
             />
           </div>
@@ -180,7 +180,7 @@ export default function ProfilePage() {
               <>
                 <div>
                  
-                  {userInfo.service || userInfo.phone_number || userInfo.email && (
+                  {/* {userInfo.service || userInfo.phone_number || userInfo.email && ( */}
                     
                     <div>
                        <h1 className={titleClass}>Email Address</h1>
@@ -192,7 +192,7 @@ export default function ProfilePage() {
                       <h1 className={titleClass}>Bio</h1>
                       <p className={labelClass}>{userInfo.service}</p>
                     </div>
-                  )}
+                  {/* )} */}
                   
 
                 </div>
@@ -298,7 +298,7 @@ export default function ProfilePage() {
               />
             ) : (
               <div className="w-full h-full flex justify-center items-center">
-                HP
+               
                 {userInfo.first_name[0]}
                 {userInfo.last_name[0]}
               </div>
@@ -307,10 +307,10 @@ export default function ProfilePage() {
         </div>
         <div className="flex flex-col justify-center items-center">
           <div className="flex justify-center items-center">
-            <h1 className="text-md font-bold text-gray-900 mr-1">{userInfo.first_name} ESSALHI</h1>
-            <h1 className="text-md font-bold text-gray-900 mr-1">{userInfo.last_name} MUSTAPHA </h1>
+            <h1 className="text-md font-bold text-gray-900 mr-1">{userInfo.first_name} </h1>
+            <h1 className="text-md font-bold text-gray-900 mr-1">{userInfo.last_name}  </h1>
           </div>
-          <p className="text-[13px] text-muted-foreground">{userInfo.type} client</p>
+          <p className="text-[13px] text-muted-foreground">{userInfo.type}</p>
         </div>
         <div className="flex justify-between items-center px-4 py-2">
           <h1 className="text-muted-foreground text-md text-gray-950 font-poppins">Phone</h1>
