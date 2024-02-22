@@ -1,4 +1,6 @@
+"use client"
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { CreditCard, LogOut, Settings, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,34 +22,66 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import {logout} from "@/state";
 import { useDispatch } from 'react-redux';
+import { useSelector } from "react-redux"; 
+import { RootState } from "@/Redux/store";
 export function DropdownMenuProfile() {
   const dispatch = useDispatch();
   const router = useRouter();
+
   const logoutAction = async () => {
     try {
-      // Make a request to logout endpoint
-      console.log("logged out");
       dispatch(logout());
       const response = await axios.get("/api/users/logout");
-      console.log(response);
-      // Handle response if needed
       toast.success(response.data.message);
-      
       router.push('/')
-      // Optionally, perform any client-side cleanup (e.g., clearing local storage, resetting state)
     } catch (error) {
-      // Handle errors
       toast.error("Logout failed");
-      // Optionally, dispatch an action to handle logout failure (e.g., show error message)
+     
     }
   };
-  // Define an array of menu items with name, link, and icon
+
   const menuItems = [
     { name: 'Profile', link: '/profile', icon: <User className="mr-2 h-4 w-4" /> },
     { name: 'Inbox', link: '/profile/inbox', icon: <CreditCard className="mr-2 h-4 w-4" /> },
     { name: 'Settings', link: '/profile/settings', icon: <Settings className="mr-2 h-4 w-4" /> },
     { name: 'Log out', link: '/', icon: <LogOut className="mr-2 h-4 w-4" /> ,onclick: logoutAction},
   ];
+  const userId = useSelector((state: RootState) => state.user); // Access userId from Redux state
+  const [userInfo, setUserInfo] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone_number: "",
+    address: "",
+    city: "",
+    region: "",
+    type: "",
+    image: "",
+    service: "",
+  });
+
+  useEffect(() => {
+    console.log("Inside useEffect"); // Log when useEffect is executed
+    const fetchUserInfo = async () => {
+      try {
+        console.log(`Fetching user info ${userId}`); // Log before making the API call
+        const response = await axios.get(
+          `http://localhost:5000/api/v1/users/${userId}`
+        );
+        // const response = await axios(`/api/users/profile/${userId}`);
+        console.log(`response ${response}`);
+        console.log("API response:", response.data); // Log the response data
+        setUserInfo(response.data);
+      } catch (error) {
+        console.error("Error fetching user information:", error);
+      }
+    };
+
+    if (userId) {
+      fetchUserInfo();
+    }
+  }, [userId]);
+
 
   return (
     
@@ -56,12 +90,28 @@ export function DropdownMenuProfile() {
         <Button variant="ghost" className='p-1'>
           <div className='flex gap-2 items-center justify-center '>
           <Avatar className=''>
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn"  />
-            <AvatarFallback>CN</AvatarFallback>
+            {userInfo.image ? (
+  <AvatarImage src={userInfo.image} alt="@shadcn"  />
+            ):(
+              <AvatarFallback>{userInfo.first_name[0]}{userInfo.last_name[0]}</AvatarFallback>
+            )}
+
           </Avatar>
-          <p className='text-sm'>
-            ESSALHI MUSTAPHA
-          </p>
+          <div>
+            {userInfo.first_name || userInfo.last_name ?
+            (
+              <div>
+                 <p className="md:text-[16px] font-semibold">
+                  {userInfo.first_name} {userInfo.last_name}
+                
+                </p>
+              </div>
+            ):(
+             null
+            )}
+               
+               
+              </div>
           </div>
           </Button>
       </DropdownMenuTrigger>
