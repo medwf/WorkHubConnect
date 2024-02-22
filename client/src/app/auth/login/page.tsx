@@ -128,12 +128,12 @@ export default function Signup() {
         )}{" "}
         Google
       </Button> */}
-      <div
+      {/* <div
         className="mx-auto my-4 flex w-full items-center justify-evenly  before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 
         after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400  "
       >
         or
-      </div>
+      </div> */}
         <FormField
           control={form.control}
           name="Email"
@@ -149,7 +149,7 @@ export default function Signup() {
           )}
         />
         <FormField
-        
+          
           control={form.control}
           name="password"
           render={({ field }) => (
@@ -163,7 +163,7 @@ export default function Signup() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full mt-6">
+        <Button type="submit" className="w-full mt-6 ">
           Sign in
         </Button>
       
@@ -171,7 +171,7 @@ export default function Signup() {
     
       </form>
       <div className=" flex justify-center items-center pt-3">
-        <p className="text-md font-medium text-muted-foreground">don't have an account ?<span className="text-blue-600 hover:underline"><Link href={'/signup'}>sign up</Link></span> </p>
+        <p className="text-md font-medium text-muted-foreground">don't have an account ?<span className="text-blue-600 hover:underline"><Link href={'/auth/signup'}>sign up</Link></span> </p>
       </div>
     </Form>
     </div>
