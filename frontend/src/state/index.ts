@@ -46,9 +46,8 @@ export const authSlice = createSlice({
       state.token = null;
     },
     removeToken: (state) => {
-      state.user = null;
       state.token = null;
-      
+      state.user = null;
     },
     setReviews: (state, action) => {
       state.reviews = action.payload.reviews;

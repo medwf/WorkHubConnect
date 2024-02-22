@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server';
 import { jwtDecode } from "jwt-decode";
-import { RemoveTokenFromStore } from './helpers/HandleExpiredToken';
-import { removeToken } from './state';
+
 
 
 export function middleware(request: NextRequest) {
@@ -24,7 +23,7 @@ export function middleware(request: NextRequest) {
     }
   } else {
     if (token) {
-      removeToken();
+     
       console.log("the token is removed from store now go to login")
     }
     if (!isLoginPage) {

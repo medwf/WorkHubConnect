@@ -1,13 +1,15 @@
 "use client"
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { CiEdit } from "react-icons/ci";
 import Image from "next/image";
 import { RootState } from "@/Redux/store";
+import { removeToken } from "@/state";
+import { isTokenExpired } from "@/helpers/expireToken";
+import { useRouter } from "next/navigation"; 
 
- 
 import {
   Dialog,
   DialogClose,
@@ -26,6 +28,9 @@ const labelClass = "text-md font-poppins font-semibold";
 
 export default function ProfilePage() {
   const userId = useSelector((state: RootState) => state.user);
+  const token = useSelector((state: RootState) => state.token);
+  const dispatch = useDispatch();
+  const router = useRouter();
   const [userInfo, setUserInfo] = useState({
     first_name: "",
     last_name: "",
@@ -46,6 +51,10 @@ export default function ProfilePage() {
   });
 
   useEffect(() => {
+    if (isTokenExpired(token)) {
+      dispatch(removeToken());
+      router.push("/");
+    }
     const fetchUserInfo = async () => {
       try {
         const response = await axios.get(
@@ -61,7 +70,7 @@ export default function ProfilePage() {
     if (userId) {
       fetchUserInfo();
     }
-  }, [userId]);
+  }, [token,userId]);
 
   return (
     <main className="h-full w-full">

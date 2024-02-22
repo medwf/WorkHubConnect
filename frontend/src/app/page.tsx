@@ -6,13 +6,28 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { getUserDataFromToken } from "@/helpers/authHelp";
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import { RootState } from "@/Redux/store";
+import { removeToken } from "@/state";
+import { isTokenExpired } from "@/helpers/expireToken";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  
+  const token = useSelector((state: RootState) => state.token);
+  const user = useSelector((state: RootState) => state.user) 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const checkTokenAndFetchUserInfo = async () => {
+      if (isTokenExpired(token)) {
+        dispatch(removeToken());
+     
+        return;
+      }
+    }
+      checkTokenAndFetchUserInfo();
+  }, [token]);
 
   // const handleSearch = () => {
   //   const mockData = [
@@ -26,8 +41,7 @@ export default function Home() {
 
   //   setSearchResults(filteredResults);
   // };
-  const token = useSelector((state: RootState) => state.token);
-  const user = useSelector((state: RootState) => state.user) 
+
   return (
     <>
       <MaxWidthWrapper>
