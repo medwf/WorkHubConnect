@@ -8,6 +8,7 @@ import { Poppins } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {ReduxStore} from "@/Redux/provider"
+
 const poppins = Poppins({
   subsets: ["latin"],
   display: "swap",
@@ -26,6 +27,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
       <html lang="en" className="h-full">
         <body

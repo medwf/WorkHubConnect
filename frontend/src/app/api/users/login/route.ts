@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     }
 // console.log(`User ${isMatch}`);
 
-    const token = jwt.sign({ userId: user._id }, "WorkerHubALXStudent", { expiresIn: "1d" });
+    const token = jwt.sign({ userId: user._id }, "WorkerHubALXStudent", { expiresIn: "1m" });
     if (!token) {
       return NextResponse.json({ error: "Failed to generate token" }, { status: 500 });
     }
