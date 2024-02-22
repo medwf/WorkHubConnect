@@ -38,16 +38,20 @@ def users(user_id=None):
         if user is None:
             return make_response(jsonify({"error": "User Not found"}), 404)
         if user.worker is None:
-            data = user.to_dict()
-            data['type'] = "client"
+            user_data = user.to_dict()
+            user_data['type'] = "client"
         else:
-            data = user.to_dict()
+            user_data = user.to_dict()
             service_id = user.worker.service_id
             ServiceName = storage.get(Service, service_id).en_name
-            data['service'] = ServiceName
-            data['type'] = "worker"
-        del data['worker']
-        return jsonify(data)
+            user_data['service'] = ServiceName
+            user_data['type'] = "worker"
+            worker_data = user.worker.to_dict()
+            del worker_data['__class__']
+            user_data.update(worker_data)
+        del user_data['worker']
+        del user_data['__class__']
+        return jsonify(user_data)
 
 
 @app_views.route("/users/<int:user_id>", strict_slashes=False, methods=["DELETE"])
