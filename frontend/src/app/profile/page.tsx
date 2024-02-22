@@ -182,7 +182,7 @@ export default function ProfilePage() {
                  
                   {/* {userInfo.service || userInfo.phone_number || userInfo.email && ( */}
                     
-                    <div>
+                  <div>
                        <h1 className={titleClass}>Email Address</h1>
                   <p className={labelClass}>{userInfo.email}</p>
                   <br />
@@ -197,7 +197,7 @@ export default function ProfilePage() {
 
                 </div>
                 <div>
-                {userInfo.region || userInfo.city && (
+             
                     <div>
                       <h1 className={titleClass}>Region</h1>
                       <p className={labelClass}>{userInfo.region}</p>
@@ -206,7 +206,7 @@ export default function ProfilePage() {
                       <p className={labelClass}>{userInfo.city}</p>
                       <br />
                     </div>
-                  )}
+                  {/* )} */}
                   <br />
                  
                  
