@@ -10,6 +10,7 @@ from models.city import City
 from models.worker import Worker
 import re
 from api.v1.views.users import *
+from api.v1.views.authentication import *
 from sendmail.send_email import SendMail
 
 email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
@@ -51,7 +52,6 @@ The WorkHubConnect Team
 [workhubconnect.2024@gmail.com]
  """
     return (content)
-
 
 
 @app_views.route("/register", strict_slashes=False, methods=["POST"])
@@ -119,12 +119,13 @@ def register_client_worker():
             instance.save()
             user_id = instance.id
             if not storage.get(User, user_id):
-                return make_response(jsonify({"error": "User not created"}), 404)
+                return make_response(jsonify({"error": "Unable to create your account. Please try again"}), 404)
             json_data['user_id'] = user_id
             instance = Worker(**json_data)
             instance.save()
             content = MailBody(json_data['first_name'])
             SendMail(json_data['email'], Subject, content)
+            create_token_register(instance.id, json_data['email'], json_data['password'])
             return make_response(jsonify(instance.to_dict()), 201)
         # Case register as client
         if json_data['type'] == "client":
@@ -166,6 +167,9 @@ def register_client_worker():
                 del json_data['id']
             instance = User(**json_data)
             instance.save()
+            content = MailBody(json_data['first_name'])
+            SendMail(json_data['email'], Subject, content)
+            create_token_register(instance.id, json_data['email'], json_data['password'])
             return make_response(jsonify(instance.to_dict()), 201)
     else:
         return make_response("Not a JSON", 400)
