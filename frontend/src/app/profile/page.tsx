@@ -9,6 +9,10 @@ import { RootState } from "@/Redux/store";
 import { removeToken } from "@/state";
 import { isTokenExpired } from "@/helpers/expireToken";
 import { useRouter } from "next/navigation"; 
+import { ChevronRight } from "lucide-react";
+import { GrProjects } from "react-icons/gr";
+import { CgProfile } from "react-icons/cg";
+import { IoMdSettings } from "react-icons/io";
 
 import {
   Dialog,
@@ -281,7 +285,65 @@ export default function ProfilePage() {
 
       {/* Small devices */}
       <div className="md:hidden  h-screen bg-slate-100">
-        {/* Your small devices content */}
+      <div className=" bg-sky-200  h-[20vh] relative"></div>
+        <div className="flex items-center justify-center gap-4">
+          <div className=" min-h-[120px] min-w-[120px] rounded-full border-8 border-stone-100  flex justify-center items-center bg-sky-100 -mt-14 z-40">
+            {userInfo.image ? (
+              <Image
+                src={"/assets/hero.jpg"}
+                alt="profile"
+                width={130}
+                height={130}
+                className="rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full flex justify-center items-center">
+                HP
+                {userInfo.first_name[0]}
+                {userInfo.last_name[0]}
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="flex flex-col justify-center items-center">
+          <div className="flex justify-center items-center">
+            <h1 className="text-md font-bold text-gray-900 mr-1">{userInfo.first_name} ESSALHI</h1>
+            <h1 className="text-md font-bold text-gray-900 mr-1">{userInfo.last_name} MUSTAPHA </h1>
+          </div>
+          <p className="text-[13px] text-muted-foreground">{userInfo.type} client</p>
+        </div>
+        <div className="flex justify-between items-center px-4 py-2">
+          <h1 className="text-muted-foreground text-md text-gray-950 font-poppins">Phone</h1>
+          <h1>{userInfo.phone_number}</h1>
+        </div>
+        <div className="flex justify-between items-center px-4 py-3">
+          <h1 className="text-muted-foreground text-md text-gray-950 font-poppins">Mail</h1>
+          <h1>{userInfo.email}</h1>
+        </div>
+        <div className="flex justify-between items-center px-4 py-4 border-y hover:bg-sky-300">
+          <div className="flex justify-center items-center">
+            <GrProjects/>
+          <h1 className="text-muted-foreground text-md text-gray-950 font-poppins pl-2">Projects</h1>
+          </div>
+
+        <ChevronRight />
+
+        </div>
+        <div className="flex justify-between items-center px-4 py-4 border-y">
+        <div className="flex justify-center items-center">
+            <CgProfile />
+          <h1 className="text-muted-foreground text-md text-gray-950 font-poppins pl-2">Profile Details</h1>
+          </div>
+        <ChevronRight />
+
+        </div>
+        <div className="flex justify-between items-center px-4 py-4 border-y">
+        <div className="flex justify-center items-center">
+            <IoMdSettings className="h-6 w-6" />
+          <h1 className="text-muted-foreground text-md text-gray-950 font-poppins pl-2">Settings</h1>
+          </div>
+        <ChevronRight />
+        </div>
       </div>
     </main>
   );
