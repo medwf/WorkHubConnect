@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-from flask import Flask, request, make_response, jsonify
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask import request, make_response, jsonify
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from datetime import timedelta, datetime
 import time
 from models.user import User
@@ -40,11 +40,22 @@ def create_token():
             "message": "You are successfully logged in"
             }
             # Create a response with JSON data
+            cookie_expire = datetime.now()
+            cookie_expire = cookie_expire + timedelta(hours=1)
             response = make_response(jsonify(response_data))
-            response.set_cookie('token', generate_token, httponly=True,secure=True, samesite='None')
-            response.set_cookie('user_id', str(user.id), httponly=True, secure=True,samesite='None')
-            response.set_cookie('expToken', str(expiretime), httponly=True,secure=True, samesite='None')
-
+            timestamp = time.time()
+            current_datetime = datetime.fromtimestamp(timestamp)
+            exptimestamp = current_datetime + timedelta(hours=1)
+            exptimecookie = exptimestamp.timestamp()
+            # response.set_cookie('token', value = generate_token, expires = cookie_expire, httponly=True,secure=True, samesite='None',domain = None)
+            # response.set_cookie('user_id', value = str(user.id), expires = cookie_expire, httponly=True, secure=True,samesite='None',domain = None)
+            # response.set_cookie('expToken', value = str(expiretime), expires = cookie_expire, httponly=True,secure=True, samesite='None',domain = None)
+            response.set_cookie('token', value = generate_token, expires = cookie_expire, secure=True, samesite='None',max_age = None)
+            response.set_cookie('user_id', value = str(user.id), expires = cookie_expire,  secure=True,samesite='None',max_age = None)
+            response.set_cookie('dateToken', value = str(timestamp), expires = cookie_expire, secure=True, samesite='None',max_age = None)
+            response.set_cookie('expToken', value = str(exptimecookie), expires = cookie_expire, secure=True, samesite='None',max_age = None)
+            #response.delete_cookie('')
+            #response.set_cookie("key", value = '', max_age = None, expires = None, path = '/', domain = None,secure = None, httponly = False)
             # Set cookies for token and user_id
             print("header : ", response.headers)
             return response
