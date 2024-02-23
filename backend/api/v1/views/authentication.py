@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 from flask import Flask, request, make_response, jsonify
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
-from datetime import timedelta
+from datetime import timedelta, datetime
+import time
 from models.user import User
 from hashlib import md5
 from models import storage
@@ -27,7 +28,11 @@ def create_token():
             if user is None:
                 print("bad email or password")
                 return make_response(jsonify({"error": "Invalid email or password. Please try again"}), 401)
-            generate_token = create_access_token(identity=user.id)
+            generate_token = create_access_token(identity=user.id, expires_delta=timedelta(hours=1))
+            createtime = datetime.utcnow()
+            expiretime = createtime + timedelta(hours=1)
+            print(createtime)
+            print(expiretime)
             print("login success", generate_token)
             response_data = {
             "token": generate_token,
@@ -36,11 +41,14 @@ def create_token():
             }
             # Create a response with JSON data
             response = make_response(jsonify(response_data))
+            response.set_cookie('token', generate_token, httponly=True,secure=True, samesite='None')
+            response.set_cookie('user_id', str(user.id), httponly=True, secure=True,samesite='None')
+            response.set_cookie('expToken', str(expiretime), httponly=True,secure=True, samesite='None')
+
             # Set cookies for token and user_id
-            response.set_cookie('token', generate_token)
-            response.set_cookie('user_id', str(user.id))
+            print("header : ", response.headers)
             return response
-            # return make_response(jsonify({"token": generate_token, "user_id": user.id, "message": "You are successfully logged in"}))
+            return make_response(jsonify({"token": generate_token, "user_id": user.id, "message": "You are successfully logged in"}))
     else:
         return "Not json", 400
 

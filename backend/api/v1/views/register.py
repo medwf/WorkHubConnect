@@ -67,6 +67,7 @@ def register_client_worker():
     Returns: the new User with the status code 201
     """
     json_data = request.get_json(force=True, silent=True)
+    print(json_data)
     if json_data:
         if len(json_data) > 0 and 'type' not in json_data or json_data['type'] not in ("client", "worker"):
             return make_response("Invalid request", 400)
@@ -110,6 +111,7 @@ def register_client_worker():
                 del json_data['id']
 
             if "service_id" not in json_data:
+                print("not service_id")
                 return make_response("Missing service_id", 400)
 
             service_id = json_data["service_id"]
