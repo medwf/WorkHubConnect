@@ -176,3 +176,13 @@ def Create_user():
 
 
 
+@app_views.route("/users/page/", strict_slashes=False, methods=["GET"])
+@app_views.route("/users/page/<int:offset>", strict_slashes=False, methods=["GET"])
+def users_with_offset(offset=1):
+    """Retrieves 10 users list with offset """
+    
+    users = storage.get_with_offset(User, offset=offset).values()
+    result = []
+    for user in users:
+        result.append(user.to_dict())
+    return jsonify(result), 200
