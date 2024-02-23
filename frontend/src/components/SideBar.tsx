@@ -139,7 +139,7 @@ export default function SideBar({ params }: any) {
   //min-h-[calc(100vh - 4rem)]
   return (
     <aside
-      className={`hidden md:flex relative left-0  flex-col border-r h-[calc(100vh-5rem)] md:p-5 p-2 gap-4 transition-all`}
+      className={`hidden md:flex relative left-0  flex-col border-r h-[calc(100vh-7rem)] md:p-5 p-2 gap-4 transition-all`}
     >
       {/* fixed wrapper left-0 flex flex-col border-r h-full p-4 gap-4 */}
       <div className="">
@@ -202,7 +202,7 @@ export default function SideBar({ params }: any) {
                     </CommandGroup>
                   ))}
                   {settings.map((menuGroup, key) => (
-                    <CommandGroup key={key} className="mt-72">
+                    <CommandGroup key={key} className="absolute bottom-1">
                       {menuGroup.items.map((menuItem, itemKey) => (
                         <CommandItem
                           key={itemKey}
@@ -271,7 +271,7 @@ export default function SideBar({ params }: any) {
                     </CommandGroup>
                   ))}
                   {settings.map((menuGroup, key) => (
-                    <CommandGroup key={key}  className="mt-72">
+                    <CommandGroup key={key}  className="absolute bottom-1">
                       {menuGroup.items.map((menuItem, itemKey) => (
                         <CommandItem
                           key={itemKey}
@@ -279,6 +279,7 @@ export default function SideBar({ params }: any) {
                         >
                           <Link href={menuItem.link}
                              passHref
+                             className="px-2"
                              onClick={() => {
                                if (menuItem.onclick) menuItem.onclick();}}
                           >

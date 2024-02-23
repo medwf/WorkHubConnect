@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -87,6 +87,25 @@ export default function Signup() {
   });
   const [pageType, setPageType] = useState("login");
   const dispatch = useDispatch();
+  const [services, setServices] = useState<{ id: string; name: string }[]>([]);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/v1/users/services"
+        );
+        const services = response.data;
+        setServices(services);
+      } catch (error) {
+        console.error("Error fetching services:", error);
+      }
+    };
+    if (form.watch("type") === "worker") {
+      fetchServices();
+    }
+  }, [form.watch("type")]);
+
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     // console.log(data);
     data.region = RegionName;
@@ -99,6 +118,13 @@ export default function Signup() {
 
     try {
       // const res = await axios.post("/api/users/signup", formDataWithcity_id)
+      const selectedService = services.find(
+        (service) => service.name === data.service
+      );
+      if (!selectedService) {
+        throw new Error("Selected service not found.");
+      }
+      formDataWithcity_id.service = selectedService.id;
       const res = await axios.post(
         "http://127.0.0.1:5000/api/v1/register",
         formDataWithcity_id
@@ -206,7 +232,7 @@ export default function Signup() {
                   </FormItem>
                 )}
               />
-              {form.watch("type") === "worker" && ( // Conditionally render based on the selected type
+              {form.watch("type") === "worker" && (
                 <FormField
                   control={form.control}
                   name="service"
@@ -223,17 +249,14 @@ export default function Signup() {
                             <SelectValue placeholder="Select a profession" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="Electricity">
-                              Electricity
-                            </SelectItem>
-                            <SelectItem value="Informaticien">
-                              Informaticien
-                            </SelectItem>
-                            <SelectItem value="Plombie">Plombie</SelectItem>
+                            {services.map((service) => (
+                              <SelectItem key={service.id} value={service.name}>
+                                {service.name}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                       </FormControl>
-
                       <FormMessage />
                     </FormItem>
                   )}

@@ -29,7 +29,7 @@ export default function Workers() {
                 solve your problems
               </p>
               <Button variant={'default'} className="my-4">
-                <Link href="/login" >
+                <Link href="/services" >
                     Explore our Services
                 </Link>
               </Button>

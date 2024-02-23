@@ -98,13 +98,12 @@ const logoutAction = async () => {
                       key={link.path}
                       href={link.path}
                       passHref
-                      className={`text-gray-700 mr-4 font-semibold text-xl mb-2 hover:text-gray-800 hover:border-b-2 hover:border-blue-200 ${
-                        link.path === activeLink
-                          ? "border-b-2 botder-slate-200 text-gray-900"
-                          : ""
+                      className={`text-gray-700 mr-4 font-semibold text-xl mb-2 group  transition duration-300 
+                        
                       }`}
                     >
                       {link.label}
+                      <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-black"></span>
                     </Link>
                   ))}
 
