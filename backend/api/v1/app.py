@@ -14,7 +14,7 @@ app = Flask(__name__)
 CORS(app, supports_credentials=True)
 app.config["SECRET_KEY"] = "Bla-Bla"
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
-app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=30)
+# app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=30)
 jwt = JWTManager(app)
 # Register the blueprint for API routes
 app.register_blueprint(app_views, url_prefix="/api/v1")
