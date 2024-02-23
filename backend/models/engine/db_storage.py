@@ -120,3 +120,23 @@ class DBStorage:
             count = len(models.storage.all(cls).values())
 
         return count
+
+    def get_with_offset(self, cls=None, offset=1):
+        """Query on the current database session with pagination (10 by 10)"""
+        new_dict = {}
+
+        for clss in classes:
+            if cls is None or cls is classes[clss] or cls is clss:
+                limit = 10
+                query_offset = (offset - 1) * limit
+                objs = (
+                    self.__session.query(classes[clss])
+                    .order_by(classes[clss].created_at.desc())
+                    .offset(query_offset)
+                    .limit(limit)
+                    .all()
+                    )
+                for obj in objs:
+                    key = f"{obj.__class__.__name__}.{obj.id}"
+                    new_dict[key] = obj
+        return new_dict
