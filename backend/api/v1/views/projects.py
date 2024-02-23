@@ -96,3 +96,15 @@ def update_project(project_id):
     obj.description = data.get("description", obj.description)
     obj.save()
     return jsonify(obj.to_dict()), 200
+
+
+@app_views.route("/projects/page/", strict_slashes=False, methods=["GET"])
+@app_views.route("/projects/page/<int:offset>", strict_slashes=False, methods=["GET"])
+def projects_with_offset(offset=1):
+    """Retrieves 10 projects list with offset """
+    
+    projects = storage.get_with_offset(Project, offset=offset).values()
+    result = []
+    for project in projects:
+        result.append(project.to_dict())
+    return jsonify(result), 200
