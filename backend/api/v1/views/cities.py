@@ -86,3 +86,17 @@ def Update_city(city_id):
     obj.name = data.get("name", obj.name)
     obj.save()
     return jsonify(obj.to_dict()), 200
+
+
+
+
+@app_views.route("/cities/page/", strict_slashes=False, methods=["GET"])
+@app_views.route("/cities/page/<int:offset>", strict_slashes=False, methods=["GET"])
+def cities_with_offset(offset=1):
+    """Retrieves 10 city list with offset """
+    
+    cities = storage.get_with_offset(City, offset=offset).values()
+    result = []
+    for city in cities:
+        result.append(city.to_dict())
+    return jsonify(result), 200
