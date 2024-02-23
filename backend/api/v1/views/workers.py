@@ -175,3 +175,15 @@ def workers_search():
         #     del worker_dict['amenities']
         workers.append(worker_dict)
     return jsonify(workers), 200
+
+
+@app_views.route("/workers/page/", strict_slashes=False, methods=["GET"])
+@app_views.route("/workers/page/<int:offset>", strict_slashes=False, methods=["GET"])
+def workers_with_offset(offset=1):
+    """Retrieves 10 workers list with offset """
+    
+    workers = storage.get_with_offset(Worker, offset=offset).values()
+    result = []
+    for worker in workers:
+        result.append(worker.to_dict())
+    return jsonify(result), 200
