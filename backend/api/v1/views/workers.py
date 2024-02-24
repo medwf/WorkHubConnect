@@ -177,13 +177,70 @@ def workers_search():
     return jsonify(workers), 200
 
 
-@app_views.route("/workers/page/", strict_slashes=False, methods=["GET"])
-@app_views.route("/workers/page/<int:offset>", strict_slashes=False, methods=["GET"])
-def workers_with_offset(offset=1):
-    """Retrieves 10 workers list with offset """
-    
-    workers = storage.get_with_offset(Worker, offset=offset).values()
+@app_views.route("/workers/pages", strict_slashes=False, methods=["GET"])
+@app_views.route("/workers/pages/", strict_slashes=False, methods=["GET"])
+@app_views.route("/workers/pages/<int:page>/<int:limit>", strict_slashes=False, methods=["GET"])
+def workers_with_offset(page=None, limit=None):
+    """Retrieves a number of workers based on page and limit """
+    if not page and not limit:
+        page = request.args.get('page', default=1, type=int)
+        limit = request.args.get('limit', default=10, type=int)
+    workers = storage.get_with_offset(Worker, offset=page, limit=limit).values()
     result = []
     for worker in workers:
         result.append(worker.to_dict())
     return jsonify(result), 200
+
+
+@app_views.route("/workers_search", strict_slashes=False, methods=["GET"])
+@app_views.route("/workers_search/", strict_slashes=False, methods=["GET"])
+def workers_filter():
+    """
+    Search workers:
+    Retrieves all worker objects depending on the query parameters in the URL.
+    The parameters can include:
+    - state: id of State
+    - city: id of City
+    - service: id of service
+    """
+    state_id = request.args.get("state", default=None, type=int)
+    city_id = request.args.get("city", default=None, type=int)
+    service_id = request.args.get("service", default=None, type=int)
+    page = request.args.get('page', default=1, type=int)
+    limit = request.args.get('limit', default=10, type=int)
+    result = []
+    index = limit * (page - 1)
+    # page 2 : 11 -- 20
+    if state_id is None and city_id is None and service_id is None:
+        workers = storage.all(Worker).values()
+        for worker in workers:
+            result.append(worker.to_dict())
+        return jsonify(result[index:index + limit])
+    # Filter by state
+    if state_id is not None:
+        state = storage.get(State, state_id)
+        if state is None:
+            return make_response(jsonify({"error": "Region not found"}), 404)
+        for city in state.cities:
+            for worker in city.workers:
+                result.append(worker)
+
+    # Filter by city
+    if city_id is not None:
+        result = []
+        city = storage.get(City, city_id)
+        if city is None:
+            return make_response(jsonify({"error": "City not found"}), 404)
+        for worker in city.workers:
+            if worker not in result:
+                result.append(worker)
+
+    # Filter by service
+    if service_id is not None:
+        service = storage.get(Service, service_id)
+        if service is None:
+            return make_response(jsonify({"error": "Service not found"}), 404)
+        result = [worker for worker in result if worker.service_id == service.id]
+
+    workers = [worker.to_dict() for worker in result]
+    return jsonify(workers), 200
