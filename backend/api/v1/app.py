@@ -12,9 +12,10 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required, ge
 # Create a Flask app
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
-app.config["SECRET_KEY"] = "Bla-Bla"
+app.config["SECRET_KEY"] = "62c6924a-9e6a-4d09-abcf-a2695fe420da"
+app.config["JWT_SECRET_KEY"] = "ea60ec9f-7a87-4ae9-b326-ffcd558507e1"
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
-# app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=30)
+app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=30)
 jwt = JWTManager(app)
 # Register the blueprint for API routes
 app.register_blueprint(app_views, url_prefix="/api/v1")
