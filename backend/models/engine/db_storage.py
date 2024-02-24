@@ -34,7 +34,7 @@ class DBStorage:
         WORKHUB_MYSQL_HOST = getenv('WORKHUB_MYSQL_HOST')
         WORKHUB_MYSQL_DB = getenv('WORKHUB_MYSQL_DB')
         WORKHUB_ENV = getenv('WORKHUB_ENV')
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}?charset=utf8mb4'.
                                       format(WORKHUB_MYSQL_USER,
                                              WORKHUB_MYSQL_PWD,
                                              WORKHUB_MYSQL_HOST,
@@ -121,13 +121,12 @@ class DBStorage:
 
         return count
 
-    def get_with_offset(self, cls=None, offset=1):
-        """Query on the current database session with pagination (10 by 10)"""
+    def get_with_offset(self, cls=None, offset=1, limit=10):
+        """Query on the current database session with pagination"""
         new_dict = {}
 
         for clss in classes:
             if cls is None or cls is classes[clss] or cls is clss:
-                limit = 10
                 query_offset = (offset - 1) * limit
                 objs = (
                     self.__session.query(classes[clss])
