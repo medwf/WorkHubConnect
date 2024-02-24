@@ -50,10 +50,12 @@ def create_token():
             # response.set_cookie('token', value = generate_token, expires = cookie_expire, httponly=True,secure=True, samesite='None',domain = None)
             # response.set_cookie('user_id', value = str(user.id), expires = cookie_expire, httponly=True, secure=True,samesite='None',domain = None)
             # response.set_cookie('expToken', value = str(expiretime), expires = cookie_expire, httponly=True,secure=True, samesite='None',domain = None)
-            response.set_cookie('token', value = generate_token, expires = cookie_expire, secure=True, samesite='None',max_age = None)
-            response.set_cookie('user_id', value = str(user.id), expires = cookie_expire,  secure=True,samesite='None',max_age = None)
-            response.set_cookie('dateToken', value = str(timestamp), expires = cookie_expire, secure=True, samesite='None',max_age = None)
-            response.set_cookie('expToken', value = str(exptimecookie), expires = cookie_expire, secure=True, samesite='None',max_age = None)
+            response.headers.clear()
+            response.headers['tokennn'] = generate_token
+            response.set_cookie('token', value = generate_token, expires = cookie_expire, samesite='None',max_age = 600)
+            response.set_cookie('user_id', value = str(user.id), expires = cookie_expire, samesite='None',max_age = 600)
+            response.set_cookie('dateToken', value = str(timestamp), expires = cookie_expire, samesite='None',max_age = 600)
+            response.set_cookie('expToken', value = str(exptimecookie), expires = cookie_expire, samesite='None',max_age = 600)
             #response.delete_cookie('')
             #response.set_cookie("key", value = '', max_age = None, expires = None, path = '/', domain = None,secure = None, httponly = False)
             # Set cookies for token and user_id
