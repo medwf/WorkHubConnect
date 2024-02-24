@@ -98,12 +98,15 @@ def update_project(project_id):
     return jsonify(obj.to_dict()), 200
 
 
-@app_views.route("/projects/page/", strict_slashes=False, methods=["GET"])
-@app_views.route("/projects/page/<int:offset>", strict_slashes=False, methods=["GET"])
-def projects_with_offset(offset=1):
-    """Retrieves 10 projects list with offset """
-    
-    projects = storage.get_with_offset(Project, offset=offset).values()
+@app_views.route("/projects/pages/", strict_slashes=False, methods=["GET"])
+@app_views.route("/projects/pages", strict_slashes=False, methods=["GET"])
+@app_views.route("/projects/pages/<int:page>/<int:limit>", strict_slashes=False, methods=["GET"])
+def projects_with_offset(page=None, limit=None):
+    """Retrieves a number of projects based on page and limit """
+    if not page and not limit:
+        page = request.args.get('page', default=1, type=int)
+        limit = request.args.get('limit', default=10, type=int)
+    projects = storage.get_with_offset(Project, ffset=page, limit=limit).values()
     result = []
     for project in projects:
         result.append(project.to_dict())
