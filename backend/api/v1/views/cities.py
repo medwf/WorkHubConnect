@@ -90,13 +90,16 @@ def Update_city(city_id):
 
 
 
-@app_views.route("/cities/page/", strict_slashes=False, methods=["GET"])
-@app_views.route("/cities/page/<int:offset>", strict_slashes=False, methods=["GET"])
-def cities_with_offset(offset=1):
-    """Retrieves 10 city list with offset """
-    
-    cities = storage.get_with_offset(City, offset=offset).values()
+@app_views.route("/cities/pages/", strict_slashes=False, methods=["GET"])
+@app_views.route("/cities/pages", strict_slashes=False, methods=["GET"])
+@app_views.route("/cities/pages/<int:page>/<int:limit>", strict_slashes=False, methods=["GET"])
+def cities_with_offset(page=None, limit=None):
+    """Retrieves a number of cities based on page and limit """
+    if not page and not limit:
+        page = request.args.get('page', default=1, type=int)
+        limit = request.args.get('limit', default=10, type=int)
+    cities = storage.get_with_offset(City, offset=page, limit=limit).values()
     result = []
     for city in cities:
         result.append(city.to_dict())
-    return jsonify(result), 200
+    return jsonify(result), 200 , {'Content-Type': 'application/json; charset=utf-8'}
