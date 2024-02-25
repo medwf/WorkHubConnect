@@ -10,7 +10,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/Redux/store";
 import { removeToken } from "@/state";
 import { isTokenExpired } from "@/helpers/expireToken";
-import { ArrowDownToLine, CheckCircle, Leaf } from "lucide-react";
+import { ArrowDownToLine , Leaf } from "lucide-react";
+import { MdOutlineConnectWithoutContact } from "react-icons/md";
+import { FaHandshakeSimple } from "react-icons/fa6";
+import { MdOutlineWifiProtectedSetup } from "react-icons/md";
+import ProjectReel from "@/components/ProjectReel";
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -31,22 +35,22 @@ export default function Home() {
 
   const perks = [
     {
-      name: "Quick Installation",
-      icon: ArrowDownToLine,
+      name: "Innovation",
+      icon: MdOutlineWifiProtectedSetup ,
       description:
-        "Receive your aluminum systems installed quickly, ensuring prompt project completion.",
+        " Constantly evolving to meet your needs. Join us in embracing creativity as we shape the future of collaboration.",
     },
     {
-      name: "Premium Durability",
-      icon: CheckCircle,
+      name: "SwiftConnect",
+      icon: MdOutlineConnectWithoutContact,
       description:
-        "Each aluminum system undergoes rigorous quality controls to meet industry standards. Unsatisfied? We offer a 30-day satisfaction guarantee.",
+        "Efficiency at your fingertips. Discover SwiftConnect by WorkHubConnect for instant connections and seamless collaboration.",
     },
     {
-      name: "Environmentally Friendly",
-      icon: Leaf,
+      name: "Simplicity",
+      icon: FaHandshakeSimple ,
       description:
-        "We allocate 1% of sales to environmental conservation efforts, promoting sustainability and eco-responsibility.",
+        "Effortless collaboration made simple. Explore WorkHubConnect for an intuitive and streamlined experience, connecting clients and workers seamlessly.",
     },
   ];
 
@@ -68,9 +72,11 @@ export default function Home() {
       <MaxWidthWrapper>
         <section className=" grid grid-cols-1 gap-7 md:grid-cols-2 2xl:gap-0">
           <div className="py-20 mx-auto text-center flex flex-col items-center max-w-3xl">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              Your company for high-quality{""}
-              <span className="text-blue-600"> WorkHubConnect</span>.
+         
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+            <span className="text-blue-600"> WorkHubConnect</span>,
+
+              Your company for high-quality{""}.
             </h1>
             <p className="mt-6 text-lg max-w-prose text-muted-foreground">
               Welcome to WorkhubConnect, We provide high-quality services related to
@@ -120,6 +126,7 @@ export default function Home() {
               </div>
             ))}
           </div>
+          <ProjectReel />
         </MaxWidthWrapper>
       </section>
     </>

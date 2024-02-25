@@ -75,6 +75,20 @@ const logoutAction = async () => {
       onclick: logoutAction, 
     },
   ];
+  const menuItems2 = [
+    {
+      label: "Profile",
+      path: "/profile/1/myprofile",
+      icon: <User className="mr-2 h-4 w-4" />,
+    },
+    
+    {
+      label: "Log out",
+      path:"",
+      icon: <LogOut className="mr-2 h-4 w-4" />,
+      onclick: logoutAction, 
+    },
+  ];
   // Function to handle closing the sheet
   const closeSheet = () => {
     setSheetOpen(false);
@@ -88,7 +102,8 @@ const logoutAction = async () => {
         <MaxWidthWrapper>
           <div className="border-b border-gray-200">
             <div className="flex justify-between items-center h-16">
-              <h1 className="text-bold text-xl">Logo</h1>
+              <h1 className="text-bold text-xl font-poppins font-semibold italic"><Link href={'/'}>Work<span className="text-blue-600 font-poppins font-semibold hover:underline hover:text-
+              -500">Hub</span>Connect </Link></h1>
 
               {/* md lg xl devices */}
               <div className="hidden md:flex justify-center items-center gap-4">
@@ -112,7 +127,7 @@ const logoutAction = async () => {
                       <DropdownMenuProfile />
                     
                   ) : (
-                    <div>
+                    <div className="flex"> 
                       <Button variant={"outline"}>
                         {" "}
                         <Link href="/auth/signup">Become a worker</Link>{" "}
@@ -141,7 +156,7 @@ const logoutAction = async () => {
                             <Link
                               href={link.path}
                               passHref
-                              className={`text-black flex flex-col gap-4  font-semibold text-3xl  group  transition duration-300 `}
+                              className={`text-black flex flex-col gap-4  font-meduim font-poppins text-2xl  group  transition duration-300 `}
                             >
                               {/* <ArrowUpRight /> */}
                               {link.label}
@@ -151,23 +166,26 @@ const logoutAction = async () => {
                         ))}
 
                         {/* for profile  */}
-                        {menuItems.map((item) => (
-                          <SheetClose key={item.path} asChild>
-                            <Link
-                              href={item.path}
-                              passHref
-                              onClick={() => {
-                                if (item.onclick) item.onclick();}}
-                              className={`text-black flex flex-col gap-4  font-semibold text-3xl  group  transition duration-300 `}
-                            >
-                              {/* <ArrowUpRight /> */}
-                              {item.label}
-                              <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-black"></span>
-                            </Link>
-                          </SheetClose>
-                        ))}
-
-                        <div className="flex flex-col justify-between items-center mx-auto py-7 gap-5">
+                        {isAuth ? (
+                          <div>
+                           {menuItems2.map((item) => (
+                            <SheetClose key={item.path} asChild>
+                              <Link
+                                href={item.path}
+                                passHref
+                                onClick={() => {
+                                  if (item.onclick) item.onclick();}}
+                                className={`text-black flex flex-col gap-4  font-meduim font-poppins text-2xl  group  transition duration-300 `}
+                              >
+                                {/* <ArrowUpRight /> */}
+                                {item.label}
+                                <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-black"></span>
+                              </Link>
+                            </SheetClose>
+                          ))}
+</div>
+                        ) : (
+                          <div className="flex flex-col justify-between items-center mx-auto py-7 gap-5">
                           <Button
                             variant={"outline"}
                             className=""
@@ -181,11 +199,16 @@ const logoutAction = async () => {
                             <Link href="/login">Login with Email</Link>{" "}
                           </Button>
                         </div>
+                        )}
+                       
+
+                      
 
                         {/* Social media */}
                         <div className="flex justify-center gap-4 items-center mx-auto abosolute bottom-0 pb-4">
-                          <FaGithub className="w-9 h-9 rounded-full hover:shadow-lg hover:shadow-sky-500" />
-                          <FaDiscord className="w-9 h-9 rounded-full hover:shadow-lg hover:shadow-sky-500" />
+                          <Link href="https://github.com/medwf/WorkHubConnect">  <FaGithub className="w-9 h-9 rounded-full hover:shadow-lg hover:shadow-sky-500 " /></Link>
+                          <Link href={"https://discord.gg/KPkCPRwG"}><FaDiscord className="w-9 h-9 rounded-full hover:shadow-lg hover:shadow-sky-500 " /></Link>
+                          
                         </div>
                       </div>
                     </SheetDescription>
