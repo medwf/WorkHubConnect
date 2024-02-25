@@ -52,24 +52,24 @@ def Create_Service():
     if json_data:
         if "en_name" in json_data:
             if len(json_data['en_name']) > 128 or len(json_data['en_name']) == 0:
-                return make_response("Please enter a name (up to 128 characters). This field cannot be left empty", 400)
+                return make_response(jsonify({"error": "Please enter a en_name (up to 128 characters). This field cannot be left empty"}), 400)
         else:
-            return make_response("en_name not found", 400)
+            return make_response(jsonify({"error": "Missing en_name"}), 400)
         if "ar_name" in json_data:
             if len(json_data['ar_name']) > 128 or len(json_data['ar_name']) == 0:
-                return make_response("Please enter a name (up to 128 characters). This field cannot be left empty", 400)
+                return make_response(jsonify({"error": "Please enter a ar_name (up to 128 characters). This field cannot be left empty"}), 400)
         else:
-            return make_response("ar_name not found", 400)
+            return make_response(jsonify({"error": "Missing en_name"}), 400)
         if "description" in json_data:
             if len(json_data['description']) > 255 or len(json_data['description']) == 0:
-                return make_response("Please enter a description (up to 255 characters). This field cannot be left empty", 400)
+                return make_response(jsonify({"error": "Please enter a description (up to 255 characters). This field cannot be left empty"}), 400)
         else:
-            return make_response("description not found", 400)
+            return make_response(jsonify({"error":"description not found"}), 400)
         instance = Service(**json_data)
         instance.save()
         return make_response(jsonify(instance.to_dict()), 201)
     else:
-        return make_response("Not a JSON", 400)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
 
 
 @app_views.route("/services/<int:service_id>", strict_slashes=False, methods=["PUT"])
@@ -81,16 +81,16 @@ def Update_Service(service_id):
     """
     json_data = request.get_json(force=True, silent=True)
     if not json_data:
-        return make_response("Not a JSON", 400)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     obj = storage.get(Service, service_id)
     if obj is None:
         return make_response(jsonify({"error": "Not found"}), 404)
     if "en_name" in json_data and (len(json_data['en_name']) > 128 or len(json_data['en_name']) == 0):
-        return make_response("Please enter an english name (up to 128 characters). This field cannot be left empty", 400)
+        return make_response(jsonify({"error":"Please enter an english name (up to 128 characters). This field cannot be left empty"}), 400)
     if "ar_name" in json_data and (len(json_data['ar_name']) > 128 or len(json_data['ar_name']) == 0):
-        return make_response("Please enter an arabic name (up to 128 characters). This field cannot be left empty", 400)
+        return make_response(jsonify({"error": "Please enter an arabic name (up to 128 characters). This field cannot be left empty"}), 400)
     if "description" in json_data and (len(json_data['description']) > 255 or len(json_data['description']) == 0):
-        return make_response("Please enter a description (up to 255 characters). This field cannot be left empty", 400)
+        return make_response(jsonify({"error": "Please enter a description (up to 255 characters). This field cannot be left empty"}), 400)
     obj.en_name = json_data.get("en_name", obj.en_name)
     obj.ar_name = json_data.get("ar_name", obj.ar_name)
     obj.description = json_data.get("description", obj.description)

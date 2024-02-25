@@ -52,14 +52,14 @@ def Create_state():
     if json_data:
         if "name" in json_data:
             if len(json_data['name']) > 128:
-                return make_response("Input name must be less than 128 characters", 400)
+                return make_response(jsonify({"error": "Input name must be less than 128 characters"}), 400)
             instance = State(**json_data)
             instance.save()
             return make_response(jsonify(instance.to_dict()), 201)
         else:
-            return make_response("Missing name", 400)
+            return make_response(jsonify({"error": "Missing name"}), 400)
     else:
-        return make_response("Not a JSON", 400)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
 
 
 @app_views.route("/states/<int:state_id>", strict_slashes=False, methods=["PUT"])
@@ -76,7 +76,7 @@ def Update_state(state_id):
     if not data:
         return make_response("Not a JSON", 400)
     if len(data['name']) > 128:
-        return make_response("Input name must be less than 128 characters", 400)
+        return make_response(jsonify({"error": "Input name must be less than 128 characters"}), 400)
     obj.name = data.get("name", obj.name)
     obj.save()
     return jsonify(obj.to_dict()), 200

@@ -61,15 +61,15 @@ def Create_city(state_id):
             return make_response(jsonify({"error": "Not found"}), 404)
         if "name" in json_data:
             if len(json_data['name']) > 128:
-                return make_response("Input name must be less than 128 characters", 400)
+                return make_response(jsonify({"error": "Input name must be less than 128 characters"}), 400)
             json_data["state_id"] = state_id
             instance = City(**json_data)
             instance.save()
             return make_response(jsonify(instance.to_dict()), 201)
         else:
-            return make_response("Missing name", 400)
+            return make_response(jsonify({"error": "Missing name"}), 400)
     else:
-        return make_response("Not a JSON", 400)
+        return make_response(jsonify({"error": "Not found"}), 400)
 
 
 @app_views.route("/cities/<int:city_id>", strict_slashes=False, methods=["PUT"])
@@ -80,9 +80,9 @@ def Update_city(city_id):
         return make_response(jsonify({"error": "Not found"}), 404)
     data = request.get_json(force=True, silent=True)
     if not data:
-        return make_response("Not a JSON", 400)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     if len(data['name']) > 128:
-        return make_response("Input name must be less than 128 characters", 400)
+        return make_response(jsonify({"error": "Input name must be less than 128 characters"}), 400)
     obj.name = data.get("name", obj.name)
     obj.save()
     return jsonify(obj.to_dict()), 200
