@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { toast as Ttoast } from "react-hot-toast";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -25,7 +24,7 @@ import {
 } from "@/components/ui/select";
 
 import { Input } from "@/components/ui/input";
-import { ToastAction } from "@/components/ui/toast";
+import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { FaGoogle } from "react-icons/fa";
@@ -51,7 +50,7 @@ export default function Signup() {
   const [RegionName, setRegionName] = useState("");
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const router = useRouter();
-  const { toast } = useToast();
+
   const handleRegionChange = (regionName: string) => {
     const selectedRegion = regions.find(
       (region) => region.region === regionName
@@ -85,7 +84,6 @@ export default function Signup() {
       type: "",
     },
   });
-  const [pageType, setPageType] = useState("login");
   const dispatch = useDispatch();
   const [services, setServices] = useState<{ id: string; en_name: string }[]>([]);
 
@@ -117,7 +115,7 @@ export default function Signup() {
     };
 
     try {
-      // const res = await axios.post("/api/users/signup", formDataWithcity_id)
+
       const selectedService = services.find(
         (service) => service.en_name === data.service_id
       );
@@ -135,26 +133,19 @@ export default function Signup() {
         dispatch(
           setLogin({
             token: resData.token,
-            user: resData.user._id,
+            user: resData.user_id,
           })
         );
       }
-      console.log(resData);
-      console.log(resData.token);
-      console.log(resData.user._id);
-      const id = resData.user._id;
-
-      // router.push(`/profile/${res.user.id}/myprofile`)
+     
       router.push(`/`);
-      Ttoast.success("Form submitted successfully!");
+      toast.success(res.data.message);
       form.reset();
       setRegionName("");
     } catch (error: any) {
-      console.error("Essalhi", error);
-      Ttoast.error(error.message);
-
-      // form.reset();
-      // setRegionName("");
+      toast.error(error.message);
+      toast.error(error);
+    
     }
   }
 
