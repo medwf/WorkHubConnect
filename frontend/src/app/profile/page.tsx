@@ -55,6 +55,9 @@ export default function ProfilePage() {
   });
 
   useEffect(() => {
+    if (!token){
+      router.push('/')
+    }
     if (isTokenExpired(token)) {
       dispatch(removeToken());
       router.push("/");
@@ -198,20 +201,11 @@ export default function ProfilePage() {
                 </div>
                 <div>
              
-                    <div>
-                      <h1 className={titleClass}>Region</h1>
-                      <p className={labelClass}>{userInfo.region}</p>
-                      <br />
-                      <h1 className={titleClass}>City</h1>
-                      <p className={labelClass}>{userInfo.city}</p>
-                      <br />
-                    </div>
-                  {/* )} */}
-                  <br />
+                   
                  
                  
                   <br />
-                  {userInfo.region && (
+                  {userInfo.region || userInfo.city && (
                     <div>
                       <h1 className={titleClass}>Region</h1>
                       <p className={labelClass}>{userInfo.region}</p>

@@ -4,8 +4,8 @@ const nextConfig = {
       return [
         // Proxy API requests
         {
-          source: '/api/:path*',
-          destination: 'http://localhost:5000/api/:path*', // Replace with your Flask API URL
+          source: '/:path*',
+          destination: 'http://localhost:4000/:path*', // Replace with your Flask API URL
         },
       ]
     },

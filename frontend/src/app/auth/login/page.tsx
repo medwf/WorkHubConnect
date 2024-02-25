@@ -65,16 +65,23 @@ export default function Signup() {
       setIsLoading(true);
 
 
-      // const response = await axios.post("http://127.0.0.1:5000/api/v1/login", { 
-      //    email: data.Email,
-      //   password: data.password,
-      // });
-      const response = await axios.post("/api/users/login", { 
+      
+      const response = await axios.post("http://127.0.0.1:5000/api/v1/login", { 
         email: data.Email,
-       password: data.password,
-     });
+        password: data.password,
+    }, {
+        withCredentials: true,
+       
+        headers: {
+          "Content-type": "application/json",
+          'Access-Control-Allow-Origin': 'localhost',
+        
+      },
+    });
+
       console.log(response);
       
+      console.log(response.headers);
       const userData = response.data;
       if(userData){
         dispatch(
@@ -87,8 +94,7 @@ export default function Signup() {
       }
       toast.success(response.data.message);
     
-      // form.reset();
-      // setRegionName('');
+    
 
       router.push(`/profile`);
       
@@ -98,17 +104,7 @@ export default function Signup() {
     } finally {
       setIsLoading(false);
     }
-    // console.log(data);
-    // toast({
-    //   title: "You submitted the following values:",
-    //   description: (
-    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-    //     </pre>
-    //   ),
-   
-     
-    // });
+  
    
   }
 

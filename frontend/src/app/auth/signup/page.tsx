@@ -36,10 +36,10 @@ import { useDispatch } from "react-redux";
 import { setLogin } from "@/state";
 
 const FormSchema = z.object({
-  first_name: z.string().min(2),
-  last_name: z.string().min(2),
-  email: z.string().min(2),
-  password: z.string().min(2),
+  first_name: z.string(),
+  last_name: z.string(),
+  email: z.string(),
+  password: z.string(),
   service: z.string(),
   region: z.string(),
   city: z.string(),
@@ -87,13 +87,13 @@ export default function Signup() {
   });
   const [pageType, setPageType] = useState("login");
   const dispatch = useDispatch();
-  const [services, setServices] = useState<{ id: string; name: string }[]>([]);
+  const [services, setServices] = useState<{ id: string; en_name: string }[]>([]);
 
   useEffect(() => {
     const fetchServices = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/users/services"
+          "http://localhost:5000/api/v1/services"
         );
         const services = response.data;
         setServices(services);
@@ -119,7 +119,7 @@ export default function Signup() {
     try {
       // const res = await axios.post("/api/users/signup", formDataWithcity_id)
       const selectedService = services.find(
-        (service) => service.name === data.service
+        (service) => service.en_name === data.service
       );
       if (!selectedService) {
         throw new Error("Selected service not found.");
@@ -250,8 +250,8 @@ export default function Signup() {
                           </SelectTrigger>
                           <SelectContent>
                             {services.map((service) => (
-                              <SelectItem key={service.id} value={service.name}>
-                                {service.name}
+                              <SelectItem key={service.id} value={service.id}>
+                                {service.en_name}
                               </SelectItem>
                             ))}
                           </SelectContent>

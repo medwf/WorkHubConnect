@@ -49,31 +49,31 @@ export const authSlice = createSlice({
       state.token = null;
       state.user = null;
     },
-    setReviews: (state, action) => {
-      state.reviews = action.payload.reviews;
-    },
-    setReviewList: (state, action) => {
-      const updatesReviews = state.reviews.map((review) => {
-        if (review._id === action.payload.review_id) return action.payload.review;
-        return review;
-      });
-      state.reviews = updatesReviews;
-    },
-    setProject: (state, action) => {
-      state.project = action.payload.project;
-    },
-    setProjectList: (state, action) => {
-      const updatedProjects = state.project.map((project) => {
-        if (project._id === action.payload.project_id) return action.payload.project;
-        return project;
-      });
-      state.project = updatedProjects;
-    },
+    // setReviews: (state, action) => {
+    //   state.reviews = action.payload.reviews;
+    // },
+    // setReviewList: (state, action) => {
+    //   const updatesReviews = state.reviews.map((review) => {
+    //     if (review._id === action.payload.review_id) return action.payload.review;
+    //     return review;
+    //   });
+    //   state.reviews = updatesReviews;
+    // },
+    // setProject: (state, action) => {
+    //   state.project = action.payload.project;
+    // },
+    // setProjectList: (state, action) => {
+    //   const updatedProjects = state.project.map((project) => {
+    //     if (project._id === action.payload.project_id) return action.payload.project;
+    //     return project;
+    //   });
+    //   state.project = updatedProjects;
+    // },
     
   },
 });
 
-export const { setLogin, logout, setReviews, setReviewList, setProject, setProjectList, removeToken } =
+export const { setLogin, logout, removeToken } =
   authSlice.actions;
 
 export default authSlice.reducer;
