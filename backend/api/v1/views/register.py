@@ -110,15 +110,13 @@ def register_client_worker():
             if 'id' in json_data:
                 del json_data['id']
 
-            if "service" not in json_data:
+            if "service_id" not in json_data:
                 print("not service_id")
                 return make_response("Missing service_id", 400)
 
-            service_id = json_data["service"]
+            service_id = json_data["service_id"]
             if not storage.get(Service, service_id):
                 return make_response(jsonify({"error": "Service not found"}), 404)
-            json_data['service_id'] = service_id
-            del json_data['service']
             print("ALL DATA\n:",json_data)
             user_keys = ['email', 'password', 'first_name', 'last_name', 'city_id', 'profile_img', 'phone_number', 'is_active']
             user_data = {key: json_data[key] for key in user_keys if key in json_data}
