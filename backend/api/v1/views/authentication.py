@@ -27,7 +27,7 @@ def create_token():
             user = storage.GetUserEmail(User, email=email, password=PASSWORD)
             if user is None:
                 print("bad email or password")
-                return make_response(jsonify({"error": "Invalid email or password. Please try again"}), 401)
+                return make_response(jsonify({"error": "Invalid email or password"}), 401)
             generate_token = create_access_token(identity=user.id, expires_delta=timedelta(hours=1))
             createtime = datetime.utcnow()
             expiretime = createtime + timedelta(hours=1)
