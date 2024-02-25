@@ -106,7 +106,7 @@ def register_client_worker():
             users = storage.all(User).values()
             for user in users:
                 if (user.email == json_data['email']):
-                    return make_response(jsonify({"message": "Email already exists"}, 400))
+                    return make_response(jsonify({"error": "Email already exists"}), 409)
             if 'id' in json_data:
                 del json_data['id']
 
@@ -165,14 +165,14 @@ def register_client_worker():
             if len(phone) > 0:
                 Phone = phone.replace(" ", "")
                 if not is_valid_phone_number(Phone):
-                    return make_response("invalid phone Number most be (+212..) or (06...) or (07..) or (05...)", 400)
+                    return make_response("invalid phone Number must be (+212..) or (06...) or (07..) or (05...)", 400)
                 if len(Phone) > 16:
                     return make_response("Input phone_number must be less than 16 characters", 400)
                 json_data['phone_number'] = Phone
             users = storage.all(User).values()
             for user in users:
                 if (user.email == json_data['email']):
-                    return make_response("Email already exists", 400)
+                    return make_response("Email already exists"), 400
             if 'id' in json_data:
                 del json_data['id']
             instance = User(**json_data)
