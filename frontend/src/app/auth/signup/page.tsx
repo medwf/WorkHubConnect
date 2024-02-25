@@ -40,7 +40,7 @@ const FormSchema = z.object({
   last_name: z.string(),
   email: z.string(),
   password: z.string(),
-  service: z.string(),
+  service_id: z.string(),
   region: z.string(),
   city: z.string(),
   type: z.string(),
@@ -68,7 +68,7 @@ export default function Signup() {
     username: "",
     region: "",
     city: "",
-    service: "",
+    service_id: "",
     city_id: "",
     type: "",
   });
@@ -79,7 +79,7 @@ export default function Signup() {
       password: "",
       first_name: "",
       last_name: "",
-      service: "",
+      service_id: "",
       city: "",
       region: "",
       type: "",
@@ -119,12 +119,12 @@ export default function Signup() {
     try {
       // const res = await axios.post("/api/users/signup", formDataWithcity_id)
       const selectedService = services.find(
-        (service) => service.en_name === data.service
+        (service) => service.en_name === data.service_id
       );
       if (!selectedService) {
         throw new Error("Selected service not found.");
       }
-      formDataWithcity_id.service = selectedService.id;
+      formDataWithcity_id.service_id = selectedService.id;
       const res = await axios.post(
         "http://127.0.0.1:5000/api/v1/register",
         formDataWithcity_id
@@ -213,7 +213,7 @@ export default function Signup() {
                         onValueChange={(value) => {
                           field.onChange(value);
 
-                          form.setValue("service", "");
+                          form.setValue("service_id", "");
                         }}
                         defaultValue={field.value}
                         value={field.value}
@@ -235,7 +235,7 @@ export default function Signup() {
               {form.watch("type") === "worker" && (
                 <FormField
                   control={form.control}
-                  name="service"
+                  name="service_id"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Profession</FormLabel>
@@ -250,7 +250,7 @@ export default function Signup() {
                           </SelectTrigger>
                           <SelectContent>
                             {services.map((service) => (
-                              <SelectItem key={service.id} value={service.id}>
+                              <SelectItem key={service.id} value={service.en_name}>
                                 {service.en_name}
                               </SelectItem>
                             ))}
