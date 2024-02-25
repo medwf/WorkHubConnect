@@ -143,8 +143,8 @@ export default function Signup() {
       form.reset();
       setRegionName("");
     } catch (error: any) {
-      toast.error(error.message);
-      toast.error(error);
+ 
+      toast.error(error.response.data.error);
     
     }
   }
@@ -351,7 +351,8 @@ export default function Signup() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full mt-10 py-2">
+              <br/>
+              <Button type="submit" className="w-full ">
                 Sign up
               </Button>
               <div className=" flex justify-center items-center pt-3">

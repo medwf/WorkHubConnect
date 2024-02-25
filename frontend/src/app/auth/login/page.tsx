@@ -24,7 +24,6 @@ import {
 } from "@/components/ui/select"
 
 import { Input } from "@/components/ui/input";
-import { ToastAction } from "@/components/ui/toast"
 import { useForm } from "react-hook-form";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { FaGoogle } from "react-icons/fa";
@@ -66,7 +65,7 @@ export default function Signup() {
 
 
       
-      const response = await axios.post("http://127.0.0.1:5000/auth/signin", { 
+      const response = await axios.post("http://127.0.0.1:5000/api/v1/login", { 
         email: data.Email,
         password: data.password,
     }, {
@@ -99,9 +98,7 @@ export default function Signup() {
       router.push(`/profile`);
       
     } catch (error:any) {
-      console.error("Error submitting form:", error);
-      console.log(error.response)
-      toast.error(error.message);
+      toast.error(error.response.data.error);
     } finally {
       setIsLoading(false);
     }
