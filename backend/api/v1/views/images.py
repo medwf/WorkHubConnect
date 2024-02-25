@@ -62,15 +62,15 @@ def Create_image(project_id):
         return make_response(jsonify({"error": "project Not found"}), 404)
     if json_data:
         if "url" not in json_data:
-            return make_response("Missing url", 400)
+            return make_response(jsonify({"error": "Missing url"}), 400)
         if len(json_data['url']) > 100:
-            return make_response("Input url must be less than 100 characters", 400)
+            return make_response(jsonify({"error": "Input url must be less than 100 characters"}), 400)
         json_data['project_id'] = project_id
         instance = Image(**json_data)
         instance.save()
         return make_response(jsonify(instance.to_dict()), 201)
     else:
-        return make_response("Not a JSON", 400)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
 
 
 @app_views.route("/images/<image_id>", strict_slashes=False,
@@ -82,9 +82,9 @@ def update_image(image_id):
         return make_response(jsonify({"error": "image Not found"}), 404)
     data = request.get_json(force=True, silent=True)
     if not data:
-        return make_response("Not a JSON", 400)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     if len(data.get('url', "")) > 100:
-            return make_response("Input url must be less than 100 characters", 400)
+            return make_response(jsonify({"error": "Input url must be less than 100 characters"}), 400)
     obj.url = data.get("url", obj.url)
     obj.save()
     return jsonify(obj.to_dict()), 200

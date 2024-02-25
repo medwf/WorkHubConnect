@@ -50,7 +50,7 @@ Best Regards,
 The WorkHubConnect Team
 [WorkHubConnect]
 [workhubconnect.2024@gmail.com]
- """
+"""
     return (content)
 
 
@@ -70,38 +70,38 @@ def register_client_worker():
     print(json_data)
     if json_data:
         if len(json_data) > 0 and 'type' not in json_data or json_data['type'] not in ("client", "worker"):
-            return make_response("Invalid request", 400)
+            return make_response(jsonify({"error": "Invalid request"}), 400)
 
         # Case register as worker
         if json_data['type'] == 'worker':
             if "email" not in json_data:
-                return make_response("Missing email", 400)
+                return make_response(jsonify({"error": "Missing email"}), 400)
             if not is_valid_email(json_data['email']):
-                return make_response("invalid address email", 400)
+                return make_response(jsonify({"error": "invalid address email"}), 400)
             if len(json_data['email']) > 50:
-                return make_response("Input email must be less than 50 characters", 400)
+                return make_response(jsonify({"error": "Input email must be less than 50 characters"}), 400)
             if "password" not in json_data:
-                return make_response("Missing password", 400)
+                return make_response(jsonify({"error": "Missing password"}), 400)
             if len(json_data['password']) > 80:
-                return make_response("Input password must be less than 80 characters", 400)
+                return make_response(jsonify({"error": "Input password must be less than 80 characters"}), 400)
             if len(json_data['password']) < 6:
-                return make_response("Password very weak. It should be at least 6 characters long.", 400)
+                return make_response(jsonify({"error": "Password very weak. It should be at least 6 characters long."}), 400)
             # most cast city id.
             if "city_id" not in json_data:
-                return make_response("Missing city_id", 400)
+                return make_response(jsonify({"error": "Missing city_id"}), 400)
             if not storage.get(City, json_data['city_id']):
                 return make_response(jsonify({"error": "city not found"}), 400)
             if len(json_data.get('first_name', "")) > 20:
-                return make_response("Input first_name must be less than 20 characters", 400)
+                return make_response(jsonify({"error": "Input first_name must be less than 20 characters"}), 400)
             if len(json_data.get('last_name', "")) > 20:
-                return make_response("Input last_name must be less than 20 characters", 400)
+                return make_response(jsonify({"error": "Input last_name must be less than 20 characters"}), 400)
             phone = json_data.get('phone_number', "")
             if len(phone) > 0:
                 Phone = phone.replace(" ", "")
                 if not is_valid_phone_number(Phone):
-                    return make_response("invalid phone Number most be (+212..) or (06...) or (07..) or (05...)", 400)
+                    return make_response(jsonify({"error": "invalid phone Number most be (+212..) or (06...) or (07..) or (05...)"}), 400)
                 if len(Phone) > 16:
-                    return make_response("Input phone_number must be less than 16 characters", 400)
+                    return make_response(jsonify({"error": "Input phone_number must be less than 16 characters"}), 400)
                 json_data['phone_number'] = Phone
             users = storage.all(User).values()
             for user in users:
@@ -112,7 +112,7 @@ def register_client_worker():
 
             if "service_id" not in json_data:
                 print("not service_id")
-                return make_response("Missing service_id", 400)
+                return make_response(jsonify({"error": "Missing service_id"}), 400)
 
             service_id = json_data["service_id"]
             if not storage.get(Service, service_id):
@@ -140,39 +140,39 @@ def register_client_worker():
         # Case register as client
         if json_data['type'] == "client":
             if "email" not in json_data:
-                return make_response("Missing email", 400)
+                return make_response(jsonify({"error": "Missing email"}), 400)
             if not is_valid_email(json_data['email']):
-                return make_response("invalid address email", 400)
+                return make_response(jsonify({"error": "invalid address email"}), 400)
             if len(json_data['email']) > 50:
-                return make_response("Input email must be less than 50 characters", 400)
+                return make_response(jsonify({"error": "Input email must be less than 50 characters"}), 400)
 
             if "password" not in json_data:
-                return make_response("Missing password", 400)
+                return make_response(jsonify({"error": "Missing password"}), 400)
             if len(json_data['password']) > 80:
-                return make_response("Input password must be less than 80 characters", 400)
+                return make_response(jsonify({"error": "Input password must be less than 80 characters"}), 400)
             if len(json_data['password']) < 6:
-                return make_response("Password very weak. It should be at least 6 characters long.", 400)
+                return make_response(jsonify({"error": "Password very weak. It should be at least 6 characters long."}), 400)
             # most cast city id.
             if "city_id" not in json_data:
-                return make_response("Missing city_id", 400)
+                return make_response(jsonify({"error": "Missing city_id"}), 400)
             if not storage.get(City, json_data['city_id']):
                 return make_response(jsonify({"error": "city not found"}), 400)
             if len(json_data.get('first_name', "")) > 20:
-                return make_response("Input first_name must be less than 20 characters", 400)
+                return make_response(jsonify({"error": "Input first_name must be less than 20 characters"}), 400)
             if len(json_data.get('last_name', "")) > 20:
-                return make_response("Input last_name must be less than 20 characters", 400)
+                return make_response(jsonify({"error": "Input last_name must be less than 20 characters"}), 400)
             phone = json_data.get('phone_number', "")
             if len(phone) > 0:
                 Phone = phone.replace(" ", "")
                 if not is_valid_phone_number(Phone):
-                    return make_response("invalid phone Number must be (+212..) or (06...) or (07..) or (05...)", 400)
+                    return make_response(jsonify({"error": "invalid phone Number must be (+212..) or (06...) or (07..) or (05...)"}), 400)
                 if len(Phone) > 16:
-                    return make_response("Input phone_number must be less than 16 characters", 400)
+                    return make_response(jsonify({"error": "Input phone_number must be less than 16 characters"}), 400)
                 json_data['phone_number'] = Phone
             users = storage.all(User).values()
             for user in users:
                 if (user.email == json_data['email']):
-                    return make_response("Email already exists"), 400
+                    return make_response(jsonify({"error": "Email already exists"})), 400
             if 'id' in json_data:
                 del json_data['id']
             instance = User(**json_data)
@@ -182,5 +182,5 @@ def register_client_worker():
             create_token_register(instance.id, json_data['email'], json_data['password'])
             return make_response(jsonify(instance.to_dict()), 201)
     else:
-        return make_response("Not a JSON", 400)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
 

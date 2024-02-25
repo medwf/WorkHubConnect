@@ -55,10 +55,10 @@ def post_review(worker_id):
         make_response(jsonify({"error": "worker Not found"}), 404)
 
     if not request.get_json():
-        return make_response("Not a JSON", 400)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     if 'user_id' not in request.get_json():
-        return make_response("Missing user_id", 400)
+        return make_response(jsonify({"error": "Missing user_id"}), 400)
 
     data = request.get_json()
     user = storage.get(User, data['user_id'])
@@ -66,9 +66,9 @@ def post_review(worker_id):
         make_response(jsonify({"error": "user Not found"}), 404)
 
     if 'text' not in data:
-        return make_response("Missing text", 400)
+        return make_response(jsonify({"error": "Missing text"}), 400)
     if len(data['text']) > 1024:
-        return make_response("Input text must be less than 1024 characters", 400)
+        return make_response(jsonify({"error": "Input text must be less than 1024 characters"}), 400)
 
     data['worker_id'] = worker_id
     instance = Review(**data)
@@ -86,11 +86,11 @@ def put_review(review_id):
         return make_response(jsonify({"error": "review Not found"}), 404)
 
     if not request.get_json():
-        return make_response("Not a JSON", 400)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     data = request.get_json()
     if len(data['text']) > 1024:
-        return make_response("Input text must be less than 1024 characters", 400)
+        return make_response(jsonify({"error": "Input text must be less than 1024 characters"}), 400)
     review.text = data.get("text", review.text)
     storage.save()
     return make_response(jsonify(review.to_dict()), 200)

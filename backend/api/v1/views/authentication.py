@@ -63,7 +63,7 @@ def create_token():
             return response
             return make_response(jsonify({"token": generate_token, "user_id": user.id, "message": "You are successfully logged in"}))
     else:
-        return "Not json", 400
+        return jsonify({"error": "Not json"}), 400
 
 @app_views.route("/protected", methods=["GET"])
 @jwt_required()

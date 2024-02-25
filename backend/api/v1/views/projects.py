@@ -63,19 +63,19 @@ def Create_project(worker_id):
         return make_response(jsonify({"error": "worker Not found"}), 404)
     if json_data:
         if "title" not in json_data:
-            return make_response("Missing title", 400)
+            return make_response(jsonify({"error": "Missing title"}), 400)
         if len(json_data['title']) > 255:
-            return make_response("Input title must be less than 255 characters", 400)
+            return make_response(jsonify({"error": "Input title must be less than 255 characters"}), 400)
         if "description" not in json_data:
-            return make_response("Missing description", 400)
+            return make_response(jsonify({"error": "Missing description"}), 400)
         if len(json_data['description']) > 1024:
-            return make_response("Input description must be less than 1024 characters", 400)
+            return make_response(jsonify({"error": "Input description must be less than 1024 characters"}), 400)
         json_data['worker_id'] = worker_id
         instance = Project(**json_data)
         instance.save()
         return make_response(jsonify(instance.to_dict()), 201)
     else:
-        return make_response("Not a JSON", 400)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
 
 
 @app_views.route("/projects/<project_id>", strict_slashes=False,
@@ -87,11 +87,11 @@ def update_project(project_id):
         return make_response(jsonify({"error": "project Not found"}), 404)
     data = request.get_json(force=True, silent=True)
     if not data:
-        return make_response("Not a JSON", 400)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     if len(data.get('description', "")) > 1024:
-            return make_response("Input description must be less than 1024 characters", 400)
+            return make_response(jsonify({"error": "Input description must be less than 1024 characters"}), 400)
     if len(data.get('title', "")) > 255:
-            return make_response("Input title must be less than 255 characters", 400)
+            return make_response(jsonify({"error": "Input title must be less than 255 characters"}), 400)
     obj.title = data.get("title", obj.title)
     obj.description = data.get("description", obj.description)
     obj.save()

@@ -67,27 +67,27 @@ def create_worker(city_id):
     json_data = request.get_json(force=True, silent=True)
     if json_data:
         if not storage.get(City, city_id):
-            return make_response(jsonify({"Error": "City not found"}), 404)
+            return make_response(jsonify({"error": "City not found"}), 404)
 
         if "user_id" not in json_data:
-            return make_response("Missing user_id", 400)
+            return make_response(jsonify({"error": "Missing user_id"}), 400)
         
         if "service_id" not in json_data:
-            return make_response("Missing service_id", 400)
+            return make_response(jsonify({"error": "Missing service_id"}), 400)
 
         user_id = json_data["user_id"]
         if not storage.get(User, user_id):
-            return make_response(jsonify({"Error": "User not found"}), 404)
+            return make_response(jsonify({"error": "User not found"}), 404)
         
         service_id = json_data["service_id"]
         if not storage.get(Service, service_id):
-            return make_response(jsonify({"Error": "Service not found"}), 404)
+            return make_response(jsonify({"error": "Service not found"}), 404)
 
         json_data["city_id"] = city_id
         instance = Worker(**json_data)
         instance.save()
         return make_response(jsonify(instance.to_dict()), 201)
-    return make_response("Not a JSON", 400)
+    return make_response(jsonify({"error": "Not a JSON"}), 400)
 
 
 @app_views.route("/workers/<int:worker_id>", strict_slashes=False, methods=["PUT"])
@@ -98,7 +98,7 @@ def update_worker(worker_id):
         return make_response(jsonify({"error": "Not found"}), 404)
     data = request.get_json(force=True, silent=True)
     if not data:
-        return make_response("Not a JSON", 400)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     worker.certifications = data.get("certifications", worker.certifications)
     worker.description = data.get("description", worker.description)
     worker.diplome = data.get("diplome", worker.diplome)
@@ -127,7 +127,7 @@ def workers_search():
     """
     json_data = request.get_json(force=True, silent=True)
     if json_data is None:
-        return make_response("Not a JSON", 400)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     result = []
     if len(json_data) == 0 or \
             all(value == [] for value in json_data.values()):
