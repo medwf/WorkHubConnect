@@ -106,28 +106,38 @@ def register_client_worker():
             users = storage.all(User).values()
             for user in users:
                 if (user.email == json_data['email']):
-                    return make_response("Email already exists", 400)
+                    return make_response(jsonify({"message": "Email already exists"}, 400))
             if 'id' in json_data:
                 del json_data['id']
 
-            if "service_id" not in json_data:
+            if "service" not in json_data:
                 print("not service_id")
                 return make_response("Missing service_id", 400)
 
-            service_id = json_data["service_id"]
+            service_id = json_data["service"]
             if not storage.get(Service, service_id):
                 return make_response(jsonify({"error": "Service not found"}), 404)
-            instance = User(**json_data)
+            json_data['service_id'] = service_id
+            del json_data['service']
+            print("ALL DATA\n:",json_data)
+            user_keys = ['email', 'password', 'first_name', 'last_name', 'city_id', 'profile_img', 'phone_number', 'is_active']
+            user_data = {key: json_data[key] for key in user_keys if key in json_data}
+            print("USER DATA\n:", user_data)
+            instance = User(**user_data)
             instance.save()
             user_id = instance.id
             if not storage.get(User, user_id):
                 return make_response(jsonify({"error": "Unable to create your account. Please try again"}), 404)
             json_data['user_id'] = user_id
-            instance = Worker(**json_data)
+            worker_keys = ['user_id', 'service_id', 'city_id', 'description', 'diplome', 'certifications',
+                           'fb_url', 'insta_url','tiktok_url', 'linkedin_url', 'website_url']
+            worker_data = {key: json_data[key] for key in worker_keys if key in json_data}
+            print("WORKER DATA\n:", worker_data)
+            instance = Worker(**worker_data)
             instance.save()
             content = MailBody(json_data['first_name'])
             SendMail(json_data['email'], Subject, content)
-            create_token_register(instance.id, json_data['email'], json_data['password'])
+            create_token_register(user_id, json_data['email'], json_data['password'])
             return make_response(jsonify(instance.to_dict()), 201)
         # Case register as client
         if json_data['type'] == "client":
