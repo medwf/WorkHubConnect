@@ -66,7 +66,7 @@ export default function Signup() {
 
 
       
-      const response = await axios.post("http://127.0.0.1:5000/api/v1/login", { 
+      const response = await axios.post("http://127.0.0.1:5000/auth/signin", { 
         email: data.Email,
         password: data.password,
     }, {
@@ -100,6 +100,7 @@ export default function Signup() {
       
     } catch (error:any) {
       console.error("Error submitting form:", error);
+      console.log(error.response)
       toast.error(error.message);
     } finally {
       setIsLoading(false);
