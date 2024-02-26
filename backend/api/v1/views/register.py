@@ -11,7 +11,7 @@ from models.worker import Worker
 import re
 from api.v1.views.users import *
 from api.v1.views.authentication import *
-from sendmail.send_email import SendMail
+from utils.send_email import SendMail
 
 email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
 email_regex =  r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
