@@ -8,10 +8,12 @@ from models.user import User
 from models.service import Service
 from models.city import City
 from models.worker import Worker
-import re
+import magic
+import re, os
 from api.v1.views.users import *
 from api.v1.views.authentication import *
 from utils.send_email import SendMail
+from utils.upload import upload_image, generate_filename, check_image_size
 
 email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
 email_regex =  r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
@@ -70,6 +72,7 @@ def register_client_worker():
     print(json_data)
     if json_data:
         if len(json_data) > 0 and 'type' not in json_data or json_data['type'] not in ("client", "worker"):
+            print("type not found")
             return make_response(jsonify({"error": "Invalid request"}), 400)
 
         # Case register as worker
@@ -175,6 +178,17 @@ def register_client_worker():
                     return make_response(jsonify({"error": "Email already exists"})), 400
             if 'id' in json_data:
                 del json_data['id']
+            if "profile_img" in json_data:
+                file = request.files.get('profile_img')
+                print(file)
+                response = upload_image(file)
+                data  = response.get_json()
+                if response.status_code == 200:
+                    message = data.get('message', '')
+                    img_url = data.get('imgurl', {}).get('url_img', '')
+                    print(f"Message: {message}")
+                    print(f"Image URL: {img_url}")
+
             instance = User(**json_data)
             instance.save()
             content = MailBody(json_data['first_name'])
@@ -184,3 +198,41 @@ def register_client_worker():
     else:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
+
+@app_views.route("/upload", strict_slashes=False, methods=["POST"])
+def upload_img():
+    if request.method == 'POST':
+        if 'files' not in request.files:
+            print("not file")
+            return make_response(jsonify({"message": "No selected file"}), 403)
+        file = request.files['files']
+        if file.filename == '':
+            return make_response(jsonify({"message": "No selected file"}))
+        if file.filename == '':
+            return make_response(jsonify({"message": "No No selected file"}))
+        allowed_extensions = ("png", "jpeg", "jpg")
+        allowed_mime_types = ("image/jpeg", "image/png", "image/jpg")
+        basename, file_extension = file.filename.rsplit('.', 1)
+        if file_extension.lower() not in allowed_extensions:
+            return make_response(jsonify({"message": "Please upload images in one of the following formats: PNG, JPEG, or JPG"}))
+
+        new_filename = generate_filename(file_extension, 5)
+        current_directory = os.getcwd()
+        print("current dir : ",current_directory)
+        file.save('images/' + new_filename)
+
+        file_path = f"{current_directory}/images/{new_filename}"
+        mime = magic.Magic(mime=True)
+        file_mime_type = mime.from_file(file_path)
+        if file_mime_type not in allowed_mime_types:
+            os.remove(file_path)
+            return make_response(jsonify({"message": "Please upload images in one of the following mime_types : PNG, JPEG, or JPG"}))
+        is_valid = check_image_size(file_path)
+        if not is_valid:
+            return jsonify({"message": "Image size must be less than 2MB"})
+        url_img = f"/backend/images/{new_filename}"
+        print("url of image is", url_img)
+        # response = jsonify({"message": "Image uploaded succesfully", "imgurl" :{url_img} }), 200
+        # url_img = f"/backend/images/{new_filename}"
+        response = jsonify({"message": "Image uploaded successfully", "imgurl": {"url": url_img}}), 200
+        return response
