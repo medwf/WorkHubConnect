@@ -14,7 +14,7 @@ import { ArrowDownToLine , Leaf } from "lucide-react";
 import { MdOutlineConnectWithoutContact } from "react-icons/md";
 import { FaHandshakeSimple } from "react-icons/fa6";
 import { MdOutlineWifiProtectedSetup } from "react-icons/md";
-import ProjectReel from "@/components/ProjectReel";
+import ServicesSlider from '@/components/ServicesSlider';
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -72,9 +72,9 @@ export default function Home() {
       <MaxWidthWrapper>
         <section className=" grid grid-cols-1 gap-7 md:grid-cols-2 2xl:gap-0">
           <div className="py-20 mx-auto text-center flex flex-col items-center max-w-3xl">
-         
+          <h1 className="text-blue-600 text-3xl font-bold tracking-tight sm:text-5xl"> WorkHubConnect</h1>
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-            <span className="text-blue-600"> WorkHubConnect</span>,
+          
 
               Your company for high-quality{""}.
             </h1>
@@ -126,8 +126,17 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <ProjectReel />
+          
         </MaxWidthWrapper>
+
+      </section>
+      <section className="border-t border-gray-200 bg-gray-500 h-full">
+        <MaxWidthWrapper className="py-20">
+        <div className="px-10 md:px-auto">
+        <ServicesSlider/>
+          </div>
+        </MaxWidthWrapper>
+       
       </section>
     </>
   );

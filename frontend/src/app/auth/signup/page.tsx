@@ -152,14 +152,14 @@ export default function Signup() {
   return (
     <>
       <MaxWidthWrapper>
-        <div className="md:px-2 py-10 my-4 mb-10 bg-opacity-70 bg-white-50  mx-auto  flex flex-col items-center max-w-xl bg-[#f8f9fa] border-gray-100 border-1  rounded-lg shadow-lg">
+        <div className="md:px-2 py-10 my-4 mb-10 bg-opacity-70 bg-white-50   mx-auto  flex flex-col items-center max-w-xl bg-[#f8f9fa] border-gray-100 border-1  rounded-lg shadow-lg">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="w-2/3 space-y-1 "
+              className="w-full   md:px-10  px-3 space-y-1 "
             >
               <div className="flex items-center justify-center py-8">
-                <p className="text-xl text-gray-950 font-bold">
+                <p className="md:text-2xl text-xl text-gray-900 font-bold font-poppins ">
                   WorkHubConnect
                 </p>
               </div>

@@ -30,6 +30,9 @@ import { FaGoogle } from "react-icons/fa";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { setLogin } from "@/state";
+import { Checkbox } from "@/components/ui/checkbox"
+
+import { Check } from "lucide-react";
 const FormSchema = z.object({
   Email: z.string().min(2),
   password: z.string().min(2),
@@ -161,6 +164,15 @@ export default function Signup() {
             </FormItem>
           )}
         />
+        <br/>
+        <div>
+          <div className="flex gap-2 items-center justify-start">
+          <Checkbox/>
+          <h1 className="text-md font-semibold text-red-500 font-poppins">Remember me</h1>
+          </div>
+          
+        </div>
+
         <Button type="submit" className="w-full mt-6 ">
           Sign in
         </Button>
