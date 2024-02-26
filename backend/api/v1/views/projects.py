@@ -106,7 +106,20 @@ def projects_with_offset(page=None, limit=None):
     if not page and not limit:
         page = request.args.get('page', default=1, type=int)
         limit = request.args.get('limit', default=10, type=int)
-    projects = storage.get_with_offset(Project, ffset=page, limit=limit).values()
+    projects = storage.get_with_offset(Project, offset=page, limit=limit).values()
+    result = []
+    for project in projects:
+        result.append(project.to_dict())
+    return jsonify(result), 200
+
+# en cours ...
+@app_views.route("/workers/projects/", strict_slashes=False, methods=["GET"])
+def projects_by_workers():
+    """Retrieves a number of projects based on page and limit """
+    page = request.args.get('page', default=1, type=int)
+    limit = request.args.get('limit', default=10, type=int)
+    limit = request.args.get('limit', default=10, type=int)
+    projects = storage.get_with_offset(Project, offset=page, limit=limit).values()
     result = []
     for project in projects:
         result.append(project.to_dict())
