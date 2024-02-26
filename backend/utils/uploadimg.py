@@ -3,9 +3,6 @@ from datetime import datetime
 import magic
 import os
 
-app = Flask(__name__)
-
-
 
 def generate_filename(file_extension, user_id):
     timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
@@ -22,11 +19,14 @@ def check_image_size(file_path):
         return True
 
 
-@app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
         if 'filename' not in request.files:
+<<<<<<< HEAD:backend/uploadimg.py
             return make_response(jsonify({"error": "No file part"}))
+=======
+            return make_response(jsonify({"message": "No selected file"}))
+>>>>>>> c0c0580340126b78e38fc4a0b9419a38a335bb91:backend/utils/uploadimg.py
 
         file = request.files['filename']
         if file.filename == '':
@@ -53,5 +53,3 @@ def upload_file():
 
     return render_template('index.html')
 
-if __name__ == '__main__':
-    app.run(debug=True)
