@@ -1,15 +1,40 @@
 import React from 'react'
 import Image from 'next/image'
+import MaxWidthWrapper from '@/components/MaxWidthWrapper'
+import SearchProject from '@/components/SearchProject'
+import ProjectReel from '@/components/projects/ProjectReel'
 const Projects = () => {
   return (
-    <div className='flex justify-center items-center'>
+    <>
+    <MaxWidthWrapper>
+      <div>
+
+      
+   <div className='w-full flex justify-center items-center'>
     <Image
-    src={'/assets/under_construction.jpg'}
+    src={'/projects/pro.jpg'}
     width={500}
     height={500}
-    alt='404'
+    alt='project'
+
     />
-  </div>
+    </div>
+    <div className='flex justify-center items-center'>
+   
+        <SearchProject/>
+     
+    </div>
+    </div>
+    <ProjectReel
+          title='Projects'
+          
+        />
+   
+    </MaxWidthWrapper>
+    
+    </>
+   
+ 
   )
 }
 

@@ -6,15 +6,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { CiSearch } from "react-icons/ci";
+import SearchWorker from "@/components/workers/searchWorker";
+import WorkerCard from "@/components/workers/WorkerCard";
 
 export default function Workers() {
 
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const handleSearch = (searchQuery) => {
-    console.log(searchQuery);
-  }
-
+  
   return (
     <>
       <MaxWidthWrapper>
@@ -43,31 +40,23 @@ export default function Workers() {
               className="max-h-[75vh object-contain object-center 2xl:max-h-[60vh]"
             />
           </div>
+          <div className='flex justify-center items-center'>
+   
+          <SearchWorker />
+
+        </div>
+
+         
+          
         </section>
       </MaxWidthWrapper>
       <section className="border-t border-gray-200 bg-gray-50">
         <MaxWidthWrapper className="py-7">
-          <div className=" ">
-          <div className="flex items-center justify-center space-x-2">
-            <Input type="text" className="px-3 py-2 w-80 md:w-[40vw] " placeholder="Search..." onChange={handleSearch} value={searchQuery}/>
-            <Button className="px-3 py-2 md:px-10 md:py-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                />
-              </svg>
-      </Button>
-    </div>
+          <div className="flex justify-center items-center">
+          <WorkerCard/>
           </div>
+        
+  
         </MaxWidthWrapper>
       </section>
     </>
