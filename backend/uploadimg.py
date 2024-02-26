@@ -26,16 +26,16 @@ def check_image_size(file_path):
 def upload_file():
     if request.method == 'POST':
         if 'filename' not in request.files:
-            return make_response(jsonify({"message": "No file part"}))
+            return make_response(jsonify({"error": "No file part"}))
 
         file = request.files['filename']
         if file.filename == '':
-            return make_response(jsonify({"message": "No selected file"}))
+            return make_response(jsonify({"error": "No selected file"}))
         allowed_extensions = ("png", "jpeg", "jpg")
         allowed_mime_types = ("image/jpeg", "image/png", "image/jpg")
         basename, file_extension = file.filename.rsplit('.', 1)
         if file_extension.lower() not in allowed_extensions:
-            return make_response(jsonify({"message": "Please upload images in one of the following formats: PNG, JPEG, or JPG"}))
+            return make_response(jsonify({"error": "Please upload images in one of the following formats: PNG, JPEG, or JPG"}))
 
         new_filename = generate_filename(file_extension, 5)
         file.save('static/' + new_filename)
@@ -45,10 +45,10 @@ def upload_file():
         file_mime_type = mime.from_file(file_path)
         if file_mime_type not in allowed_mime_types:
             os.remove(file_path)
-            return make_response(jsonify({"message": "Please upload images in one of the following mime_types : PNG, JPEG, or JPG"}))
+            return make_response(jsonify({"error": "Please upload images in one of the following mime_types : PNG, JPEG, or JPG"}))
         is_valid = check_image_size(file_path)
         if not is_valid:
-            return jsonify({"message": "Image size must be less than 2MB"})
+            return jsonify({"error": "Image size must be less than 2MB"})
         return render_template("image.html", url_img=url_for('static', filename=new_filename))
 
     return render_template('index.html')
