@@ -4,6 +4,7 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 from datetime import timedelta, datetime
 import time
 from models.user import User
+from utils.send_email import SendMail
 from hashlib import md5
 from models import storage
 from api.v1.views import app_views
@@ -71,7 +72,7 @@ def protected():
     current_user_id = get_jwt_identity()
     user = storage.get(User, current_user_id)
     if not user:
-        return make_response(jsonify({"error": "user not flound"}), 400)
+        return make_response(jsonify({"error": "user not found"}), 400)
     return make_response(jsonify({"id": user.id, "email": user.email}), 200)
 
 
@@ -111,3 +112,87 @@ def create_token_register(userID, email=None, password=None):
 #"Welcome! Your account has been created, and you are now logged in."
 #"Success! You've successfully created your account and are now logged in."
 
+# first we need to send email to client or worker:
+@app_views.route("/forgot_password", methods=["POST"])
+# @jwt_required()
+def ForgotPassword():
+    """reset password"""
+    # data we need email: check email
+    data = request.get_json()
+    if not data:
+        return make_response(jsonify({"error": "Not a json"}), 400)
+    email = data.get('email', None)
+    user = storage.ValideEmail(User, email)
+    if not user:
+        return make_response(jsonify({"error": "Email not found"}), 400)
+    # token ? check token
+    generate_token = create_access_token(identity=user.id)
+    MakeUrl = f"http://localhost:5000/api/v1/reset-password/{generate_token}"
+    # send email using path /reset-password/token
+    subject = "Reset Your WorkHubConnect Password"
+    Text = f"""Dear [{user.first_name}],
+
+We've received a request to reset your password for your WorkHubConnect account. To proceed with resetting your password, please click the link below:
+
+[{MakeUrl}]
+
+If you didn't request a password reset, you can safely ignore this email. Your password will remain unchanged.
+
+Thank you,
+The WorkHubConnect Team
+"""
+    print("befor dending email")
+    SendMail(email, subject, Text)
+    print("after dending email")
+    createtime = datetime.utcnow()
+    expiretime = createtime + timedelta(hours=1)
+    response_data = {
+    "token": generate_token,
+    "user_id": user.id,
+    "message": "email sended"
+    }
+    # Create a response with JSON data
+    cookie_expire = datetime.now()
+    cookie_expire = cookie_expire + timedelta(hours=1)
+    response = make_response(jsonify(response_data))
+    timestamp = time.time()
+    current_datetime = datetime.fromtimestamp(timestamp)
+    exptimestamp = current_datetime + timedelta(hours=1)
+    exptimecookie = exptimestamp.timestamp()
+    response.headers.clear()
+    response.headers['tokennn'] = generate_token
+    response.set_cookie('token', value = generate_token, expires = cookie_expire, samesite='None',max_age = 600)
+    response.set_cookie('user_id', value = str(user.id), expires = cookie_expire, samesite='None',max_age = 600)
+    response.set_cookie('dateToken', value = str(timestamp), expires = cookie_expire, samesite='None',max_age = 600)
+    response.set_cookie('expToken', value = str(exptimecookie), expires = cookie_expire, samesite='None',max_age = 600)
+    return response
+
+@app_views.route('/reset-password/<token>', methods=['POST'])
+@jwt_required()
+def ResetPassword(token):
+    """accept url token generat new token"""
+    data = request.get_json()
+    if data:
+        NewPassword = data.get('new_password')
+        ConfirmPassword = data.get('confirm_password')
+        if NewPassword and ConfirmPassword:
+            if NewPassword == ConfirmPassword:
+                current_user_id = get_jwt_identity()
+                user = storage.get(User, current_user_id)
+                if user:
+                    if len(NewPassword) > 80:
+                        return make_response(jsonify({"error": "Input password must be less than 80 characters"}), 400)
+                    if len(NewPassword) < 6:
+                        return make_response(jsonify({"error": "Password very weak. It should be at least 6 characters long."}), 400)
+                    PASSWORD = md5(NewPassword.encode()).hexdigest()
+                    user.password = PASSWORD
+                    user.save()
+                    return make_response(jsonify({
+                    "token": token,
+                    "user_id": user.id,
+                    "message": "Account updated password successfully."
+                    }))
+                return make_response(jsonify({"error": "user not found"}))
+            return make_response(jsonify({"error": "Passwords do not match."}), 400)
+        return make_response(jsonify({"error": "new_password or confirm_password, not define"}), 400)
+    return make_response(jsonify({"error": "Not a json"}), 400)
