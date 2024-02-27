@@ -28,9 +28,8 @@ import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { FaGoogle } from "react-icons/fa";
-import { regions } from "@/helpers/regions1";
-import { cities } from "@/helpers/cities1";
-import { useToast } from "@/components/ui/use-toast";
+import { regions } from "@/helpers/regions";
+import { cities } from "@/helpers/cities";
 import { useDispatch } from "react-redux";
 import { setLogin } from "@/state";
 
