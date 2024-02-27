@@ -114,7 +114,6 @@ def create_token_register(userID, email=None, password=None):
 
 # first we need to send email to client or worker:
 @app_views.route("/forgot_password", methods=["POST"])
-# @jwt_required()
 def ForgotPassword():
     """reset password"""
     # data we need email: check email
@@ -160,7 +159,7 @@ The WorkHubConnect Team
     exptimestamp = current_datetime + timedelta(hours=1)
     exptimecookie = exptimestamp.timestamp()
     response.headers.clear()
-    response.headers['tokennn'] = generate_token
+    response.headers['Authorization'] = f"Bearer {generate_token}"
     response.set_cookie('token', value = generate_token, expires = cookie_expire, samesite='None',max_age = 600)
     response.set_cookie('user_id', value = str(user.id), expires = cookie_expire, samesite='None',max_age = 600)
     response.set_cookie('dateToken', value = str(timestamp), expires = cookie_expire, samesite='None',max_age = 600)
