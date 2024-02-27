@@ -76,13 +76,14 @@ export default function Signup() {
        
         headers: {
           "Content-type": "application/json",
-          'Access-Control-Allow-Origin': 'localhost',
+          // 'Access-Control-Allow-Origin': 'localhost',
         
       },
     });
 
       console.log(response);
-      
+      console.log(response.headers);
+      console.log(response.data.cookies)
       const userData = response.data;
       if(userData){
         dispatch(
