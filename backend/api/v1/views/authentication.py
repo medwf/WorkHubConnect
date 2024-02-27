@@ -129,7 +129,7 @@ def ForgotPassword():
         return make_response(jsonify({"error": "Email not found"}), 400)
     # token ? check token
     generate_token = create_access_token(identity=user.id)
-    MakeUrl = f"http://localhost:5500/ALX-repo/WorkHubConnect/TestLogin/reset-password.html?tk={generate_token}"
+    MakeUrl = f"http://localhost:3000/auth/reset-password/token={generate_token}"
     # send email using path /reset-password/token
     subject = "Reset Your WorkHubConnect Password"
     Text = f"""Dear [{user.first_name}],
