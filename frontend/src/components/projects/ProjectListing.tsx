@@ -22,7 +22,7 @@ interface ProjectListingProps {
 
 const ProjectListing = ({ project, index }: ProjectListingProps) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
-    console.log(` image project ${project}`)
+    // console.log(` image project ${project}`)
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);

@@ -33,7 +33,7 @@ export default function ResetPassword() {
     const getToken = useSearchParams();
     const router = useRouter();
     const token = getToken.get('token')
-    if (!token) { router.push('/')};
+    if (!token) { router.push('/'); return null; };
     
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -60,15 +60,11 @@ export default function ResetPassword() {
             },
           }
         );
+        toast.success(response.data.message);
+        router.push('/auth/login');
     
-        if (response.status === 200) {
-         
-          router.push('/auth/login');
-        } else {
-            toast.error(response.data.error);
-        }
-      } catch (error) {
-        toast.error('Internal server error. Please try again later.');
+      } catch (error:any) {
+        toast.error(error.response.data.error);
       }
     
  }

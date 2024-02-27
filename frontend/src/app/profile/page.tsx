@@ -28,7 +28,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 const titleClass = "text-muted-foreground text-md text-semibold";
-const labelClass = "text-md font-poppins font-semibold";
+const labelClass = "text-md font-poppins font-semibold w-1/3 overflow-x-hidden";
 
 export default function ProfilePage() {
   const userId = useSelector((state: RootState) => state.user);
@@ -205,16 +205,22 @@ export default function ProfilePage() {
                  
                  
                   <br />
-                  {userInfo.region || userInfo.city && (
+                 
                     <div>
                       <h1 className={titleClass}>Region</h1>
-                      <p className={labelClass}>{userInfo.region}</p>
+                      {userInfo.region ? (
+                        <p className={labelClass}>{userInfo.region}</p>
+                      ) : (null)}
+                    
                       <br />
                       <h1 className={titleClass}>City</h1>
-                      <p className={labelClass}>{userInfo.city}</p>
+                      {userInfo.city ? (
+                        <p className={labelClass}>{userInfo.city}</p>
+                      ) : (null)}
+                   
                   
                     </div>
-                  )}
+                
                 </div>
               
               </>

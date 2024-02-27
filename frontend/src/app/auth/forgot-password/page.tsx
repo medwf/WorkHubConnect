@@ -15,14 +15,12 @@ export default function ResetPassword() {
     try {
       const response = await axios.post('http://127.0.0.1:5000/api/v1/forgot-password', { email });
 
-      if (response.status === 200) {
-        toast.success('Password reset email sent. Please check your inbox.');
-        router.push('/');
-      } else {
-        toast.error('Failed to reset password.');
-      }
-    } catch (error) {
-      toast.error('An error occurred. Please try again later.');
+
+      toast.success('Password reset email sent. Please check your inbox.');
+      router.push('/');
+    
+    } catch (error:any) {
+      toast.error(error.response.data.error);
     }
   };
 

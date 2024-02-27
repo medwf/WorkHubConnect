@@ -6,9 +6,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { CiSearch } from "react-icons/ci";
-import SearchWorker from "@/components/workers/searchWorker";
-import WorkerCard from "@/components/workers/WorkerCard";
-
+import WorkerCard from "@/components/workers/WCardListing";
+import SearchWorker from "@/components/workers/SearchWorker";
+import { testProjects2 } from '../../helpers/test';
 export default function Workers() {
 
   
@@ -52,8 +52,15 @@ export default function Workers() {
       </MaxWidthWrapper>
       <section className="border-t border-gray-200 bg-gray-50">
         <MaxWidthWrapper className="py-7">
-          <div className="flex justify-center items-center">
-          <WorkerCard/>
+        <div className='relative'>
+        <div className='mt-6 flex items-center w-full'>
+          <div className='w-full grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-10 lg:gap-x-8'>
+
+          {testProjects2.map((project, i) => (
+                <WorkerCard project={project}  key={`project-${i}`}  index={i} />
+              ))}
+          </div>
+          </div>
           </div>
         
   

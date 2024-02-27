@@ -81,9 +81,6 @@ export default function Signup() {
       },
     });
 
-      console.log(response);
-      console.log(response.headers);
-      console.log(response.data.cookies)
       const userData = response.data;
       if(userData){
         dispatch(
