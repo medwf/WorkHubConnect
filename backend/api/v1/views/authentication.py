@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 from flask import request, make_response, jsonify
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, JWTManager
 from datetime import timedelta, datetime
 import time
 from models.user import User
@@ -9,6 +9,8 @@ from hashlib import md5
 from models import storage
 from api.v1.views import app_views
 
+
+jwt = JWTManager()
 
 @app_views.route('/login', methods=["POST"])
 def create_token():
@@ -120,54 +122,53 @@ def ForgotPassword():
     # data we need email: check email
     data = request.get_json()
     if not data:
-        return make_response(jsonify({"error": "Not a json"}), 400)
+        return make_response(jsonify({"error": "Bad Request, Not a json"}), 400)
     email = data.get('email', None)
     print(email)
-    user = storage.ValideEmail(User, email)
+    user = storage.ValidEmail(User, email)
     print(user)
     if not user:
-        return make_response(jsonify({"error": "Email not found"}), 400)
+        return make_response(jsonify({"error": "No account found with the provided email"}), 404)
     # token ? check token
-    generate_token = create_access_token(identity=user.id)
+    expires_delta = timedelta(minutes=30)
+    generate_token = create_access_token(identity=user.id, expires_delta=expires_delta)
     MakeUrl = f"http://localhost:3000/auth/reset-password/token={generate_token}"
+    MakeUrl = f"http://localhost:5500/ALX-repo/WorkHubConnect/TestLogin/reset-password.html?tk={generate_token}"
     # send email using path /reset-password/token
     subject = "Reset Your WorkHubConnect Password"
     Text = f"""Dear [{user.first_name}],
 
 We've received a request to reset your password for your WorkHubConnect account. To proceed with resetting your password, please click the link below:
 
-[{MakeUrl}]
+{MakeUrl}
+
+This link is valid for 30 minutes. If you are late, you will need to repeat the process from the beginning.
 
 If you didn't request a password reset, you can safely ignore this email. Your password will remain unchanged.
 
-Thank you,
+Best Regards,
 The WorkHubConnect Team
+Support: workhubconnect.2024@gmail.com
 """
-    print("befor sending email")
     SendMail(email, subject, Text)
-    print("after sending email")
-    createtime = datetime.utcnow()
-    expiretime = createtime + timedelta(hours=1)
     response_data = {
     "token": generate_token,
     "user_id": user.id,
     "message": "email sended"
     }
-    # Create a response with JSON data
-    cookie_expire = datetime.now()
-    cookie_expire = cookie_expire + timedelta(hours=1)
     response = make_response(jsonify(response_data))
-    timestamp = time.time()
-    current_datetime = datetime.fromtimestamp(timestamp)
-    exptimestamp = current_datetime + timedelta(hours=1)
-    exptimecookie = exptimestamp.timestamp()
-    response.headers.clear()
-    response.headers['tokennn'] = generate_token
-    response.set_cookie('token', value = generate_token, expires = cookie_expire, samesite='None',max_age = 600)
-    response.set_cookie('user_id', value = str(user.id), expires = cookie_expire, samesite='None',max_age = 600)
-    response.set_cookie('dateToken', value = str(timestamp), expires = cookie_expire, samesite='None',max_age = 600)
-    response.set_cookie('expToken', value = str(exptimecookie), expires = cookie_expire, samesite='None',max_age = 600)
     return response
+
+@jwt.expired_token_loader
+def expired_token_callback(expired_token):
+    print("Token has expired")
+    return jsonify({"message": "Token has expired"}), 401
+
+@jwt.invalid_token_loader
+def invalid_token_callback(invalid_token):
+    print("Invalid Token")
+    return jsonify({"message": "Invalid token"}), 401
+
 
 @app_views.route('/reset-password', methods=['POST'])
 @jwt_required()
@@ -195,9 +196,9 @@ def ResetPassword():
                     return make_response(jsonify({
                     "token": token,
                     "user_id": user.id,
-                    "message": "Account updated password successfully."
+                    "message": "Password reset successfully."
                     }))
-                return make_response(jsonify({"error": "user not found"}))
-            return make_response(jsonify({"error": "Passwords do not match."}), 400)
-        return make_response(jsonify({"error": "new_password or confirm_password, not define"}), 400)
-    return make_response(jsonify({"error": "Not a json"}), 400)
+                return make_response(jsonify({"error": "User not found"}), 400)
+            return make_response(jsonify({"error": "Password and confirm password do not match"}), 400)
+        return make_response(jsonify({"error": "Both New password and Confirm New password are required"}), 400)
+    return make_response(jsonify({"error": "Bad Request, Not a json"}), 400)

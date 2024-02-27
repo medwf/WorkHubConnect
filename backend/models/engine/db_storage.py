@@ -106,7 +106,7 @@ class DBStorage:
                 return user
         return None
 
-    def ValideEmail(self, cls, email):
+    def ValidEmail(self, cls, email):
         """
         Returns the object based on the class name and its email,
         or None if not found
