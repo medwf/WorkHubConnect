@@ -33,7 +33,6 @@ export default function ResetPassword() {
     const getToken = useSearchParams();
     const router = useRouter();
     const token = getToken.get('token')
-    if (!token) { router.push('/'); return null; };
     
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -42,17 +41,19 @@ export default function ResetPassword() {
           confirmPassword: "",
         },
       });
+if (!token) { router.push('/');  };
  
-  console.log(token)
 
  async function onSubmit(data: z.infer<typeof FormSchema>) {
 
     try {
+      console.log("domain")
+      console.log(domain)
         const response = await axios.post(
-          `${domain}/api/v1/reset-password`,
+          `http://127.0.0.1:5000/api/v1/reset-password`,
           {
-            newPassword: data.password,
-            confirmPassword: data.confirmPassword,
+            new_password: data.password,
+            confirm_password: data.confirmPassword,
           },
           {
             headers: {
@@ -64,7 +65,13 @@ export default function ResetPassword() {
         router.push('/auth/login');
     
       } catch (error:any) {
-        toast.error(error.response.data.error);
+        //toast.error(error.response.data.error);
+        if (error.response.data.error){
+          toast.error(error.response.data.error);
+        }
+        if (error.response.data.msg){
+          toast.error("Invalid or expired token");
+        }
       }
     
  }
