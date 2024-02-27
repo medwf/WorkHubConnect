@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<script src="main.js"></script>
+
+	<title>Login</title>
+</head>
+<body>
+	
+<div class="form">
+      
+	<ul class="tab-group">
+	  <li class="tab active"><a href="#signup">Sign Up</a></li>
+	  <li class="tab"><a href="#login">Log In</a></li>
+	</ul>
+	
+	<div class="tab-content">
+	  <div id="signup">   
+		<h1>Sign Up for Free</h1>
+		
+		<form id="signup-form" action="/" method="post">
+		
+		<div class="top-row">
+		  <div class="field-wrap">
+			<label>
+			  First Name<span class="req">*</span>
+			</label>
+			<input type="text" required autocomplete="off" />
+		  </div>
+	  
+		  <div class="field-wrap">
+			<label>
+			  Last Name<span class="req">*</span>
+			</label>
+			<input type="text"required autocomplete="off"/>
+		  </div>
+		</div>
+
+		<div class="field-wrap">
+		  <label>
+			Email Address<span class="req">*</span>
+		  </label>
+		  <input type="email"required autocomplete="off"/>
+		</div>
+		
+		<div class="field-wrap">
+		  <label>
+			Set A Password<span class="req">*</span>
+		  </label>
+		  <input type="password"required autocomplete="off"/>
+		</div>
+		
+		<button type="submit" class="button button-block" onclick="submitForm('signup-form'); return false;" >Get Started</button>
+		
+		</form>
+
+	  </div>
+	  
+	  <div id="login">   
+		<h1>Welcome Back!</h1>
+		
+		<form id="login-form" action="/" method="POST">
+		
+		  <div class="field-wrap">
+		  <label>
+			Email<span class="req">*</span>
+		  </label>
+		  <input type="text" id="email" name="email" required autocomplete="on"/>
+		</div>
+		
+		<div class="field-wrap">
+		  <label>
+			Password<span class="req">*</span>
+		  </label>
+		  <input type="password" id="password" name="password" required autocomplete="off"/>
+		</div>
+		
+		<p class="forgot"><a href="#">Forgot Password?</a></p>
+		
+		<button class="button button-block" onclick="submitForm('login-form'); return false;">Log In</button>
+		
+		</form>
+
+	  </div>
+	  
+	</div><!-- tab-content -->
+	
+</div> <!-- /form -->
+<script src="main.js"></script>
+<script>
+		function submitForm(formId) {
+			var formData = {};
+			var form = $('#' + formId);
+	
+			form.find('input').each(function() {
+				formData[$(this).attr('name')] = $(this).val();
+			});
+			const myHeaders = new Headers();
+			myHeaders.append("Content-Type", "application/json");
+			const raw = JSON.stringify(formData);
+			const requestOptions = {
+				method: "POST",
+				headers: myHeaders,
+				body: raw,
+				redirect: "follow"
+			  };
+			fetch('http://127.0.0.1:5000/api/v1/login', requestOptions)
+			//.then(response => {
+				//if (!response.ok) {
+				//	throw new Error(`HTTP error! Status: ${response.status}`);
+				//}
+				.then((response) => response.text())
+  				.then((result) => console.log(result))
+  				.catch((error) => console.error(error));
+				console.log('Response Headers:', response.headers);
+				console.log('Response Headers:', response.headers.get('content-type'));
+				alert('Response Headers:', response.headers.get('content-type'));
+				response.headers.forEach(console.log);
+
+		}
+	
+</script>
+</body>
+</html>
