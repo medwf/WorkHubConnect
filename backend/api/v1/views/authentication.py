@@ -132,7 +132,7 @@ def ForgotPassword():
     # token ? check token
     expires_delta = timedelta(minutes=30)
     generate_token = create_access_token(identity=user.id, expires_delta=expires_delta)
-    MakeUrl = f"http://localhost:3000/auth/reset-password/token={generate_token}"
+    MakeUrl = f"http://localhost:3000/auth/reset-password?token={generate_token}"
     # send email using path /reset-password/token
     subject = "Reset Your WorkHubConnect Password"
     Text = f"""Dear [{user.first_name}],
