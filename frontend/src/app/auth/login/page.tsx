@@ -166,9 +166,9 @@ export default function Signup() {
         />
         <br/>
         <div>
-          <div className="flex gap-2 items-center justify-start">
-          <Checkbox/>
-          <h1 className="text-md font-semibold text-red-500 font-poppins">Remember me</h1>
+          <div className="flex gap-2 items-center justify-end">
+          
+          <h1 className="text-md font-semibold text-sky-500 font-poppins cursor-pointer hover:underline "><Link href="/auth/forgot_password">Forgot password ?</Link></h1>
           </div>
           
         </div>
