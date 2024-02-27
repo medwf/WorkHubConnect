@@ -113,7 +113,8 @@ def create_token_register(userID, email=None, password=None):
 #"Success! You've successfully created your account and are now logged in."
 
 # first we need to send email to client or worker:
-@app_views.route("/forgot_password", methods=["POST"])
+@app_views.route("/forgot-password", methods=["POST"])
+# @jwt_required()
 def ForgotPassword():
     """reset password"""
     # data we need email: check email
@@ -121,12 +122,14 @@ def ForgotPassword():
     if not data:
         return make_response(jsonify({"error": "Not a json"}), 400)
     email = data.get('email', None)
+    print(email)
     user = storage.ValideEmail(User, email)
+    print(user)
     if not user:
         return make_response(jsonify({"error": "Email not found"}), 400)
     # token ? check token
     generate_token = create_access_token(identity=user.id)
-    MakeUrl = f"http://localhost:5000/api/v1/reset-password/{generate_token}"
+    MakeUrl = f"http://localhost:5500/ALX-repo/WorkHubConnect/TestLogin/reset-password.html?tk={generate_token}"
     # send email using path /reset-password/token
     subject = "Reset Your WorkHubConnect Password"
     Text = f"""Dear [{user.first_name}],
@@ -140,9 +143,9 @@ If you didn't request a password reset, you can safely ignore this email. Your p
 Thank you,
 The WorkHubConnect Team
 """
-    print("befor dending email")
+    print("befor sending email")
     SendMail(email, subject, Text)
-    print("after dending email")
+    print("after sending email")
     createtime = datetime.utcnow()
     expiretime = createtime + timedelta(hours=1)
     response_data = {
@@ -159,16 +162,16 @@ The WorkHubConnect Team
     exptimestamp = current_datetime + timedelta(hours=1)
     exptimecookie = exptimestamp.timestamp()
     response.headers.clear()
-    response.headers['Authorization'] = f"Bearer {generate_token}"
+    response.headers['tokennn'] = generate_token
     response.set_cookie('token', value = generate_token, expires = cookie_expire, samesite='None',max_age = 600)
     response.set_cookie('user_id', value = str(user.id), expires = cookie_expire, samesite='None',max_age = 600)
     response.set_cookie('dateToken', value = str(timestamp), expires = cookie_expire, samesite='None',max_age = 600)
     response.set_cookie('expToken', value = str(exptimecookie), expires = cookie_expire, samesite='None',max_age = 600)
     return response
 
-@app_views.route('/reset-password/<token>', methods=['POST'])
+@app_views.route('/reset-password', methods=['POST'])
 @jwt_required()
-def ResetPassword(token):
+def ResetPassword():
     """accept url token generat new token"""
     data = request.get_json()
     if data:
@@ -183,9 +186,12 @@ def ResetPassword(token):
                         return make_response(jsonify({"error": "Input password must be less than 80 characters"}), 400)
                     if len(NewPassword) < 6:
                         return make_response(jsonify({"error": "Password very weak. It should be at least 6 characters long."}), 400)
-                    PASSWORD = md5(NewPassword.encode()).hexdigest()
-                    user.password = PASSWORD
+                    print(NewPassword)
+                    user.password = NewPassword
+                    print(user.password)
                     user.save()
+                    token = request.headers.get('Authorization')
+                    token = token.split(' ')[1]
                     return make_response(jsonify({
                     "token": token,
                     "user_id": user.id,
