@@ -83,7 +83,6 @@ export default function Signup() {
 
       console.log(response);
       
-      console.log(response.headers);
       const userData = response.data;
       if(userData){
         dispatch(
@@ -168,7 +167,7 @@ export default function Signup() {
         <div>
           <div className="flex gap-2 items-center justify-end">
           
-          <h1 className="text-md font-semibold text-sky-500 font-poppins cursor-pointer hover:underline "><Link href="/auth/forgot_password">Forgot password ?</Link></h1>
+          <h1 className="text-md font-semibold text-sky-500 font-poppins cursor-pointer hover:underline "><Link href="/auth/forgot-password">Forgot password ?</Link></h1>
           </div>
           
         </div>
