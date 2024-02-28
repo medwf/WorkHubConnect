@@ -33,7 +33,7 @@ export default function ResetPassword() {
     const getToken = useSearchParams();
     const router = useRouter();
     const token = getToken.get('token')
-    if (!token) { router.push('/'); return null; };
+    if (!token) { router.push('/')};
     
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
