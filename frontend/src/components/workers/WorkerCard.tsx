@@ -1,27 +1,26 @@
-"use client"
-import { useEffect, useState } from "react";
+"use client";
+import Image from "next/image";
 import Link from "next/link";
 import { Skeleton } from "../ui/skeleton";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
-interface ImageObject {
+export interface workerProp {
+  name: string;
+  service: string;
+  id: number;
+  href: string;
   image: string;
 }
 
-interface Project {
-  id: number;
-  name: string;
-  images: ImageObject[];
-}
-
-interface ProjectListingProps {
-  project: Project | null;
+interface Prop {
+  worker: workerProp;
   index: number;
 }
 
-const WorkerCard = ({ project, index }: ProjectListingProps) => {
+function WorkerCard({ worker, index }: Prop) {
   const [isVisible, setIsVisible] = useState<boolean>(false);
-    // console.log(` image project ${project}`)
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
@@ -30,30 +29,45 @@ const WorkerCard = ({ project, index }: ProjectListingProps) => {
     return () => clearTimeout(timer);
   }, [index]);
 
-  if (!isVisible || !project) return <ProjectPlaceholder />;
+  if (!worker || !isVisible) return <ProjectPlaceholder />;
 
-//   const validUrls = project.images.map((imageObj) => imageObj.image);
-  const validUrls = project.images.map((imageUrl) => imageUrl);
-
-  console.log(validUrls);
-  console.log(project);
   return (
-    <Link
-      className={cn("invisible h-full w-full cursor-pointer group/main", {
-        "visible animate-in fade-in-5": isVisible,
-      })}
-      href={`/projects/${project.id}`}
-    >
-      <div className="flex flex-col w-full">
-       
-        <h3 className="mt-4 font-medium text-sm text-gray-700">
-          {project.name}
-        </h3>
-      </div>
-    </Link>
+    <div className="max-w-sm rounded-lg border-none p-1 relative w-full cursor-pointer ">
+    <div className="relative w-full h-[37vh]">
+            <Link
+                href={`/workers/${worker.id}`}
+              className={cn(
+                "invisible h-full w-full cursor-pointer group/main",
+                {
+                  "visible animate-in fade-in-5 cursor-pointer": isVisible,
+                }
+              )}
+            
+              passHref
+            >
+              
+                <Image
+                  src={worker.image}
+                  alt="worker"
+                  width={1500}
+                  height={1500}
+                  loading="eager"
+                  className="-z-10 h-full w-full object-cover object-center rounded-lg"
+                />
+            </Link>
+              </div>
+              <h3 className=" font-medium text-sm text-gray-700 pr-1">
+              
+                {worker.name}
+                </h3>
+                <p className="text-sm text-gray-500">{worker.service}</p>
+         
+            </div>
+         
+    
+  
   );
-};
-
+}
 const ProjectPlaceholder = () => {
   return (
     <div className="flex flex-col w-full">
@@ -66,5 +80,4 @@ const ProjectPlaceholder = () => {
     </div>
   );
 };
-
 export default WorkerCard;

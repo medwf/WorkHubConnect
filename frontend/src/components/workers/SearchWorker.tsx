@@ -48,7 +48,7 @@ const SearchWorker: React.FC = () => {
       <div className="relative">
         <input
           type="search"
-          placeholder="Type Here"
+          placeholder="Type Worker Name ..."
         
           onChange={(e) => handleSearch(e)}
           className="w-full p-4 rounded-full bg-slate-700 text-white"
