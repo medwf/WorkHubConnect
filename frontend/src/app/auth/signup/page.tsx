@@ -56,7 +56,7 @@ export default function Signup() {
     );
     setRegionName(regionName);
     if (selectedRegion) {
-      setSelectedRegion(selectedRegion.id);
+      setSelectedRegion(selectedRegion.id.toString());
     }
   };
 
@@ -84,7 +84,9 @@ export default function Signup() {
     },
   });
   const dispatch = useDispatch();
-  const [services, setServices] = useState<{ id: string; en_name: string }[]>([]);
+  const [services, setServices] = useState<{ id: string; en_name: string }[]>(
+    []
+  );
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -114,7 +116,6 @@ export default function Signup() {
     };
 
     try {
-    
       if (data.type === "worker") {
         const selectedService = services.find(
           (service) => service.en_name === data.service_id
@@ -129,9 +130,9 @@ export default function Signup() {
         "http://127.0.0.1:5000/api/v1/register",
         formDataWithcity_id
       );
-        console.log(`response : ${res}`);
+      // console.log(`response : ${res}`);
       const resData = res.data;
-      console.log(resData);
+      // console.log(resData);
       if (resData) {
         dispatch(
           setLogin({
@@ -140,15 +141,13 @@ export default function Signup() {
           })
         );
       }
-      console.log(res.data.message)
-      // router.push(`/`);
+      // console.log(res.data.message);
+      router.push(`/`);
       toast.success(res.data.message);
       form.reset();
       setRegionName("");
     } catch (error: any) {
- 
       toast.error(error.response.data.error);
-    
     }
   }
 
@@ -244,7 +243,10 @@ export default function Signup() {
                           </SelectTrigger>
                           <SelectContent>
                             {services.map((service) => (
-                              <SelectItem key={service.id} value={service.en_name}>
+                              <SelectItem
+                                key={service.id}
+                                value={service.en_name}
+                              >
                                 {service.en_name}
                               </SelectItem>
                             ))}
@@ -303,7 +305,10 @@ export default function Signup() {
                           </SelectTrigger>
                           <SelectContent>
                             {cities
-                              .filter((city) => city.region === selectedRegion)
+                              .filter(
+                                (city) =>
+                                  city.region.toString() === selectedRegion
+                              )
                               .map((city) => (
                                 <SelectItem key={city.id} value={city.ville}>
                                   {city.ville}
@@ -354,7 +359,7 @@ export default function Signup() {
                   </FormItem>
                 )}
               />
-              <br/>
+              <br />
               <Button type="submit" className="w-full ">
                 Sign up
               </Button>
