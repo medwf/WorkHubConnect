@@ -1,7 +1,5 @@
 test*
 *test
 __pycache__
-/node_modules
-*/node_modules/*
 backend/package.json
 backend/package-lock.json
