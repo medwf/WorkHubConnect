@@ -76,7 +76,7 @@ export default function Signup() {
        
         headers: {
           "Content-type": "application/json",
-          // 'Access-Control-Allow-Origin': 'localhost',
+          'Access-Control-Allow-Origin': 'localhost',
         
       },
     });
