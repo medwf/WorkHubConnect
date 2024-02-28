@@ -31,7 +31,7 @@ import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { CiSearch } from "react-icons/ci";
 import SearchWorker from "@/components/workers/SearchWorker";
-import { data, testProjects2 } from "../../helpers/test";
+import { data, testProjects2 } from "../../helpers/Mytest";
 import WorkerCard, { workerProp } from "@/components/workers/WorkerCard";
 import { SlidersHorizontal } from "lucide-react";
 export default function Workers() {
