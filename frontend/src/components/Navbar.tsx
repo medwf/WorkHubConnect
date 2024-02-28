@@ -42,15 +42,14 @@ const Navbar = () => {
       dispatch(logout());
       const response = await axios.get("/api/users/logout");
       console.log(response);
-      // Handle response if needed
+     
       toast.success(response.data.message);
 
       router.push("/");
-      // Optionally, perform any client-side cleanup (e.g., clearing local storage, resetting state)
-    } catch (error) {
-      // Handle errors
+   } catch (error) {
+  
       toast.error("Logout failed");
-      // Optionally, dispatch an action to handle logout failure (e.g., show error message)
+
     }
   };
   const menuItems = [

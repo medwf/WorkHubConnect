@@ -114,14 +114,17 @@ export default function Signup() {
     };
 
     try {
-
-      const selectedService = services.find(
-        (service) => service.en_name === data.service_id
-      );
-      if (!selectedService) {
-        throw new Error("Selected service not found.");
+    
+      if (data.type === "worker") {
+        const selectedService = services.find(
+          (service) => service.en_name === data.service_id
+        );
+        if (!selectedService) {
+          toast.error("Selected service not found.");
+          return;
+        }
+        formDataWithcity_id.service_id = selectedService.id;
       }
-      formDataWithcity_id.service_id = selectedService.id;
       const res = await axios.post(
         "http://127.0.0.1:5000/api/v1/register",
         formDataWithcity_id
