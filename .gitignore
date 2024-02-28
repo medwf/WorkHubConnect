@@ -1,4 +1,5 @@
 test*
+!test.ts
 *test
 __pycache__
 /node_modules
