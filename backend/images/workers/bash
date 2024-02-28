@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Original image path
+original_image="electricaltech.jpg"
+
+# Loop to create copies for user IDs 1 to 76
+for ((id=1; id<=76; id++)); do
+    new_image_path="electricaltech${id}.jpg"
+    cp "$original_image" "$new_image_path"
+done
