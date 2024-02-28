@@ -138,8 +138,8 @@ def register_client_worker():
             instance.save()
             content = MailBody(json_data['first_name'])
             SendMail(json_data['email'], Subject, content)
-            create_token_register(user_id, json_data['email'], json_data['password'])
-            return make_response(jsonify(instance.to_dict()), 201)
+            res = create_token_register(user_id, json_data['email'], json_data['password'])
+            return res, 201
         # Case register as client
         if json_data['type'] == "client":
             if "email" not in json_data:
@@ -188,13 +188,14 @@ def register_client_worker():
                     img_url = data.get('imgurl', {}).get('url_img', '')
                     print(f"Message: {message}")
                     print(f"Image URL: {img_url}")
-
-            instance = User(**json_data)
+            user_keys = ['email', 'password', 'first_name', 'last_name', 'city_id', 'profile_img', 'phone_number', 'is_active']
+            user_data = {key: json_data[key] for key in user_keys if key in json_data}
+            instance = User(**user_data)
             instance.save()
-            content = MailBody(json_data['first_name'])
-            SendMail(json_data['email'], Subject, content)
-            create_token_register(instance.id, json_data['email'], json_data['password'])
-            return make_response(jsonify(instance.to_dict()), 201)
+            content = MailBody(user_data['first_name'])
+            SendMail(user_data['email'], Subject, content)
+            res = create_token_register(instance.id, user_data['email'], user_data['password'])
+            return res, 201
     else:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 

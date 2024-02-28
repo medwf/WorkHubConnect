@@ -210,20 +210,28 @@ def workers_filter():
     limit = request.args.get('limit', default=10, type=int)
     result = []
     index = limit * (page - 1)
-    # page 2 : 11 -- 20
     if state_id is None and city_id is None and service_id is None:
         workers = storage.all(Worker).values()
         for worker in workers:
-            result.append(worker.to_dict())
+            user = storage.get(User, worker.user_id).to_dict()
+            del user['id']
+            workerdict = worker.to_dict()
+            workerdict.update(**user)
+            result.append(workerdict)
         return jsonify(result[index:index + limit])
     # Filter by state
     if state_id is not None:
+        print("in state")
         state = storage.get(State, state_id)
         if state is None:
             return make_response(jsonify({"error": "Region not found"}), 404)
         for city in state.cities:
             for worker in city.workers:
-                result.append(worker)
+                user = storage.get(User, worker.user_id).to_dict()
+                del user['id']
+                workerdict = worker.to_dict()
+                workerdict.update(**user)
+                result.append(workerdict)
 
     # Filter by city
     if city_id is not None:
@@ -233,14 +241,31 @@ def workers_filter():
             return make_response(jsonify({"error": "City not found"}), 404)
         for worker in city.workers:
             if worker not in result:
-                result.append(worker)
+                user = storage.get(User, worker.user_id).to_dict()
+                del user['id']
+                workerdict = worker.to_dict()
+                workerdict.update(**user)
+                result.append(workerdict)
 
     # Filter by service
     if service_id is not None:
         service = storage.get(Service, service_id)
         if service is None:
             return make_response(jsonify({"error": "Service not found"}), 404)
-        result = [worker for worker in result if worker.service_id == service.id]
+        # result = [worker for worker in result if worker.service_id == service.id]
+        result =  [worker for worker in result if worker.get("service_id") == service.id]
 
-    workers = [worker.to_dict() for worker in result]
-    return jsonify(workers), 200
+    # workers = [worker.to_dict() for worker in result]
+    # return jsonify(workers), 200
+    return jsonify(result[index:index + limit]), 200
+
+
+
+@app_views.route("/workers_filter", strict_slashes=False, methods=["GET"])
+def workers_filter():
+    state_id = request.args.get("state", default=None, type=int)
+    city_id = request.args.get("city", default=None, type=int)
+    service_id = request.args.get("service", default=None, type=int)
+    page = request.args.get('page', default=1, type=int)
+    limit = request.args.get('limit', default=10, type=int)
+    

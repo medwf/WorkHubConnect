@@ -105,8 +105,11 @@ def create_token_register(userID, email=None, password=None):
         # Create a response with JSON data
         response = make_response(jsonify(response_data))
         # Set cookies for token and user_id
-        response.set_cookie('token', generate_token)
-        response.set_cookie('user_id', str(user.id))
+        # response.set_cookie('token', generate_token)
+        # response.set_cookie('user_id', str(user.id))
+        print(response_data)
+        print("-------------")
+        print(response.data)
         return response
         # return make_response(jsonify({"token": generate_token, "user_id": user.id, "message": "Account created successfully! You are now logged in."}))
 

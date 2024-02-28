@@ -16,13 +16,23 @@ def services(service_id=None):
         result = []
         services = storage.all(Service).values()
         for service in services:
-            result.append(service.to_dict())
+            nbworkers = len(service.workers)
+            # print(f"Worker number in {service.en_name} is: {nbworkers}")
+            servicedict = service.to_dict()
+            del servicedict['workers']
+            servicedict['nbw'] = nbworkers
+            result.append(servicedict)
         return jsonify(result)
     else:
         service = storage.get(Service, service_id)
         if service is None:
             return make_response(jsonify({"error": "Not found"}), 404)
-        return jsonify(service.to_dict())
+        
+        nbworkers = len(service.workers)
+        servicedict = service.to_dict()
+        del servicedict['workers']
+        servicedict['nbw'] = nbworkers
+        return jsonify(servicedict)
 
 
 @app_views.route("/services/<int:service_id>",
@@ -79,7 +89,11 @@ def Update_Service(service_id):
         raise a 400 error with the message Not a JSON
     Returns: the new Service with the status code 200
     """
+    raw_data = request.get_data(as_text=True)
+    print("raw data is:",raw_data)  # Print the raw request data
+    
     json_data = request.get_json(force=True, silent=True)
+    print("json data is:",json_data)  
     if not json_data:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
     obj = storage.get(Service, service_id)

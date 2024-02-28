@@ -1,12 +1,14 @@
 #!/usr/bin/python3
 """State objects that handles all default RESTFul API"""
 
-from flask import jsonify, make_response, request
+from flask import jsonify, make_response, request, send_file
+
 
 from api.v1.views import app_views
 from models import storage
 from models.project import Project
 from models.image import Image
+import os
 
 
 
@@ -88,3 +90,14 @@ def update_image(image_id):
     obj.url = data.get("url", obj.url)
     obj.save()
     return jsonify(obj.to_dict()), 200
+
+
+@app_views.route('/get_image/<path:image_path>', strict_slashes=False, methods=["GET"])
+def get_image(image_path):
+    try:
+        current_dir = os.getcwd()
+        image_path = f"{current_dir}/images/{image_path}"
+
+        return send_file(image_path, mimetype='image/jpg')
+    except FileNotFoundError:
+        return make_response(jsonify({"message":"Image not found"}), 405)

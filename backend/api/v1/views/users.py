@@ -52,7 +52,7 @@ def users(user_id=None):
             user_data['region'] = StateName
             user_data['type'] = "worker"
             worker_data = user.worker.to_dict()
-            del worker_data['__class__']
+            # del worker_data['__class__']
             user_data.update(worker_data)
         
         city = storage.get(City, user.city_id)
@@ -60,7 +60,7 @@ def users(user_id=None):
         user_data['city'] = city.name
         user_data['region'] = StateName
         del user_data['worker']
-        del user_data['__class__']
+        # del user_data['__class__']
         return jsonify(user_data)
 
 

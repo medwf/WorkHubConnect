@@ -32,3 +32,7 @@ run frontend :
     - npm run dev 
 
 
+
+UPDATE users
+SET profile_img = CONCAT('workers/electricaltech', id, '.jpg')
+WHERE id BETWEEN 1 AND 76;
