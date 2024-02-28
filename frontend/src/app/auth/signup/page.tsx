@@ -126,8 +126,9 @@ export default function Signup() {
         "http://127.0.0.1:5000/api/v1/register",
         formDataWithcity_id
       );
-
+        console.log(`response : ${res}`);
       const resData = res.data;
+      console.log(resData);
       if (resData) {
         dispatch(
           setLogin({
@@ -136,8 +137,8 @@ export default function Signup() {
           })
         );
       }
-     
-      router.push(`/`);
+      console.log(res.data.message)
+      // router.push(`/`);
       toast.success(res.data.message);
       form.reset();
       setRegionName("");
