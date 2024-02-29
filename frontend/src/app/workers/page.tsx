@@ -72,17 +72,17 @@ export default function Workers() {
   const handleMenu = () => {
     setOpen(!open);
   };
-  useEffect(() => {
-    if (selectedRegion) {
-      console.log("Selected region ID:", selectedRegion.id);
-    }
-  }, [selectedRegion]);
+  // useEffect(() => {
+  //   if (selectedRegion) {
+  //     console.log("Selected region ID:", selectedRegion.id);
+  //   }
+  // }, [selectedRegion]);
 
-  useEffect(() => {
-    if (selectedCity) {
-      console.log("Selected city ID:", selectedCity.id);
-    }
-  }, [selectedCity]);
+  // useEffect(() => {
+  //   if (selectedCity) {
+  //     console.log("Selected city ID:", selectedCity.id);
+  //   }
+  // }, [selectedCity]);
 
   const handleServiceChange = (value: string) => {
     setSelectedService(value);
@@ -126,7 +126,7 @@ export default function Workers() {
       }
     };
     handleFetchWorkers();
-  }, [workers,selectedRegion,selectedCity]);
+  }, [selectedRegion,selectedCity]);
   return (
     <>
       <MaxWidthWrapper>
@@ -412,7 +412,7 @@ export default function Workers() {
               )}
             </div>
           </div>
-          <div className="relative h-screen">
+          <div className="relative">
             <div className="mt-6 flex items-center w-full">
               <div className="w-full grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-10 lg:gap-x-8">
                 
