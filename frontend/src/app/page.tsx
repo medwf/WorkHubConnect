@@ -15,13 +15,13 @@ import { MdOutlineConnectWithoutContact } from "react-icons/md";
 import { FaHandshakeSimple } from "react-icons/fa6";
 import { MdOutlineWifiProtectedSetup } from "react-icons/md";
 import ServicesSlider from '@/components/ServicesSlider';
+import domain from "@/helpers/constants";
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const token = useSelector((state: RootState) => state.token);
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
-
   useEffect(() => {
     const checkTokenAndFetchUserInfo = async () => {
       if (isTokenExpired(token)) {

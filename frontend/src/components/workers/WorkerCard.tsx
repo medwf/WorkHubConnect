@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Skeleton } from "../ui/skeleton";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import domain from "@/helpers/constants";
 
 export interface workerProp {
   name: string;
@@ -47,7 +48,7 @@ function WorkerCard({ worker, index }: Prop) {
             >
               
                 <Image
-                  src={worker.image}
+                  src={`${domain}/api/v1/get_image/worker.image`}
                   alt="worker"
                   width={1500}
                   height={1500}

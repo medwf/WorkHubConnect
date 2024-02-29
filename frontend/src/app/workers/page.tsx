@@ -1,20 +1,6 @@
 "use client";
 import * as React from "react";
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -25,16 +11,122 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Input } from "@/components/ui/input";
-import { CiSearch } from "react-icons/ci";
+import axios from "axios";
 import SearchWorker from "@/components/workers/SearchWorker";
-import { data, testProjects2 } from "../../helpers/Mytest";
-import WorkerCard, { workerProp } from "@/components/workers/WorkerCard";
 import { SlidersHorizontal } from "lucide-react";
+import WorkerCard, { workerProp } from "@/components/workers/WorkerCard";
+import { regions } from "@/helpers/regions";
+import { cities } from "@/helpers/cities";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@radix-ui/react-dropdown-menu";
+import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
+
+import { cn } from "@/lib/utils";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { fetchServices, fetchWorkers } from "../action";
+interface Service {
+  id: string;
+  en_name: string;
+}
+
+interface City {
+  id: number;
+  ville: string;
+  region: number;
+}
+interface Region {
+  id: number;
+  region: string;
+}
+
 export default function Workers() {
+  const [workers, setWorkers] = useState<workerProp[]>([]);
+  const [services, setServices] = useState<Service[]>([]);
+  const [selectedService, setSelectedService] = useState<string>("");
+  const [selectedRegion, setSelectedRegion] = useState<Region | null>(null);
+  const [selectedCity, setSelectedCity] = useState<City | null>(null);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = React.useState("");
+  const [cityPopoverOpen, setCityPopoverOpen] = React.useState(false);
+  const [regionPopoverOpen, setRegionPopoverOpen] = React.useState(false);
+  const handleMenu = () => {
+    setOpen(!open);
+  };
+  useEffect(() => {
+    if (selectedRegion) {
+      console.log("Selected region ID:", selectedRegion.id);
+    }
+  }, [selectedRegion]);
+
+  useEffect(() => {
+    if (selectedCity) {
+      console.log("Selected city ID:", selectedCity.id);
+    }
+  }, [selectedCity]);
+
+  const handleServiceChange = (value: string) => {
+    setSelectedService(value);
+    setOpen(!open);
+  };
+
+  const handleRegionChange = (regionName: string) => {
+    console.log(regionName + " region selected");
+    const normalize = regionName.toLowerCase().trim();
+    const foundRegion = regions.find(
+      (r) => r.region.toLowerCase().trim() === normalize
+    );
+
+    setSelectedRegion(foundRegion || null);
+    setOpen(!open);
+  };
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      try {
+        const services = await fetchServices();
+        setServices(services);
+      } catch (error) {
+        console.error("Error fetching services:", error);
+      }
+    };
+
+    fetchInitialData();
+  }, [selectedService]);
+  useEffect(() => {
+    const handleFetchWorkers = async () => {
+      try {
+        const data = await fetchWorkers(
+          1,
+          selectedService,
+          selectedRegion,
+          selectedCity
+        );
+        setWorkers(data);
+      } catch (error) {
+        console.error("Error fetching workers:", error);
+      }
+    };
+    handleFetchWorkers();
+  }, [workers,selectedRegion,selectedCity]);
   return (
     <>
       <MaxWidthWrapper>
@@ -72,95 +164,262 @@ export default function Workers() {
             <h1 className="font-bold text-2xl font-poppins text-gray-900 py-4">
               Workers
             </h1>
-      <div className="hidden md:flex gap-2">
-      <Select>
-              <SelectTrigger className="w-[100px]">
-                <SelectValue placeholder="services" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Services</SelectLabel>
-               
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            <Select>
-              <SelectTrigger className="md:w-[100px]">
-                <SelectValue placeholder="states" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>states</SelectLabel>
-               
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            <Select>
-              <SelectTrigger className="w-[100px]">
-                <SelectValue placeholder="cities" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Cities</SelectLabel>
-               
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-      </div>
-      <div className="md:hidden">
-      
-      <DropdownMenu>
-      <DropdownMenuTrigger><SlidersHorizontal className=" mr-2"/></DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>Filter</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-        <Select>
-              <SelectTrigger className="w-[100px]">
-                <SelectValue placeholder="services" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Services</SelectLabel>
-               
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-        </DropdownMenuItem>
-        <DropdownMenuItem>      <Select>
-              <SelectTrigger className="w-[100px]">
-                <SelectValue placeholder="services" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Services</SelectLabel>
-               
-                </SelectGroup>
-              </SelectContent>
-            </Select></DropdownMenuItem>
-        <DropdownMenuItem>      <Select>
-              <SelectTrigger className="w-[100px]">
-                <SelectValue placeholder="services" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Services</SelectLabel>
-               
-                </SelectGroup>
-              </SelectContent>
-            </Select></DropdownMenuItem>
+            {/* <div className="hidden md:flex gap-2">
+              <Select
+                value={selectedService}
+                onValueChange={handleServiceChange}
+              >
+                <SelectTrigger className="w-[100px]">
+                  <SelectValue placeholder="services" />
+                </SelectTrigger>
+                <SelectContent>
+                  {services.map((service) => (
+                    <SelectItem key={service.id} value={service.en_name}>
+                      {service.en_name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Popover
+                open={regionPopoverOpen}
+                onOpenChange={setRegionPopoverOpen}
+              >
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={regionPopoverOpen}
+                    className="w-[200px] justify-between"
+                  >
+                    {value !== "" ? value : "Select region..."}
+                    <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                  <Command>
+                    <CommandInput
+                      placeholder="Search region..."
+                      className="h-9"
+                    />
+                    <CommandEmpty>No region found.</CommandEmpty>
+                    <CommandGroup>
+                      {regions.map((region) => (
+                        <CommandItem
+                          key={region.id}
+                          value={region.region}
+                          onSelect={(currentValue) => {
+                            setValue(
+                              currentValue === value ? "" : currentValue
+                            );
+                            setRegionPopoverOpen(false);
+                            handleRegionChange(currentValue);
+                          }}
+                        >
+                          {region.region}
+                          <CheckIcon
+                            className={cn(
+                              "ml-auto h-4 w-4",
+                              value === region.region
+                                ? "opacity-100"
+                                : "opacity-0"
+                            )}
+                          />
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
 
-      </DropdownMenuContent>
-    </DropdownMenu>
-      </div>
-            
+              <Popover open={cityPopoverOpen} onOpenChange={setCityPopoverOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={cityPopoverOpen}
+                    className="w-[200px] justify-between"
+                  >
+                    {selectedCity ? selectedCity.ville : "Select city..."}
+                    <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                  <Command>
+                    <CommandInput
+                      placeholder="Search city..."
+                      className="h-9"
+                    />
+                    <CommandEmpty>No city found.</CommandEmpty>
+                    <CommandGroup>
+                      {cities
+                        .filter((city) => city.region === selectedRegion?.id)
+                        .map((city) => (
+                          <CommandItem
+                            key={city.id}
+                            value={city.ville}
+                            onSelect={(currentValue) => {
+                              setSelectedCity(
+                                currentValue === selectedCity?.ville
+                                  ? null
+                                  : city
+                              );
+                              setCityPopoverOpen(false);
+                            }}
+                          >
+                            {city.ville}
+                            <CheckIcon
+                              className={cn(
+                                "ml-auto h-4 w-4",
+                                selectedCity === city
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                          </CommandItem>
+                        ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </div> */}
+            <div className="z-50 relative">
+              <SlidersHorizontal className="my-2" onClick={handleMenu} />
+              {open && (
+                <div className="absolute z-50 top-10 right-2 flex flex-col items-center border border-spacing-1 border-gray-500 bg-white rounded-md p-2">
+                  <h3 className="font-medium py-2">Filter Workers</h3>
+               <div className="flex flex-col gap-2">
+
+               
+                  <Select
+                value={selectedService}
+                onValueChange={handleServiceChange}
+                
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="services" />
+                </SelectTrigger>
+                <SelectContent>
+                  {services && services.map((service) => (
+                    <SelectItem key={service.id} value={service.en_name}>
+                      {service.en_name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Popover
+                open={regionPopoverOpen}
+                onOpenChange={setRegionPopoverOpen}
+              >
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={regionPopoverOpen}
+                    className="w-[200px] justify-between"
+                  >
+                    {value !== "" ? value : "Select region..."}
+                    <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                  <Command>
+                    <CommandInput
+                      placeholder="Search region..."
+                      className="h-9"
+                    />
+                    <CommandEmpty>No region found.</CommandEmpty>
+                    <CommandGroup>
+                      {regions.map((region) => (
+                        <CommandItem
+                          key={region.id}
+                          value={region.region}
+                          onSelect={(currentValue) => {
+                            setValue(
+                              currentValue === value ? "" : currentValue
+                            );
+                            setRegionPopoverOpen(false);
+                            handleRegionChange(currentValue);
+                          }}
+                        >
+                          {region.region}
+                          <CheckIcon
+                            className={cn(
+                              "ml-auto h-4 w-4",
+                              value === region.region
+                                ? "opacity-100"
+                                : "opacity-0"
+                            )}
+                          />
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+
+              <Popover open={cityPopoverOpen} onOpenChange={setCityPopoverOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={cityPopoverOpen}
+                    className="w-[200px] justify-between"
+                  >
+                    {selectedCity ? selectedCity.ville : "Select city..."}
+                    <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                  <Command>
+                    <CommandInput
+                      placeholder="Search city..."
+                      className="h-9"
+                    />
+                    <CommandEmpty>No city found.</CommandEmpty>
+                    <CommandGroup>
+                      {cities
+                        .filter((city) => city.region === selectedRegion?.id)
+                        .map((city) => (
+                          <CommandItem
+                            key={city.id}
+                            value={city.ville}
+                            onSelect={(currentValue) => {
+                              setSelectedCity(
+                                currentValue === selectedCity?.ville
+                                  ? null
+                                  : city
+                              );
+                              setCityPopoverOpen(false);
+                            }}
+                          >
+                            {city.ville}
+                            <CheckIcon
+                              className={cn(
+                                "ml-auto h-4 w-4",
+                                selectedCity === city
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                          </CommandItem>
+                        ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+              </div>
+                </div>
+              )}
+            </div>
           </div>
-          <div className="relative">
+          <div className="relative h-screen">
             <div className="mt-6 flex items-center w-full">
               <div className="w-full grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-10 lg:gap-x-8">
-                {data.map((item: workerProp, index) => (
-                  <WorkerCard key={item.id} worker={item} index={index} />
-                ))}
+                
+              {workers && workers.map((item: workerProp, index) => (
+  <WorkerCard key={item.id} worker={item} index={index} />
+))}
+
               </div>
             </div>
           </div>

@@ -1,16 +1,43 @@
 "use server"
-
-import domain from "@/helpers/constants";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-export const fetchWorkers = async () => {
+export const fetchWorkers = async (
+  page: number,
+  selectedService: string,
+  selectedRegion: { id: number } | null,
+  selectedCity: { id: number } | null
+) => {
+  try {
+    const response = await axios.get("http://localhost:5000/api/v1/workers", {
+      params: {
+        page: page,
+        limit: 10,
+        service: selectedService,
+        region: selectedRegion?.id,
+        city: selectedCity?.id,
+      },
+    });
+    const data = await response.data;
+    return data;
+  } catch (error: any) {
+    console.error("Error fetching workers:", error);
+   
+  }
+};
+
+export const fetchServices = async () => {
     try {
-        const url = `${domain}/workers`
-        const response = await axios.get(url);
-        const data = response.data
-        return data;
+        const response = await axios.get(
+            "http://localhost:5000/api/v1/services"
+        );
+        const services = response.data;
+        return services;
+
+
     } catch (error:any) {
-        toast(error.response.data.error);
+      console.error("Error fetching workers:", error);
+        
+        
     }
 }
