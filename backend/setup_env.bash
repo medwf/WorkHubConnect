@@ -36,3 +36,25 @@ run frontend :
 UPDATE users
 SET profile_img = CONCAT('workers/electricaltech', id, '.jpg')
 WHERE id BETWEEN 1 AND 76;
+
+npm install pm2 --save-dev
+npx pm2 start npm --name contractverifier -- run dev
+npx pm2 stop contractverifier
+pm2 restart contractverifier
+npx pm2 delete contractverifier
+npx pm2 show contractverifier
+
+sudo chown -R nginx:nginx /home/aboubakr/alx/WorkHubConnect/frontend
+sudo chmod -R 755 /home/aboubakr/alx/WorkHubConnect/frontend
+sudo setenforce 0
+
+
+
+#change port
+#in package.json
+ "scripts": {
+    "dev": "next dev --port=8080",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
