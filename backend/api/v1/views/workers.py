@@ -228,6 +228,9 @@ def workers_filter():
             del user['id']
             workerdict = worker.to_dict()
             workerdict.update(**user)
+            workerdict['fullName'] = str(workerdict['first_name']) + " " + str(workerdict['last_name'])
+            ServiceName = storage.get(Service, worker.service_id).en_name
+            workerdict['ServiceName'] = ServiceName
             result.append(workerdict)
         return jsonify(result[index:index + limit])
     # Filter by state
@@ -242,6 +245,9 @@ def workers_filter():
                 del user['id']
                 workerdict = worker.to_dict()
                 workerdict.update(**user)
+                workerdict['fullName'] = str(workerdict['first_name']) + " " + str(workerdict['last_name'])
+                ServiceName = storage.get(Service, worker.service_id).en_name
+                workerdict['ServiceName'] = ServiceName
                 result.append(workerdict)
 
     # Filter by city
@@ -256,6 +262,9 @@ def workers_filter():
                 del user['id']
                 workerdict = worker.to_dict()
                 workerdict.update(**user)
+                workerdict['fullName'] = str(workerdict['first_name']) + " " + str(workerdict['last_name'])
+                ServiceName = storage.get(Service, worker.service_id).en_name
+                workerdict['ServiceName'] = ServiceName
                 result.append(workerdict)
 
     # Filter by service
