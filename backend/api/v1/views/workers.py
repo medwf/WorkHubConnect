@@ -208,6 +208,7 @@ def workers_filter():
     service_id = request.args.get("service", default=None, type=int)
     page = request.args.get('page', default=1, type=int)
     limit = request.args.get('limit', default=10, type=int)
+
     result = []
     index = limit * (page - 1)
     if state_id is None and city_id is None and service_id is None:
