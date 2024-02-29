@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 export const fetchWorkers = async (
   page: number,
-  selectedService: { id: number } | null,
+  selectedService: { id: string } | null,
   selectedRegion: { id: number } | null,
   selectedCity: { id: number } | null
 ) => {
