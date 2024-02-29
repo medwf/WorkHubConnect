@@ -11,7 +11,7 @@ export interface workerProp {
   service: string;
   id: number;
   href: string;
-  image: string;
+  profile_img: string;
 }
 
 interface Prop {
@@ -48,7 +48,7 @@ function WorkerCard({ worker, index }: Prop) {
             >
               
                 <Image
-                  src={`${domain}/api/v1/get_image/worker.image`}
+                  src={`${domain}/api/v1/get_image/${worker.profile_img}`}
                   alt="worker"
                   width={1500}
                   height={1500}
