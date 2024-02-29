@@ -262,7 +262,7 @@ def workers_filter():
 
 
 @app_views.route("/workers_filter", strict_slashes=False, methods=["GET"])
-def workers_filter():
+def workersfilter():
     state_id = request.args.get("state", default=None, type=int)
     city_id = request.args.get("city", default=None, type=int)
     service_id = request.args.get("service", default=None, type=int)
