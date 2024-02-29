@@ -287,7 +287,7 @@ export default function Workers() {
               )}
             </div>
           </div>
-          <div ref={ref} className="relative">
+          <div  className="relative">
             <div className="mt-6 flex items-center w-full">
               <div className="w-full grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-10 lg:gap-x-8">
                 
@@ -297,6 +297,15 @@ export default function Workers() {
 
               </div>
             </div>
+            <div ref={ref}>
+          <Image
+            src="/static/spinner.svg"
+            alt="spinner"
+            width={56}
+            height={56}
+            className="object-contain"
+          />
+        </div>
           </div>
         </MaxWidthWrapper>
       </section>
