@@ -277,7 +277,7 @@ def workers_filter():
 
     # workers = [worker.to_dict() for worker in result]
     # return jsonify(workers), 200
-    return jsonify(result[index:index + limit]), 200
+    return jsonify(result[0:index + limit]), 200
 
 
 
