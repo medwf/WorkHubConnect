@@ -232,7 +232,7 @@ def workers_filter():
             ServiceName = storage.get(Service, worker.service_id).en_name
             workerdict['ServiceName'] = ServiceName
             result.append(workerdict)
-        return jsonify(result[index:index + limit])
+        return jsonify(result[0:index + limit])
     # Filter by state
     if state_id is not None:
         print("in state")
