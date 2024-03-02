@@ -37,6 +37,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { fetchServices, fetchWorkers } from "../action";
+import WorkerId from "@/components/workers/WorkerId";
 interface Service {
   id: string;
   en_name: string;
@@ -63,6 +64,23 @@ export default function Workers() {
   const [cityPopoverOpen, setCityPopoverOpen] = React.useState(false);
   const [regionPopoverOpen, setRegionPopoverOpen] = React.useState(false);
   const { ref, inView } = useInView();
+  const [selectedWorkerId, setSelectedWorkerId] = useState<number | null>(null);
+const [showWorkerDetails, setShowWorkerDetails] = useState<boolean>(false);
+const [workerData, setWorkerData] = useState<any>(null);
+const handleOpenWorkerDetails = (id: number) => {
+  setSelectedWorkerId(id);
+  setShowWorkerDetails(true);
+};
+// console.log(selectedWorkerId);
+const handleCloseWorkerDetails = () => {
+  setSelectedWorkerId(null);
+  setShowWorkerDetails(false);
+};
+
+
+ 
+
+
   const handleMenu = () => {
     setOpen(!open);
   };
@@ -144,7 +162,17 @@ export default function Workers() {
           </div>
           <div className="flex justify-center items-center">
             <SearchWorker />
+            
+         
           </div>
+         <div>
+         <button onClick={() => handleOpenWorkerDetails(2)}>Open Worker 2 Details</button>
+         {showWorkerDetails && (
+       <WorkerId id={selectedWorkerId} show={true} data={workerData} onClose={handleCloseWorkerDetails} />
+
+      )}
+         </div>
+
         </section>
       </MaxWidthWrapper>
       <section className="h-full py-20">
@@ -154,10 +182,10 @@ export default function Workers() {
               Workers
             </h1>
 
-            <div className="z-50 relative">
+            <div className="z-10 relative">
               <SlidersHorizontal className="my-2" onClick={handleMenu} />
               {open && (
-                <div className="absolute z-50 top-10 right-2 flex flex-col items-center border border-spacing-1 border-gray-500 bg-white rounded-md p-2">
+                <div className="absolute top-10 right-2 flex flex-col items-center border border-spacing-1 border-gray-500 bg-white rounded-md p-2">
                   <h3 className="font-medium py-2">Filter Workers</h3>
                   <div className="flex flex-col gap-2">
                     <Select
