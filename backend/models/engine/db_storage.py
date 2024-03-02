@@ -34,7 +34,7 @@ class DBStorage:
         WORKHUB_MYSQL_HOST = getenv('WORKHUB_MYSQL_HOST')
         WORKHUB_MYSQL_DB = getenv('WORKHUB_MYSQL_DB')
         WORKHUB_ENV = getenv('WORKHUB_ENV')
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}?charset=utf8mb4'.
+        self.__engine = create_engine('mysql+pymysql://{}:{}@{}/{}?charset=utf8mb4'.
                                       format(WORKHUB_MYSQL_USER,
                                              WORKHUB_MYSQL_PWD,
                                              WORKHUB_MYSQL_HOST,
