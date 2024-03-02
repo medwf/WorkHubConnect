@@ -1,23 +1,5 @@
 
 
-DROP TABLE IF EXISTS `cities`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `cities` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `state_id` int NOT NULL,
-  `name` varchar(128) NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `state_id` (`state_id`),
-  CONSTRAINT `cities_ibfk_1` FOREIGN KEY (`state_id`) REFERENCES `states` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=405 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `cities`
---
 
 LOCK TABLES `cities` WRITE;
 /*!40000 ALTER TABLE `cities` DISABLE KEYS */;
@@ -27,26 +9,6 @@ UNLOCK TABLES;
 
 --
 -- Table structure for table `images`
---
-
-DROP TABLE IF EXISTS `images`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `images` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `url` varchar(100) DEFAULT NULL,
-  `project_id` int DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `url` (`url`),
-  KEY `project_id` (`project_id`),
-  CONSTRAINT `images_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `images`
 --
 
 LOCK TABLES `images` WRITE;
@@ -59,26 +21,6 @@ UNLOCK TABLES;
 -- Table structure for table `projects`
 --
 
-DROP TABLE IF EXISTS `projects`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `projects` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `worker_id` int NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `title` varchar(255) NOT NULL,
-  `description` varchar(1024) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `worker_id` (`worker_id`),
-  CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`worker_id`) REFERENCES `workers` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `projects`
---
-
 LOCK TABLES `projects` WRITE;
 /*!40000 ALTER TABLE `projects` DISABLE KEYS */;
 INSERT INTO `projects` VALUES (1,1,'2024-02-13 20:26:11','2024-02-13 20:26:11','project villa Casa','had project nadi'),(2,1,'2024-02-13 20:26:11','2024-02-13 20:26:11','project riad rabat','had project mzyan'),(3,1,'2024-02-13 20:26:11','2024-02-13 20:26:11','project doaur 9etta henna','had project ns ns'),(4,2,'2024-02-13 20:26:11','2024-02-13 20:26:11','project gueliz','had project mabihch'),(5,2,'2024-02-13 20:26:11','2024-02-13 20:26:11','project douar lhna','had project informatique'),(6,2,'2024-02-13 20:26:11','2024-02-13 20:26:11','project douar koko','had project 5/5'),(9,1,'2024-02-13 20:30:44','2024-02-13 20:30:44','project villa Casa','had project nadi'),(10,1,'2024-02-13 20:30:44','2024-02-13 20:30:44','project riad rabat','had project mzyan'),(11,1,'2024-02-13 20:30:44','2024-02-13 20:30:44','project doaur 9etta henna','had project ns ns'),(12,2,'2024-02-13 20:30:44','2024-02-13 20:30:44','project gueliz','had project mabihch'),(13,2,'2024-02-13 20:30:44','2024-02-13 20:30:44','project douar lhna','had project informatique'),(14,2,'2024-02-13 20:30:44','2024-02-13 20:30:44','project douar koko','had project 5/5');
@@ -87,28 +29,6 @@ UNLOCK TABLES;
 
 --
 -- Table structure for table `reviews`
---
-
-DROP TABLE IF EXISTS `reviews`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `reviews` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `worker_id` int NOT NULL,
-  `user_id` int NOT NULL,
-  `text` varchar(1024) NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `worker_id` (`worker_id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`worker_id`) REFERENCES `workers` (`id`),
-  CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `reviews`
 --
 
 LOCK TABLES `reviews` WRITE;
@@ -121,48 +41,12 @@ UNLOCK TABLES;
 -- Table structure for table `services`
 --
 
-DROP TABLE IF EXISTS `services`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `services` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `en_name` varchar(128) NOT NULL,
-  `ar_name` varchar(128) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `en_name` (`en_name`),
-  UNIQUE KEY `ar_name` (`ar_name`),
-  UNIQUE KEY `description` (`description`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `services`
---
-
 LOCK TABLES `services` WRITE;
 /*!40000 ALTER TABLE `services` DISABLE KEYS */;
 INSERT INTO `services` VALUES (1,'Electricity','كهربائي','rani tanssayb ay haja dyal do','2024-02-13 19:56:17','2024-02-28 16:59:58'),(2,'informaticien','m3lomati','rani tanssayb ay haja dyal piciyat','2024-02-13 19:56:17','2024-02-13 19:56:17'),(3,'plombier','plombiii','rani tanssayb ay haja dyal lma','2024-02-13 19:56:17','2024-02-13 19:56:17'),(4,'jlayji','mol zlij','rani tanssayb ay haja dyal zlij','2024-02-13 19:56:17','2024-02-13 19:56:17'),(5,'economie','eccnomie','rani economist','2024-02-13 19:56:17','2024-02-13 19:56:17');
 /*!40000 ALTER TABLE `services` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `states`
---
-
-DROP TABLE IF EXISTS `states`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `states` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(128) NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `states`
@@ -178,29 +62,6 @@ UNLOCK TABLES;
 -- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `users` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `email` varchar(50) NOT NULL,
-  `password` varchar(100) DEFAULT NULL,
-  `first_name` varchar(20) DEFAULT NULL,
-  `last_name` varchar(20) DEFAULT NULL,
-  `city_id` int NOT NULL,
-  `profile_img` varchar(128) DEFAULT NULL,
-  `phone_number` varchar(16) DEFAULT NULL,
-  `is_active` tinyint(1) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`),
-  KEY `city_id` (`city_id`),
-  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `users`
 --
 
@@ -213,34 +74,6 @@ UNLOCK TABLES;
 --
 -- Table structure for table `workers`
 --
-
-DROP TABLE IF EXISTS `workers`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `workers` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `service_id` int NOT NULL,
-  `city_id` int NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `diplome` varchar(100) DEFAULT NULL,
-  `certifications` varchar(255) DEFAULT NULL,
-  `fb_url` varchar(100) DEFAULT NULL,
-  `insta_url` varchar(100) DEFAULT NULL,
-  `tiktok_url` varchar(100) DEFAULT NULL,
-  `linkedin_url` varchar(100) DEFAULT NULL,
-  `website_url` varchar(100) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `service_id` (`service_id`),
-  KEY `city_id` (`city_id`),
-  CONSTRAINT `workers_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `workers_ibfk_2` FOREIGN KEY (`service_id`) REFERENCES `services` (`id`),
-  CONSTRAINT `workers_ibfk_3` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `workers`
