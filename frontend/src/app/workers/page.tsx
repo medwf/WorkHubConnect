@@ -133,7 +133,7 @@ const handleCloseWorkerDetails = () => {
       }
     };
     handleFetchWorkers();
-  }, [inView, selectedRegion, selectedCity]);
+  }, [inView, selectedRegion, selectedCity,selectedService]);
   return (
     <>
       <MaxWidthWrapper>

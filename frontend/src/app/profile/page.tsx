@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import domain from "@/helpers/constants";
 
 const titleClass = "text-muted-foreground text-md text-semibold";
 const labelClass = "text-md font-poppins font-semibold w-1/3 overflow-x-hidden";
@@ -65,7 +66,7 @@ export default function ProfilePage() {
     const fetchUserInfo = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/v1/users/${userId}`
+          `${domain}api/v1/users/${userId}`
         );
 
         setUserInfo(response.data);
@@ -77,7 +78,7 @@ export default function ProfilePage() {
     if (userId) {
       fetchUserInfo();
     }
-  }, [token,userId]);
+  }, [token,userId,dispatch,router]);
 
   return (
     <main className="h-full w-full">

@@ -6,6 +6,7 @@ import {useRouter} from 'next/navigation';
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import domain from '@/helpers/constants';
 
 export default function ResetPassword() {
   const [email, setEmail] = useState('');
@@ -13,9 +14,9 @@ export default function ResetPassword() {
 
   const handleResetPassword = async () => {
     try {
-      const response = await axios.post('http://127.0.0.1:5000/api/v1/forgot-password', { email });
+      const response = await axios.post(`${domain}/api/v1/forgot-password`, { email });
 
-
+      //check status of response don't forget 
       toast.success('Password reset email sent. Please check your inbox.');
       router.push('/');
     

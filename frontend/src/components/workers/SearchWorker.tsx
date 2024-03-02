@@ -59,12 +59,13 @@ const SearchWorker: React.FC = () => {
       </div>
 
       {activeSearch.length > 0 && (
-        <div className="absolute  top-16 p-4 z-50 h-44 bg-slate-800 text-white w-full rounded-xl left-1/2 -translate-x-1/2 flex flex-col gap-2 ">
+        <div  className="absolute  top-16 p-4 z-50 h-44 bg-slate-800 text-white w-full rounded-xl left-1/2 -translate-x-1/2 flex flex-col gap-2 " >
            {activeSearch.map(worker => (
   <span key={worker.id} className="hover:outline hover:text-gray-100">
     {worker.name}
   </span>
 ))}
+
          
           {/* {activeSearch.map((project) => (
             <Link key={project.id} href={`/project/${project.id}`}>

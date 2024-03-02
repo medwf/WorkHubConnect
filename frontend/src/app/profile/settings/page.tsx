@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { ChevronLeft } from 'lucide-react'
 import MaxWidthWrapper from '@/components/MaxWidthWrapper'
-export default function page() {
+export default function Settings() {
   const router = useRouter();
   const pathname = usePathname()
   const lastItem = pathname.split('/').pop();

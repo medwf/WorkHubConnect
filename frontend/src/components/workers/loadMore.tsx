@@ -10,15 +10,15 @@ let page = 2;
 function LoadMore() {
   const {ref, inView} = useInView();
   const [data, setData] = useState<workerProp[]>([]);
-  useEffect(() => {
-    if (inView) {
-     fetchWorkers(2).then((res) => {
-       setData([...data,...res]);
-       page++;
-     }
-     )
-    }
-  },[inView,data])
+  // useEffect(() => {
+  //   if (inView) {
+  //    fetchWorkers(2,2,2,3).then((res) => {
+  //      setData([...data,...res]);
+  //      page++;
+  //    }
+  //    )
+  //   }
+  // },[inView,data])
 
 
   return (

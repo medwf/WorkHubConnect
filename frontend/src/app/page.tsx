@@ -26,12 +26,12 @@ export default function Home() {
     const checkTokenAndFetchUserInfo = async () => {
       if (isTokenExpired(token)) {
         dispatch(removeToken());
-
+        
         return;
       }
     };
     checkTokenAndFetchUserInfo();
-  }, [token]);
+  }, [token,dispatch]);
 
   const perks = [
     {

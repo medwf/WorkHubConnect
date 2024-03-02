@@ -6,6 +6,7 @@ import axios from "axios";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
+import domain from "@/helpers/constants";
 import {
   Form,
   FormControl,
@@ -87,12 +88,12 @@ export default function Signup() {
   const [services, setServices] = useState<{ id: string; en_name: string }[]>(
     []
   );
-
+  const watchType = form.watch("type");
   useEffect(() => {
     const fetchServices = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/services"
+          `${domain}/api/v1/services`
         );
         const services = response.data;
         setServices(services);
@@ -100,10 +101,10 @@ export default function Signup() {
         console.error("Error fetching services:", error);
       }
     };
-    if (form.watch("type") === "worker") {
+    if (watchType === "worker") {
       fetchServices();
     }
-  }, [form.watch("type")]);
+  }, [watchType,form]);
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     // console.log(data);
@@ -127,7 +128,7 @@ export default function Signup() {
         formDataWithcity_id.service_id = selectedService.id;
       }
       const res = await axios.post(
-        "http://127.0.0.1:5000/api/v1/register",
+        `${domain}/api/v1/register`,
         formDataWithcity_id
       );
       // console.log(`response : ${res}`);

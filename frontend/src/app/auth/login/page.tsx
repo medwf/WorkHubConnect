@@ -178,7 +178,7 @@ export default function Signup() {
     
       </form>
       <div className=" flex justify-center items-center pt-3">
-        <p className="text-md font-medium text-muted-foreground">don't have an account ?<span className="text-blue-600 hover:underline"><Link href={'/auth/signup'}>sign up</Link></span> </p>
+        <p className="text-md font-medium text-muted-foreground">don&apos;t have an account ?<span className="text-blue-600 hover:underline"><Link href={'/auth/signup'}>sign up</Link></span> </p>
       </div>
     </Form>
     </div>

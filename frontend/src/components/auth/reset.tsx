@@ -1,0 +1,124 @@
+"use client"
+import MaxWidthWrapper from '@/components/MaxWidthWrapper';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { useRouter, useSearchParams } from 'next/navigation'; 
+import toast from 'react-hot-toast';
+import axios from 'axios';
+import domain from '@/helpers/constants';
+
+const FormSchema = z.object({
+  password: z.string(),
+  confirmPassword: z.string(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ['confirmPassword'],
+});
+
+// interface ResetPasswordProps {
+//   token: string | null;
+// }
+
+export default function ResetPassword() {
+  const router = useRouter();
+  const searchParams = useSearchParams()
+  
+  const token = searchParams.get('token')
+  
+
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      password: '',
+      confirmPassword: '',
+    },
+  });
+
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    try {
+      const response = await axios.post(
+        `${domain}/api/v1/reset-password`,
+        {
+          new_password: data.password,
+          confirm_password: data.confirmPassword,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success(response.data.message);
+      router.push('/auth/login');
+    } catch (error: any) {
+      if (error.response && error.response.data && error.response.data.error) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error('Invalid or expired token');
+      }
+    }
+  }
+  if (!token) {
+    router.push('/');
+    return null;
+  }
+  return (
+    <MaxWidthWrapper>
+      <section className='md:mx-auto md:w-[30%] mx-2 md:my-10  px-4 h-full md:px-2.5 bg-slate-500 rounded-lg my-12 py-12'>
+        <div>
+          <h1 className='text-center text-3xl font-bold text-white font-poppins py-3'>
+            Reset Password
+        
+          </h1>
+          <br />
+        </div>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className='w-full   md:px-10  px-3 space-y-1 '>
+            <FormField
+              control={form.control}
+              name='password'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Password' type='password' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='confirmPassword'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Confirm Password' type='password' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <br />
+            <Button type='submit' className='w-full '>
+              Reset password
+            </Button>
+          </form>
+        </Form>
+      </section>
+    </MaxWidthWrapper>
+  );
+}
