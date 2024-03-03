@@ -5,7 +5,7 @@ import domain from "@/helpers/constants";
 
 export const fetchWorkers = async (
   page: number,
-  selectedService: { id: string } | null,
+  selectedService: string,
   selectedRegion: { id: number } | null,
   selectedCity: { id: number } | null
 ) => {
@@ -15,7 +15,7 @@ export const fetchWorkers = async (
       params: {
         page: page,
         limit: 10,
-        service: selectedService?.id,
+        service: selectedService,
         state: selectedRegion?.id,
         city: selectedCity?.id,
       },

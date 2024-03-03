@@ -130,7 +130,14 @@ export default function Home() {
         </MaxWidthWrapper>
 
       </section>
-      <section className="border-t border-gray-200  h-full bg-gradient-to-t from-slate-500 to-gray-100">
+      <section>
+        <MaxWidthWrapper>
+          <div>
+
+          </div>
+        </MaxWidthWrapper>
+      </section>
+      <section className="border-t border-gray-100  h-full bg-gradient-to-t from-slate-100 to-gray-100">
         <MaxWidthWrapper className="py-20">
         <div className="px-10 md:px-auto">
         <ServicesSlider/>

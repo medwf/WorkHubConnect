@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import ProjectListing from './ProjectListing';
 import { testProjects2 } from '../../helpers/Mytest';
+import domain from '@/helpers/constants';
 
 
 
@@ -41,7 +42,7 @@ const ProjectReel = (props: ProjectReelProps) => {
       setIsLoading(true);
       try {
         const response = await axios.get<Project[]>(
-          `http://127.0.0.1:5000/api/projects?page=${page}&limit=${limit}&userid=${userId}`
+          `${domain}/api/projects?page=${page}&limit=${limit}&userid=${userId}`
         );
         // setProjects(response.data);
         setIsLoading(false);

@@ -37,7 +37,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { fetchServices, fetchWorkers } from "../action";
-import WorkerId from "@/components/workers/WorkerId";
 interface Service {
   id: string;
   en_name: string;
@@ -53,10 +52,17 @@ interface Region {
   region: string;
 }
 let page = 1;
+const sampleServices = [
+  { id: "1", en_name: "Plumbing" },
+  { id: "2", en_name: "Electrician" },
+  { id: "3", en_name: "Cleaning" },
+  { id: "4", en_name: "Landscaping" },
+  { id: "5", en_name: "Carpentry" }
+];
 export default function Workers() {
   const [workers, setWorkers] = useState<workerProp[]>([]);
   const [services, setServices] = useState<Service[]>([]);
-  const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [selectedService, setSelectedService] = useState('');
   const [selectedRegion, setSelectedRegion] = useState<Region | null>(null);
   const [selectedCity, setSelectedCity] = useState<City | null>(null);
   const [open, setOpen] = useState(false);
@@ -64,21 +70,7 @@ export default function Workers() {
   const [cityPopoverOpen, setCityPopoverOpen] = React.useState(false);
   const [regionPopoverOpen, setRegionPopoverOpen] = React.useState(false);
   const { ref, inView } = useInView();
-  const [selectedWorkerId, setSelectedWorkerId] = useState<number | null>(null);
-const [showWorkerDetails, setShowWorkerDetails] = useState<boolean>(false);
-const [workerData, setWorkerData] = useState<any>(null);
-const handleOpenWorkerDetails = (id: number) => {
-  setSelectedWorkerId(id);
-  setShowWorkerDetails(true);
-};
-// console.log(selectedWorkerId);
-const handleCloseWorkerDetails = () => {
-  setSelectedWorkerId(null);
-  setShowWorkerDetails(false);
-};
-
-
- 
+  const [isLoading, setIsLoading] = useState(false); 
 
 
   const handleMenu = () => {
@@ -86,11 +78,15 @@ const handleCloseWorkerDetails = () => {
   };
 
   const handleServiceChange = (value: string) => {
-    const selectedService = services.find((service) => service.id === value);
-    setSelectedService(selectedService || null);
+    // console.log(value);
+    // const selectedService = services.find((service) => service.id === value);
+    // setSelectedService(selectedService || null);
+    setSelectedService(value);
+    setSelectedRegion(null);
+    setSelectedCity(null);
     setOpen(!open);
+    
   };
-
   const handleRegionChange = (regionName: string) => {
     console.log(regionName + " region selected");
     const normalize = regionName.toLowerCase().trim();
@@ -99,6 +95,8 @@ const handleCloseWorkerDetails = () => {
     );
 
     setSelectedRegion(foundRegion || null);
+    setSelectedCity(null); //need testing
+
     setOpen(!open);
   };
  
@@ -119,6 +117,7 @@ const handleCloseWorkerDetails = () => {
     const handleFetchWorkers = async () => {
       if (inView) {
         try {
+          setIsLoading(true);
           const data = await fetchWorkers(
             page,
             selectedService,
@@ -129,6 +128,8 @@ const handleCloseWorkerDetails = () => {
           page++;
         } catch (error) {
           console.error("Error fetching workers:", error);
+        } finally {
+          setIsLoading(false); 
         }
       }
     };
@@ -160,36 +161,26 @@ const handleCloseWorkerDetails = () => {
               className="max-h-[75vh object-contain object-center 2xl:max-h-[60vh]"
             />
           </div>
-          <div className="flex justify-center items-center">
-            <SearchWorker />
-            
-         
-          </div>
-         <div>
-         <button onClick={() => handleOpenWorkerDetails(2)}>Open Worker 2 Details</button>
-         {showWorkerDetails && (
-       <WorkerId id={selectedWorkerId} show={true} data={workerData} onClose={handleCloseWorkerDetails} />
-
-      )}
-         </div>
+          
+        
 
         </section>
       </MaxWidthWrapper>
       <section className="h-full py-20">
         <MaxWidthWrapper>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between border-b">
             <h1 className="font-bold text-2xl font-poppins text-gray-900 py-4">
               Workers
             </h1>
-
-            <div className="z-10 relative">
+           
+            <div className="z-20 relative">
               <SlidersHorizontal className="my-2" onClick={handleMenu} />
               {open && (
                 <div className="absolute top-10 right-2 flex flex-col items-center border border-spacing-1 border-gray-500 bg-white rounded-md p-2">
                   <h3 className="font-medium py-2">Filter Workers</h3>
                   <div className="flex flex-col gap-2">
                     <Select
-                      value={selectedService?.id || ""}
+                      value={selectedService || ""}
                       onValueChange={handleServiceChange}
                     >
                       <SelectTrigger className="w-full">
@@ -316,8 +307,8 @@ const handleCloseWorkerDetails = () => {
               )}
             </div>
           </div>
-          <div className="relative" ref={ref}>
-            <div className="mt-6 flex items-center w-full">
+          <div className="relative h-screen" ref={ref} >
+            <div className="mt-6 flex items-center ">
               <div className="w-full grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-10 lg:gap-x-8">
                 {workers &&
                   workers.map((item: workerProp, index) => (
@@ -325,15 +316,17 @@ const handleCloseWorkerDetails = () => {
                   ))}
               </div>
             </div>
-            <div className="flex justify-center items-center" >
-              <Image
-                src="/static/spinner.svg"
-                alt="spinner"
-                width={30}
-                height={30}
-                className="object-contain"
-              />
-            </div>
+            {isLoading && ( // Conditionally render the loading spinner
+              <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-gray-200 bg-opacity-75">
+                <Image
+                  src="/static/spinner.svg"
+                  alt="spinner"
+                  width={30}
+                  height={30}
+                  className="object-contain"
+                />
+              </div>
+            )}
           </div>
         </MaxWidthWrapper>
       </section>
