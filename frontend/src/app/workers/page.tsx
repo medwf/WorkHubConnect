@@ -22,6 +22,7 @@ import { regions } from "@/helpers/regions";
 import { cities } from "@/helpers/cities";
 import { useInView } from "react-intersection-observer";
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
+import { useSearchParams } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import {
@@ -70,8 +71,17 @@ export default function Workers() {
   const [cityPopoverOpen, setCityPopoverOpen] = React.useState(false);
   const [regionPopoverOpen, setRegionPopoverOpen] = React.useState(false);
   const { ref, inView } = useInView();
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
+  const ServiceParams = useSearchParams()
+  const NewServiceId = ServiceParams.get('serviceId')
+  // console.log(`NewServiceId: ${NewServiceId}`)
+  useEffect(() => {
+    if(NewServiceId) {
+      setSelectedService(NewServiceId);
+    }
+  }, [NewServiceId]);
 
+  // console.log(`NewServiceId: ${selectedService}`);  
 
   const handleMenu = () => {
     setOpen(!open);
@@ -88,7 +98,7 @@ export default function Workers() {
     
   };
   const handleRegionChange = (regionName: string) => {
-    console.log(regionName + " region selected");
+    // console.log(regionName + " region selected");
     const normalize = regionName.toLowerCase().trim();
     const foundRegion = regions.find(
       (r) => r.region.toLowerCase().trim() === normalize

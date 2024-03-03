@@ -1,3 +1,5 @@
+import { servicesProps } from "@/components/services/ServiceCard";
+
 export const testProjects: string[] = [
   "Aboubakr",
   "mohamed",
@@ -165,6 +167,7 @@ export const testProjects: string[] = [
       image: "/assets/main.jpg",
       service:"informaticien"
 
+
     },
     {
       id: 6,
@@ -172,6 +175,112 @@ export const testProjects: string[] = [
       href: "/worker",
       image: "/assets/worker_.jpg",
       service:"informaticien"
+
+    },
+  ];
+
+
+
+  
+
+
+  export const serviceData: servicesProps[] = [
+    {
+      id: 1,
+      en_name: "EcoSaver",
+      image: "/assets/hero.jpg",
+      href: "/worker",
+      description:"This description it's for testing purposes not for production"
+    },
+    {
+      id: 2,
+      en_name: "TechNova",
+      href: "/worker",
+      image: "/assets/hero.jpg",
+      description:"This description it's for testing purposes not for production",
+      numWorkers: 10,
+
+    },
+    {
+      id: 3,
+      en_name: "TechNova",
+      href: "/worker",
+      image: "/assets/hero.jpg",
+      description:"This description it's for testing purposes not for production",
+      numWorkers: 20,
+
+    },
+    {
+      id: 4,
+      en_name: "TechNova",
+      href: "/worker",
+      image: "/assets/29.jpg",
+      description:"This description it's for testing purposes not for production"
+
+    },
+    {
+      id: 5,
+      en_name: "TechNova",
+      href: "/worker",
+      image: "/assets/main.jpg",
+      description:"This description it's for testing purposes not for production"
+      
+
+    },
+    {
+      id: 6,
+      en_name: "TechNova",
+      href: "/worker",
+      image: "/assets/worker_.jpg",
+      description:"This description it's for testing purposes not for production"
+
+    },
+    {
+      id: 7,
+      en_name: "EcoSaver",
+      image: "/assets/hero.jpg",
+      href: "/worker",
+      description:"This description it's for testing purposes not for production"
+    },
+    {
+      id: 8,
+      en_name: "TechNova",
+      href: "/worker",
+      image: "/assets/hero.jpg",
+      description:"This description it's for testing purposes not for production"
+
+    },
+    {
+      id: 9,
+      en_name: "TechNova",
+      href: "/worker",
+      image: "/assets/hero.jpg",
+      description:"This description it's for testing purposes not for production"
+
+    },
+    {
+      id: 10,
+      en_name: "TechNova",
+      href: "/worker",
+      image: "/assets/29.jpg",
+      description:"This description it's for testing purposes not for production"
+
+    },
+    {
+      id: 11,
+      en_name: "TechNova",
+      href: "/worker",
+      image: "/assets/main.jpg",
+      description:"This description it's for testing purposes not for production"
+      
+
+    },
+    {
+      id: 12,
+      en_name: "TechNova",
+      href: "/worker",
+      image: "/assets/worker_.jpg",
+      description:"This description it's for testing purposes not for production"
 
     },
   ];

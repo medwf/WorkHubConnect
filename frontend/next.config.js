@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['127.0.0.1', 'localhost','100.25.170.62'],
+        domains: ['127.0.0.1', 'localhost','100.25.170.62','avatars.githubusercontent.com'],
       },
 //   async rewrites() {
 //     return [
