@@ -1,11 +1,11 @@
 #!/usr/bin/bash
 # Install MySQL
-sudo apt-get update
-sudo apt-get install mysql-server
+sudo apt-get update -y
+sudo apt-get install mysql-server -y
 
 # Install Python and pip (if not already installed)
-sudo apt-get install python3
-sudo apt-get install python3-pip
+sudo apt-get install python3 -y
+sudo apt-get install python3-pip -y
 
 # Install Flask and Flask-CORS, flasgger, flask_jwt_extended
 pip3 install Flask
@@ -17,7 +17,7 @@ pip3 install flask_jwt_extended
 pip3 install python-magic
 
 # Install Sendmail
-sudo apt-get install sendmail
+sudo apt-get install sendmail -y
 
 # Install SQLAlchemy
 pip3 install SQLAlchemy
@@ -39,7 +39,10 @@ GRANT ALL PRIVILEGES ON workhubconnect_db.* TO 'workhub_user'@'localhost';
 GRANT SELECT ON performance_schema.* TO 'workhub_user'@'localhost';
 FLUSH PRIVILEGES;" | sudo mysql -u root -p
 
-
+WORKHUB_MYSQL_USER="workhub_user" WORKHUB_MYSQL_PWD="123" WORKHUB_MYSQL_HOST="localhost" WORKHUB_MYSQL_DB="workhubconnect_db" python3 -m api.v1.app &
+pid=$(lsof -t -i :5000)
+sleep 4
+sudo kill -9 $pid
 cat sql_dumps/backup_workhubconnect02032024.sql | sudo mysql -u root -p workhubconnect_db
 
 
