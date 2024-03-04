@@ -38,9 +38,8 @@ def image_id(image_id):
     return jsonify(image.to_dict())
 
 
-@app_views.route("/images/<int:image_id>",
-                 strict_slashes=False,
-                 methods=["DELETE"])
+@app_views.route("/images/<int:image_id>", strict_slashes=False, methods=["DELETE"])
+@swag_from("documentation/image/delete.yml", methods=['DELETE'])
 def Delete_image(image_id):
     """return a JSON: delete a image object that match <image_id>
     or Not found if id not exist"""
@@ -53,6 +52,7 @@ def Delete_image(image_id):
 
 
 @app_views.route("/projects/<int:project_id>/images", strict_slashes=False, methods=["POST"])
+@swag_from("documentation/image/post.yml", methods=['POST'])
 def Create_image(project_id):
     """
     Create image :
@@ -80,6 +80,7 @@ def Create_image(project_id):
 
 
 @app_views.route("/images/<image_id>", strict_slashes=False, methods=["PUT"])
+@swag_from("documentation/image/put.yml", methods=['PUT'])
 def update_image(image_id):
     """update image"""
     obj = storage.get(Image, image_id)
