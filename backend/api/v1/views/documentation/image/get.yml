@@ -1,0 +1,32 @@
+Retrieves a specific Image
+---
+tags:
+  - Images
+parameters:
+  - name: image_id
+    in: path
+    type: string
+    required: true
+    description: the unique id of the image
+responses:
+  200:
+    description: Successful request
+    schema:
+      properties:
+        created_at:
+          type: string
+          description: The timestamp when the data was created.
+        id:
+          type: integer
+          description: The unique identifier for the data.
+        project_id:
+          type: integer
+          description: The identifier for the associated project.
+        updated_at:
+          type: string
+          description: The timestamp when the data was last updated.
+        url:
+          type: string
+          description: The URL to access the image file.
+  404:
+    description: image not found
