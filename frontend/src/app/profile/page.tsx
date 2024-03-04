@@ -56,13 +56,13 @@ export default function ProfilePage() {
   });
 
   useEffect(() => {
-    if (!token){
-      router.push('/')
-    }
-    if (isTokenExpired(token)) {
-      dispatch(removeToken());
-      router.push("/");
-    }
+    // if (!token){
+    //   router.replace('/')
+    // }
+    // if (isTokenExpired(token)) {
+    //   dispatch(removeToken());
+    //   router.replace("/");
+    // }
     const fetchUserInfo = async () => {
       try {
         const response = await axios.get(
@@ -81,8 +81,9 @@ export default function ProfilePage() {
   }, [token,userId,dispatch,router]);
 
   return (
-    <main className="h-full w-full">
+    <main className="h-screen w-full">
       <div className="hidden md:flex flex-col items-start justify-center mx-auto p-7 ">
+        
         <h1 className="md:text-3xl text-xl font-semibold font-poppins">
           My Profile
         </h1>
@@ -128,7 +129,7 @@ export default function ProfilePage() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Share link</DialogTitle>
+          <DialogTitle>Edit Profile</DialogTitle>
           <DialogDescription>
             Anyone who has this link will be able to view this.
           </DialogDescription>
