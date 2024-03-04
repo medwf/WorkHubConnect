@@ -1,0 +1,37 @@
+retrieves a specific project.
+---
+tags:
+  - Projects
+parameters:
+  - name: project_id
+    in: path
+    type: integer
+    required: true
+    description: the unique id of the project
+
+responses:
+  200:
+    description: Successful request
+    schema:
+      properties:
+        created_at:
+          type: string
+          description: The timestamp when the data was created.
+        description:
+          type: string
+          description: A description of the project.
+        id:
+          type: integer
+          description: The unique identifier of the project.
+        title:
+          type: string
+          description: The title of the project.
+        updated_at:
+          type: string
+          description: The timestamp when the data was last updated.
+        worker_id:
+          type: integer
+          description: The unique identifier of the worker associated with the project.
+
+  404:
+    description: project not found

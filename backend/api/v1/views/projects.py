@@ -7,33 +7,35 @@ from api.v1.views import app_views
 from models import storage
 from models.project import Project
 from models.worker import Worker
+from flasgger import swag_from
 
-
-@app_views.route("/projects/<int:project_id>",
-                 strict_slashes=False,
-                 methods=["GET"])
 @app_views.route("/workers/<int:worker_id>/projects", strict_slashes=False, methods=["GET"])
-def projects(project_id=None, worker_id=None):
+@swag_from("documentation/project/get.yml", methods=['GET'])
+def project_by_workerId(worker_id):
     """return a JSON: list of all Project objects or one Project,
     Or not found if id not exsit"""
-    if worker_id:
-        result = []
-        worker = storage.get(Worker, worker_id)
-        if worker is None:
-            return make_response(jsonify({"error": "worker Not found"}), 404)
-        for project in worker.projects:
-            result.append(project.to_dict())
-        return jsonify(result)
-    else:
-        project = storage.get(Project, project_id)
-        if project is None:
-            return make_response(jsonify({"error": "project Not found"}), 404)
-        return jsonify(project.to_dict())
+    result = []
+    worker = storage.get(Worker, worker_id)
+    if worker is None:
+        return make_response(jsonify({"error": "worker Not found"}), 404)
+    for project in worker.projects:
+        result.append(project.to_dict())
+    return jsonify(result)
 
 
-@app_views.route("/projects/<int:project_id>",
-                 strict_slashes=False,
-                 methods=["DELETE"])
+@app_views.route("/projects/<int:project_id>", strict_slashes=False, methods=["GET"])
+@swag_from("documentation/project/gets.yml", methods=['GET'])
+def project_id(project_id):
+    """return a JSON: list of all Project objects or one Project,
+    Or not found if id not exsit"""
+    project = storage.get(Project, project_id)
+    if project is None:
+        return make_response(jsonify({"error": "project Not found"}), 404)
+    return jsonify(project.to_dict())
+
+
+@app_views.route("/projects/<int:project_id>", strict_slashes=False, methods=["DELETE"])
+@swag_from("documentation/project/delete.yml", methods=['DELETE'])
 def Delete_project(project_id):
     """return a JSON: delete a project object that match <project_id>
     or Not found if id not exist"""
@@ -46,6 +48,7 @@ def Delete_project(project_id):
 
 
 @app_views.route("/workers/<int:worker_id>/projects", strict_slashes=False, methods=["POST"])
+@swag_from("documentation/project/post.yml", methods=['POST'])
 def Create_project(worker_id):
     """
     Create Project :
@@ -78,8 +81,8 @@ def Create_project(worker_id):
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
 
-@app_views.route("/projects/<project_id>", strict_slashes=False,
-                 methods=["PUT"])
+@app_views.route("/projects/<project_id>", strict_slashes=False, methods=["PUT"])
+@swag_from("documentation/project/put.yml", methods=['PUT'])
 def update_project(project_id):
     """update project"""
     obj = storage.get(Project, project_id)

@@ -1,0 +1,15 @@
+Deletes a worker based on the id provided
+---
+tags:
+  - Workers
+parameters:
+  - name: worker_id
+    in: path
+    type: integer
+    required: true
+    description: The integer of the worker to delete
+responses:
+  404:
+    description: worker not found!
+  200:
+    description: Deletion request sucessful

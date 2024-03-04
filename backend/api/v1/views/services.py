@@ -5,39 +5,46 @@ from api.v1.views import app_views
 from models import storage
 from models.service import Service
 from flask import make_response, request, jsonify
+from flasgger.utils import swag_from
 
 
-@app_views.route("/services/<int:service_id>", strict_slashes=False, methods=["GET"])
 @app_views.route("/services", strict_slashes=False, methods=["GET"])
-def services(service_id=None):
+@swag_from('documentation/service/get_services.yml', methods=['GET'])
+def services():
     """return a JSON: list of all Service objects or one Service,
     Or not found if id not exsit"""
-    if service_id is None:
-        result = []
-        services = storage.all(Service).values()
-        for service in services:
-            nbworkers = len(service.workers)
-            # print(f"Worker number in {service.en_name} is: {nbworkers}")
-            servicedict = service.to_dict()
-            del servicedict['workers']
-            servicedict['nbw'] = nbworkers
-            result.append(servicedict)
-        return jsonify(result)
-    else:
-        service = storage.get(Service, service_id)
-        if service is None:
-            return make_response(jsonify({"error": "Not found"}), 404)
-        
+    result = []
+    services = storage.all(Service).values()
+    for service in services:
         nbworkers = len(service.workers)
+        # print(f"Worker number in {service.en_name} is: {nbworkers}")
         servicedict = service.to_dict()
         del servicedict['workers']
         servicedict['nbw'] = nbworkers
-        return jsonify(servicedict)
+        result.append(servicedict)
+    return jsonify(result)
+
+
+@app_views.route("/services/<int:service_id>", strict_slashes=False, methods=["GET"])
+@swag_from('documentation/service/get_service.yml', methods=['GET'])
+def service_id(service_id):
+    """return a JSON: list of all Service objects or one Service,
+    Or not found if id not exsit"""
+    service = storage.get(Service, service_id)
+    if service is None:
+        return make_response(jsonify({"error": "Not found"}), 404)
+    
+    nbworkers = len(service.workers)
+    servicedict = service.to_dict()
+    del servicedict['workers']
+    servicedict['nbw'] = nbworkers
+    return jsonify(servicedict)
 
 
 @app_views.route("/services/<int:service_id>",
                  strict_slashes=False,
                  methods=["DELETE"])
+@swag_from('documentation/service/delete_service.yml', methods=['DELETE'])
 def delete_services(service_id):
     """return a JSON: delete a Service object that match Service_id
     or Not found if id not exist"""
@@ -50,6 +57,7 @@ def delete_services(service_id):
 
 
 @app_views.route("/services", strict_slashes=False, methods=["POST"])
+@swag_from('documentation/service/post_service.yml', methods=['POST'])
 def Create_Service():
     """
     If the HTTP body request is not valid JSON,
@@ -83,6 +91,7 @@ def Create_Service():
 
 
 @app_views.route("/services/<int:service_id>", strict_slashes=False, methods=["PUT"])
+@swag_from('documentation/service/put_service.yml', methods=['PUT'])
 def Update_Service(service_id):
     """
     If the HTTP body request is not valid JSON,

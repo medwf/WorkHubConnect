@@ -1,0 +1,48 @@
+Updates the worker info based on ID
+---
+tags:
+  - Workers
+parameters:
+  - name: worker_id
+    in: path
+    type: string
+    required: true
+    description: The unique id of the worker
+  - name: parameters to update
+    in: body
+    required: true
+    requires:
+      - parameter
+    properties:
+      certifications:
+        type: string
+      city_id:
+        type: integer
+      created_at:
+        type: string
+      description:
+        type: string
+      diplome:
+        type: string
+        type: string
+      fb_url:
+        type: string
+      id:
+        type: integer
+      insta_url:
+        type: string
+      linkedin_url:
+        type: string
+      tiktok_url:
+        type: string
+      updated_at:
+        type: string
+      website_url:
+        type: string
+responses:
+  404:
+    description: resource not found!
+  400:
+    description: Not a Valid JSON
+  200:
+    description: Successful request

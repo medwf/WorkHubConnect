@@ -11,6 +11,7 @@ from models.city import City
 from models.state import State
 from models.service import Service
 import re
+from flasgger.utils import swag_from
 
 email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
 
@@ -23,48 +24,54 @@ def is_valid_phone_number(phone):
     return re.match(phone_regex, phone) is not None
 
 
-@app_views.route("/users/<int:user_id>", strict_slashes=False, methods=["GET"])
 @app_views.route("/users", strict_slashes=False, methods=["GET"])
-def users(user_id=None):
+@swag_from('documentation/user/all_users.yml', methods=["GET"])
+def users():
     """return a JSON: list of all users objects or one User,
     Or not found if id not exsit"""
-    if user_id is None:
-        result = []
-        users = storage.all(User).values()
-        for user in users:
-            result.append(user.to_dict())
-        return jsonify(result)
-    else:
-        user = storage.get(User, user_id)
-        if user is None:
-            return make_response(jsonify({"error": "User Not found"}), 404)
-        if user.worker is None:
-            user_data = user.to_dict()
-            user_data['type'] = "client"
-        else:
-            user_data = user.to_dict()
-            service_id = user.worker.service_id
-            ServiceName = storage.get(Service, service_id).en_name
-            CityName = storage.get(City, user.city_id).name
-            StateName = storage.get(State, (storage.get(City, user.city_id).state_id)).name
-            user_data['service'] = ServiceName
-            user_data['city'] = CityName
-            user_data['region'] = StateName
-            user_data['type'] = "worker"
-            worker_data = user.worker.to_dict()
-            # del worker_data['__class__']
-            user_data.update(worker_data)
-        
-        city = storage.get(City, user.city_id)
-        StateName = storage.get(State, city.state_id).name
-        user_data['city'] = city.name
-        user_data['region'] = StateName
-        del user_data['worker']
-        # del user_data['__class__']
-        return jsonify(user_data)
+    result = []
+    users = storage.all(User).values()
+    for user in users:
+        result.append(user.to_dict())
+    return jsonify(result)
 
+
+
+@app_views.route("/users/<int:user_id>", strict_slashes=False, methods=["GET"])
+@swag_from('documentation/user/get_user.yml', methods=["GET"])
+def users_id(user_id):
+    """return a JSON: list of all users objects or one User,
+    Or not found if id not exsit"""
+    user = storage.get(User, user_id)
+    if user is None:
+        return make_response(jsonify({"error": "User Not found"}), 404)
+    if user.worker is None:
+        user_data = user.to_dict()
+        user_data['type'] = "client"
+    else:
+        user_data = user.to_dict()
+        service_id = user.worker.service_id
+        ServiceName = storage.get(Service, service_id).en_name
+        CityName = storage.get(City, user.city_id).name
+        StateName = storage.get(State, (storage.get(City, user.city_id).state_id)).name
+        user_data['service'] = ServiceName
+        user_data['city'] = CityName
+        user_data['region'] = StateName
+        user_data['type'] = "worker"
+        worker_data = user.worker.to_dict()
+        # del worker_data['__class__']
+        user_data.update(worker_data)
+    
+    city = storage.get(City, user.city_id)
+    StateName = storage.get(State, city.state_id).name
+    user_data['city'] = city.name
+    user_data['region'] = StateName
+    del user_data['worker']
+    # del user_data['__class__']
+    return jsonify(user_data)
 
 @app_views.route("/users/<int:user_id>", strict_slashes=False, methods=["DELETE"])
+@swag_from('documentation/user/delete_user.yml', methods=['DELETE'])
 def delete_user(user_id):
     """return a JSON: delete a User object that match <user_id>
     or Not found if id not exist"""
@@ -78,6 +85,7 @@ def delete_user(user_id):
 
 @app_views.route("/users/<user_id>", strict_slashes=False,
                  methods=["PUT"])
+@swag_from('documentation/user/put_user.yml', methods=['PUT'])
 def update_user(user_id):
     """update user"""
     # print("in user")
@@ -117,6 +125,7 @@ def update_user(user_id):
 
 
 @app_views.route("/users", strict_slashes=False, methods=["POST"])
+@swag_from('documentation/user/post_user.yml', methods=['POST'])
 def Create_user():
     """
     Create User :
@@ -178,6 +187,7 @@ def Create_user():
 
 @app_views.route("/users/page/", strict_slashes=False, methods=["GET"])
 @app_views.route("/users/page/<int:offset>", strict_slashes=False, methods=["GET"])
+# @swag_from('documentation/user/offset_user.yml', methods=['GET'])
 def users_with_offset(offset=1):
     """Retrieves 10 users list with offset """
     

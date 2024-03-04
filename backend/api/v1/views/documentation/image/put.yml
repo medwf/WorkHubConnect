@@ -1,0 +1,38 @@
+Updates the image info based on ID
+---
+tags:
+  - Images
+parameters:
+  - name: image_id
+    in: path
+    type: integer
+    required: true
+    description: The id of the image to link to
+  - name: url
+    in: body
+    required: true
+    requires:
+      - url
+    properties:
+      created_at:
+        type: string
+        description: The timestamp when the data was created.
+      id:
+        type: integer
+        description: The unique identifier for the data.
+      project_id:
+        type: integer
+        description: The identifier for the associated project.
+      updated_at:
+        type: string
+        description: The timestamp when the data was last updated.
+      url:
+        type: string
+        description: The URL to access the image file.
+responses:
+  404:
+    description: resource not found!
+  400:
+    description: Not a Valid JSON
+  200:
+    description: Successful request

@@ -9,34 +9,37 @@ from models import storage
 from models.project import Project
 from models.image import Image
 import os
+from flasgger import swag_from
 
 
 
-@app_views.route("/projects/<int:project_id>/images",
-                 strict_slashes=False,
-                 methods=["GET"])
-@app_views.route("/images/<int:image_id>", strict_slashes=False, methods=["GET"])
-def images(project_id=None, image_id=None):
+@app_views.route("/projects/<int:project_id>/images", strict_slashes=False, methods=["GET"])
+@swag_from("documentation/image/gets.yml", methods=['GET'])
+def images(project_id):
     """return a JSON: list of all image objects or one image,
     Or not found if id not exsit"""
-    if project_id:
-        result = []
-        project = storage.get(Project, project_id)
-        if project is None:
-            return make_response(jsonify({"error": "project Not found"}), 404)
-        for image in project.images:
-            result.append(image.to_dict())
-        return jsonify(result)
-    else:
-        image = storage.get(Image, image_id)
-        if image is None:
-            return make_response(jsonify({"error": "image Not found"}), 404)
-        return jsonify(image.to_dict())
+    result = []
+    project = storage.get(Project, project_id)
+    if project is None:
+        return make_response(jsonify({"error": "project Not found"}), 404)
+    for image in project.images:
+        result.append(image.to_dict())
+    return jsonify(result)
 
 
-@app_views.route("/images/<int:image_id>",
-                 strict_slashes=False,
-                 methods=["DELETE"])
+@app_views.route("/images/<int:image_id>", strict_slashes=False, methods=["GET"])
+@swag_from("documentation/image/get.yml", methods=['GET'])
+def image_id(image_id):
+    """return a JSON: list of all image objects or one image,
+    Or not found if id not exsit"""
+    image = storage.get(Image, image_id)
+    if image is None:
+        return make_response(jsonify({"error": "image Not found"}), 404)
+    return jsonify(image.to_dict())
+
+
+@app_views.route("/images/<int:image_id>", strict_slashes=False, methods=["DELETE"])
+@swag_from("documentation/image/delete.yml", methods=['DELETE'])
 def Delete_image(image_id):
     """return a JSON: delete a image object that match <image_id>
     or Not found if id not exist"""
@@ -49,6 +52,7 @@ def Delete_image(image_id):
 
 
 @app_views.route("/projects/<int:project_id>/images", strict_slashes=False, methods=["POST"])
+@swag_from("documentation/image/post.yml", methods=['POST'])
 def Create_image(project_id):
     """
     Create image :
@@ -75,8 +79,8 @@ def Create_image(project_id):
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
 
-@app_views.route("/images/<image_id>", strict_slashes=False,
-                 methods=["PUT"])
+@app_views.route("/images/<image_id>", strict_slashes=False, methods=["PUT"])
+@swag_from("documentation/image/put.yml", methods=['PUT'])
 def update_image(image_id):
     """update image"""
     obj = storage.get(Image, image_id)

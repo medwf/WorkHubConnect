@@ -18,6 +18,7 @@ interface Project extends Review {
 interface AuthState {
   user: any;
   token: any;
+  serviceId: string | null;
   project: Project[];
   reviews: Review[];
 
@@ -26,6 +27,7 @@ interface AuthState {
 const initialState: AuthState = {
   user: null,
   token: null,
+  serviceId: null,
   project: [],
   reviews: [],
  
@@ -48,6 +50,9 @@ export const authSlice = createSlice({
     removeToken: (state) => {
       state.token = null;
       state.user = null;
+    },
+    setServiceId: (state, action) => {
+      state.serviceId = action.payload;
     },
     setReviews: (state, action) => {
       state.reviews = action.payload.reviews;
@@ -73,7 +78,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setLogin, logout, removeToken , setProject, setReviewList, setReviews, setProjectList } =
+export const { setLogin, logout, removeToken , setProject, setReviewList, setReviews, setProjectList, setServiceId } =
   authSlice.actions;
 
 export default authSlice.reducer;

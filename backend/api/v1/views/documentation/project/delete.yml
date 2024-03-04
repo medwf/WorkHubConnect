@@ -1,0 +1,15 @@
+Delete a project based on the id provided
+---
+tags:
+  - Projects
+parameters:
+  - name: project_id
+    in: path
+    type: integer
+    required: true
+    description: The integer of the project to delete
+responses:
+  404:
+    description: project not found!
+  200:
+    description: Deletion request sucessful

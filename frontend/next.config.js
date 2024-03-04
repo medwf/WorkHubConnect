@@ -1,16 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-        domains: ['127.0.0.1', 'localhost','100.25.170.62','avatars.githubusercontent.com'],
-      },
-//   async rewrites() {
-//     return [
-//         {
-//             source: '/:slug*',
-//             destination: 'http://localhost:5000/:slug*'
-//         },
-//     ]
-// },
+  images: {
+      remotePatterns: [
+          {
+              hostname: '127.0.0.1',
+          },
+          {
+              hostname: 'localhost',
+          },
+          {
+              hostname: '100.25.170.62',
+          },
+          {
+              hostname: 'avatars.githubusercontent.com',
+          }
+      ],
+  },
 }
- 
-module.exports = nextConfig
+
+module.exports = nextConfig;

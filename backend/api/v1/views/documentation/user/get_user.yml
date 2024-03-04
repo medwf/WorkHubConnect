@@ -1,0 +1,89 @@
+retrieves a specific user.
+---
+tags:
+  - Users
+parameters:
+  - name: user_id
+    in: path
+    type: integer
+    required: true
+    description: The id of the user to retrieve
+responses:
+  404:
+    description: user not found!
+  200:
+    description: request executed successfully
+    schema:
+      properties:
+        certifications:
+          type: string
+          description: "Certifications obtained by the user"
+        city:
+          type: string
+          description: "City where the user resides"
+        city_id:
+          type: integer
+          description: "ID of the city"
+        created_at:
+          type: string
+          description: "Timestamp indicating when the user was created"
+        description:
+          type: string
+          description: "Description of the user"
+        diplome:
+          type: "string"
+          description: "Educational diplomas obtained by the user"
+        email:
+          type: string
+          description: "Email address of the user"
+        fb_url:
+          type: "string"
+          description: "URL to the user's Facebook profile"
+        first_name:
+          type: "string"
+          description: "First name of the user"
+        id:
+          type: integer
+          description: "Unique identifier for the user"
+        insta_url:
+          type: "string"
+          description: "URL to the user's Instagram profile"
+        is_active:
+          type: boolean
+          description: "Indicator of whether the user is currently active"
+        last_name:
+          type: "string"
+          description: "Last name of the user"
+        linkedin_url:
+          type: "string"
+          description: "URL to the user's LinkedIn profile"
+        phone_number:
+          type: "string"
+          description: "Phone number of the user"
+        profile_img:
+          type: "string"
+          description: "URL to the user's profile image"
+        region:
+          type: string
+          description: "Region where the user resides"
+        service:
+          type: string
+          description: "Type of service the user provides"
+        service_id:
+          type: integer
+          description: "ID of the service provided"
+        tiktok_url:
+          type: "string"
+          description: "URL to the user's TikTok profile"
+        type:
+          type: string
+          description: "Type of user (e.g., worker, customer)"
+        updated_at:
+          type: string
+          description: "Timestamp indicating when the user was last updated"
+        user_id:
+          type: integer
+          description: "ID of the user"
+        website_url:
+          type: "string"
+          description: "URL to the user's website"

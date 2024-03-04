@@ -5,7 +5,9 @@ import { Skeleton } from "../ui/skeleton";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import domain from "@/helpers/constants";
-
+import { setServiceId } from "@/state";
+import { Dispatch } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
 export interface servicesProps {
   id: number;
   en_name?: string;
@@ -22,6 +24,7 @@ interface Prop {
 // src={`${domain}/api/v1/get_image/${service.image}`}
 function ServiceCard({ service, index }: Prop) {
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -37,7 +40,8 @@ function ServiceCard({ service, index }: Prop) {
     <div className="max-w-sm rounded-lg border-none p-1 relative w-full  group hover:scale-105 hover:z-30 select-none">
     <div className="relative w-full md:h-[35vh] h-[30vh]">
             <Link
-                href={`/workers/?serviceId=${service.id}`}
+            href={'/workers'}
+               onClick={() => dispatch(setServiceId(service.id))}
                  
               className={cn(
                 "invisible h-full w-full cursor-pointer group/main",
@@ -46,7 +50,7 @@ function ServiceCard({ service, index }: Prop) {
                 }
               )}
             
-              passHref
+           
             >
               
                 <Image

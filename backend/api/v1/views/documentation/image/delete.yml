@@ -1,0 +1,15 @@
+Delete a image based on the id provided
+---
+tags:
+  - Images
+parameters:
+  - name: image_id
+    in: path
+    type: integer
+    required: true
+    description: The integer of the image to delete
+responses:
+  404:
+    description: image not found!
+  200:
+    description: Deletion request sucessful
