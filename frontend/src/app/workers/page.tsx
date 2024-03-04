@@ -16,13 +16,15 @@ import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
 import SearchWorker from "@/components/workers/SearchWorker";
+import {  useSelector } from "react-redux";
+import { RootState } from "@/Redux/store";
 import { SlidersHorizontal } from "lucide-react";
 import WorkerCard, { workerProp } from "@/components/workers/WorkerCard";
 import { regions } from "@/helpers/regions";
 import { cities } from "@/helpers/cities";
 import { useInView } from "react-intersection-observer";
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
-import { useSearchParams } from "next/navigation";
+
 
 import { cn } from "@/lib/utils";
 import {
@@ -72,8 +74,7 @@ export default function Workers() {
   const [regionPopoverOpen, setRegionPopoverOpen] = React.useState(false);
   const { ref, inView } = useInView();
   const [isLoading, setIsLoading] = useState(false);
-  const ServiceParams = useSearchParams()
-  const NewServiceId = ServiceParams.get('serviceId')
+  const NewServiceId = useSelector((state : RootState) => state.serviceId);
   // console.log(`NewServiceId: ${NewServiceId}`)
   useEffect(() => {
     if(NewServiceId) {
@@ -317,7 +318,7 @@ export default function Workers() {
               )}
             </div>
           </div>
-          <div className="relative h-screen" ref={ref} >
+          <div className="relative" ref={ref} >
             <div className="mt-6 flex items-center ">
               <div className="w-full grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-10 lg:gap-x-8">
                 {workers &&

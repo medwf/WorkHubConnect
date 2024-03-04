@@ -18,7 +18,7 @@ export default function ServiceHero() {
                   Find your <Type names={services} />
                 </h1>
                 <h3 className="text-sm p-2 text-muted-foreground text-zinc-100  font-medium font-poppins text-wrap text-justify max-w-4xl">
-                  Welcome to our Service Page, your gateway to a diverse range of high-quality services tailored to meet your needs. Whether you're seeking expert solutions for home improvement, technical assistance, creative endeavors, or professional consultancy, our platform offers a rich array of services delivered by skilled professionals.
+                  Welcome to our Service Page, your gateway to a diverse range of high-quality services tailored to meet your needs. Whether you&apos;re seeking expert solutions for home improvement, technical assistance, creative endeavors, or professional consultancy, our platform offers a rich array of services delivered by skilled professionals.
                 </h3>
               </div>
               <div className="w-full h-full relative md:ml-10">
