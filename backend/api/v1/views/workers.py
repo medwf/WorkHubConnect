@@ -9,34 +9,39 @@ from models.worker import Worker
 from models.user import User
 from models.state import State
 from models.service import Service
+from flasgger.utils import swag_from
 
 
-@app_views.route("/cities/<int:city_id>/workers",
-                 strict_slashes=False,
-                 methods=["GET"])
-@app_views.route("/workers/<int:worker_id>", strict_slashes=False, methods=["GET"])
-def workers(city_id=None, worker_id=None):
+@app_views.route("/cities/<int:city_id>/workers", strict_slashes=False, methods=["GET"])
+@swag_from('documentation/worker/get_workers.yml', methods=['GET'])
+def worker_by_city(city_id):
     """Retrieves the list of all workers objects of a City
     Retrieves a Place object.
     """
-    if city_id:
-        city = storage.get(City, city_id)
-        if city:
-            result = []
-            allworkers = city.workers
-            for worker in allworkers:
-                result.append(worker.to_dict())
-            return jsonify(result), 200
-    if worker_id:
-        worker = storage.get(Worker, worker_id)
-        if worker:
-            return jsonify(worker.to_dict()), 200
+    city = storage.get(City, city_id)
+    if city:
+        result = []
+        allworkers = city.workers
+        for worker in allworkers:
+            result.append(worker.to_dict())
+        return jsonify(result), 200
     return make_response(jsonify({"error": "Not found"}), 404)
 
 
-@app_views.route("/workers/<int:worker_id>",
-                 strict_slashes=False,
-                 methods=["DELETE"])
+@app_views.route("/workers/<int:worker_id>", strict_slashes=False, methods=["GET"])
+@swag_from('documentation/worker/get_worker.yml', methods=['GET'])
+def workers(worker_id):
+    """Retrieves the list of all workers objects of a City
+    Retrieves a Place object.
+    """
+    worker = storage.get(Worker, worker_id)
+    if worker:
+        return jsonify(worker.to_dict()), 200
+    return make_response(jsonify({"error": "Not found"}), 404)
+
+
+@app_views.route("/workers/<int:worker_id>", strict_slashes=False, methods=["DELETE"])
+@swag_from('documentation/worker/delete_worker.yml', methods=['DELETE'])
 def delete_worker(worker_id):
     """return a JSON: delete a worker object that match worker_id
     or Not found if the id not match any exist worker"""
@@ -51,6 +56,7 @@ def delete_worker(worker_id):
 @app_views.route("/cities/<int:city_id>/workers",
                  strict_slashes=False,
                  methods=["POST"])
+@swag_from('documentation/worker/post_worker.yml', methods=['POST'])
 def create_worker(city_id):
     """
     If the city_id is not linked to any City object, raise a 404 error
@@ -91,6 +97,7 @@ def create_worker(city_id):
 
 
 @app_views.route("/workers/<int:worker_id>", strict_slashes=False, methods=["PUT"])
+@swag_from('documentation/worker/put_worker.yml', methods=['PUT'])
 def update_worker(worker_id):
     """update worker"""
     worker = storage.get(Worker, worker_id)

@@ -8,6 +8,9 @@ from api.v1.views import app_views
 from models import storage
 from datetime import timedelta
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flasgger import Swagger
+from flasgger.utils import swag_from
+
 
 # Create a Flask app
 app = Flask(__name__)
@@ -32,6 +35,12 @@ def not_found(EXP):
     """Handle 404 errors by returning a JSON response."""
     return {"error": "Not found"}, 404
 
+app.config['SWAGGER'] = {
+    'title': 'WorkHubConnect Restful API',
+    'uiversion': 3
+}
+
+Swagger(app)
 
 if __name__ == "__main__":
     HOST = os.getenv('WORKHUB_API_HOST', "0.0.0.0")

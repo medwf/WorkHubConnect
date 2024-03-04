@@ -1,0 +1,36 @@
+Posts a new project.
+---
+tags:
+  - Projects
+parameters:
+  - name: worker_id
+    in: path
+    type: integer
+    required: true
+    description: The id of the worker to link to
+  - name: title, description
+    in: body
+    required: true
+    requires:
+      - title
+      - description
+    properties:
+      title:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      updated_at:
+        type: string
+      worker_id:
+        type: integer
+responses:
+  404:
+    description: resource not found!
+  400:
+    description: missing title, desc.. or invalid JSON
+  201:
+    description: Successful request

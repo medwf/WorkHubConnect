@@ -5,29 +5,35 @@ from api.v1.views import app_views
 from models import storage
 from models.state import State
 from flask import make_response, request, jsonify
+from flasgger.utils import swag_from
 
 
-@app_views.route("/states/<int:state_id>", strict_slashes=False, methods=["GET"])
 @app_views.route("/states", strict_slashes=False, methods=["GET"])
-def states(state_id=None):
+@swag_from('documentation/state/get_state.yml', methods=['GET'])
+def states():
     """return a JSON: list of all State objects or one State,
     Or not found if id not exsit"""
-    if state_id is None:
-        result = []
-        states = storage.all(State).values()
-        for state in states:
-            result.append(state.to_dict())
-        return jsonify(result)
-    else:
-        state = storage.get(State, state_id)
-        if state is None:
-            return make_response(jsonify({"error": "Not found"}), 404)
-        return jsonify(state.to_dict())
+    result = []
+    states = storage.all(State).values()
+    for state in states:
+        result.append(state.to_dict())
+    return jsonify(result)
+
+@app_views.route("/states/<int:state_id>", strict_slashes=False, methods=["GET"])
+@swag_from('documentation/state/get_id_state.yml', methods=['GET'])
+def states_id(state_id):
+    """return a JSON: list of all State objects or one State,
+    Or not found if id not exsit"""
+    state = storage.get(State, state_id)
+    if state is None:
+        return make_response(jsonify({"error": "Not found"}), 404)
+    return jsonify(state.to_dict())
 
 
 @app_views.route("/states/<int:state_id>",
                  strict_slashes=False,
                  methods=["DELETE"])
+@swag_from('documentation/state/delete_state.yml', methods=['DELETE'])
 def delete_states(state_id):
     """return a JSON: delete a state object that match State_id
     or Not found if id not exist"""
@@ -40,6 +46,7 @@ def delete_states(state_id):
 
 
 @app_views.route("/states", strict_slashes=False, methods=["POST"])
+@swag_from('documentation/state/post_state.yml', methods=['POST'])
 def Create_state():
     """
     If the HTTP body request is not valid JSON,
@@ -63,6 +70,7 @@ def Create_state():
 
 
 @app_views.route("/states/<int:state_id>", strict_slashes=False, methods=["PUT"])
+@swag_from('documentation/state/put_state.yml', methods=['PUT'])
 def Update_state(state_id):
     """
     If the HTTP body request is not valid JSON,

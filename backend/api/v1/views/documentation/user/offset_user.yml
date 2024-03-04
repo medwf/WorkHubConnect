@@ -1,0 +1,57 @@
+GET a page users
+---
+tags:
+  - Users
+swagger: "2.0"
+info:
+  title: User Offset API
+  description: API to retrieve users list with offset
+  version: "1.0"
+paths:
+  /users/page/:
+    get:
+      summary: Retrieve users list with default offset
+      description: |
+        Retrieves a list of users with a default offset value of 1.
+      responses:
+        200:
+          description: A list of users with default offset
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+  /users/page/{offset}:
+    get:
+      summary: Retrieve users list with specified offset
+      description: |
+        Retrieves a list of users with the specified offset value.
+      parameters:
+        - name: offset
+          in: path
+          type: integer
+          required: true
+          description: The offset value for pagination
+      responses:
+        200:
+          description: A list of users with specified offset
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+definitions:
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: The unique identifier for the user
+      first_name:
+        type: string
+        description: The first name of the user
+      last_name:
+        type: string
+        description: The last name of the user
+      email:
+        type: string
+        description: The email address of the user
+      # Add more properties as needed

@@ -7,30 +7,35 @@ from api.v1.views import app_views
 from models import storage
 from models.city import City
 from models.state import State
+from flasgger.utils import swag_from
 
 
-@app_views.route("/states/<int:state_id>/cities",
-                 strict_slashes=False,
-                 methods=["GET"])
-@app_views.route("/cities/<int:city_id>", strict_slashes=False, methods=["GET"])
-def cities(state_id=None, city_id=None):
+@app_views.route("/states/<int:state_id>/cities", strict_slashes=False, methods=["GET"])
+@swag_from('documentation/city/cities_by_state.yml', methods=['GET'])
+def cities(state_id):
     """Retrieves the list of all City objects of a State"""
-    if state_id:
-        state = storage.get(State, state_id)
-        if state:
-            result = []
-            cities = state.cities
-            for city in cities:
-                result.append(city.to_dict())
-            return jsonify(result), 200
-    if city_id:
-        city = storage.get(City, city_id)
-        if city:
-            return jsonify(city.to_dict()), 200
+    state = storage.get(State, state_id)
+    if state:
+        result = []
+        cities = state.cities
+        for city in cities:
+            result.append(city.to_dict())
+        return jsonify(result), 200
+    return make_response(jsonify({"error": "Not found"}), 404)
+
+
+@app_views.route("/cities/<int:city_id>", strict_slashes=False,  methods=["GET"])
+@swag_from('documentation/city/get_city.yml', methods=['GET'])
+def cities_id(city_id):
+    """Retrieves the list of all City objects of a State"""
+    city = storage.get(City, city_id)
+    if city:
+        return jsonify(city.to_dict()), 200
     return make_response(jsonify({"error": "Not found"}), 404)
 
 
 @app_views.route("/cities/<int:city_id>", strict_slashes=False, methods=["DELETE"])
+@swag_from('documentation/city/delete_city.yml', methods=['DELETE'])
 def delete_city(city_id):
     """return a JSON: delete a state object that match city_id
     or Not found if id not exist"""
@@ -45,6 +50,7 @@ def delete_city(city_id):
 @app_views.route("/states/<int:state_id>/cities",
                  strict_slashes=False,
                  methods=["POST"])
+@swag_from('documentation/city/post_city.yml', methods=['POST'])
 def Create_city(state_id):
     """
     If the state_id is not linked to any State object
@@ -73,6 +79,7 @@ def Create_city(state_id):
 
 
 @app_views.route("/cities/<int:city_id>", strict_slashes=False, methods=["PUT"])
+@swag_from('documentation/city/put_city.yml', methods=['PUT'])
 def Update_city(city_id):
     """update city"""
     obj = storage.get(City, city_id)
