@@ -33,6 +33,7 @@ import { setLogin } from "@/state";
 import { Checkbox } from "@/components/ui/checkbox"
 
 import { Check } from "lucide-react";
+import domain from "@/helpers/constants";
 const FormSchema = z.object({
   Email: z.string().min(2),
   password: z.string().min(2),
@@ -68,7 +69,7 @@ export default function Signup() {
 
 
       
-      const response = await axios.post("http://127.0.0.1:5000/api/v1/login", { 
+      const response = await axios.post(`${domain}/api/v1/login`, { 
         email: data.Email,
         password: data.password,
     }, {
@@ -98,7 +99,10 @@ export default function Signup() {
       router.push(`/profile`);
       
     } catch (error:any) {
-      toast.error(error.response.data.error);
+      if (error.response.data.error){
+        toast.error(error.response.data.error);
+      }
+      // toast.error(error.response.data.error);
     } finally {
       setIsLoading(false);
     }
@@ -107,11 +111,11 @@ export default function Signup() {
   }
 
   return (
-    <>
+    <div className="h-screen">
     <MaxWidthWrapper>
 
   
-    <div className="md:px-2 py-10 mt-10 bg-opacity-70 bg-white-50  mx-auto  flex flex-col items-center max-w-md border-gray-100 border-1 bg-[#f8f9fa] rounded-lg shadow-lg">
+    <div className="md:px-2 py-10 mt-10 bg-opacity-70 bg-white-50  mx-auto w-screen  flex flex-col items-center max-w-md border-gray-100 border-1 bg-[#f8f9fa] rounded-lg shadow-lg">
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-4/5 space-y-2 ">
         <div className="flex items-center justify-center py-8">
@@ -183,6 +187,6 @@ export default function Signup() {
     </Form>
     </div>
     </MaxWidthWrapper>
-    </>
+    </div>
   );
 }

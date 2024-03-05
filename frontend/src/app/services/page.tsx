@@ -1,11 +1,13 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ServiceHero from "@/components/services/hero";
 import { ArrowUpWideNarrow, Globe } from "lucide-react";
 import { GrUserExpert } from "react-icons/gr";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import ServiceCard, { servicesProps } from "@/components/services/ServiceCard";
 import { serviceData } from "@/helpers/Mytest";
+import domain from "@/helpers/constants";
+import axios from "axios";
 
 
 export default function Services() {
@@ -26,6 +28,31 @@ export default function Services() {
       description: "Our user-friendly interface makes it simple to locate the information you need quickly."
     }
   ];
+  const [services, setServices] = useState<{ 
+    id: number;
+    en_name?: string;
+    href?: string;
+    description?: string;
+    image?: string;
+    numWorkers?: number;
+
+  }[]>([]);
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await axios.get(
+          `${domain}/api/v1/services`
+        );
+        const services = response.data;
+        setServices(services);
+      } catch (error) {
+        console.error("Error fetching services:", error);
+      }
+    };
+    
+      fetchServices();
+    
+  }, []);
   return (
     <>
       <ServiceHero />
@@ -55,7 +82,7 @@ export default function Services() {
         </h1>
         <div className="grid md:grid-cols-4 grid-cols-2 md:gap-x-6 gap-x-2 md:gap-y-4 gap-y-2 m-2">
 
-            {serviceData && serviceData.map((item:servicesProps,index) =>
+            {services && services.map((item:servicesProps,index) =>
             <ServiceCard key={item.id} service={item} index={index} />)}
         </div>
         </MaxWidthWrapper>

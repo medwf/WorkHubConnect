@@ -37,8 +37,8 @@ function ServiceCard({ service, index }: Prop) {
   if (!service || !isVisible) return <ProjectPlaceholder />;
 
   return (
-    <div className="max-w-sm rounded-lg border-none p-1 relative w-full  group hover:scale-105 hover:z-30 select-none">
-    <div className="relative w-full md:h-[35vh] h-[30vh]">
+    <div className="max-w-sm rounded-lg border-none  relative w-full  group hover:scale-105 hover:z-30 select-none">
+    <div className="relative  md:h-[30vh] h-[24vh]  rounded-lg p-10">
             <Link
             href={'/workers'}
                onClick={() => dispatch(setServiceId(service.id))}
@@ -46,7 +46,7 @@ function ServiceCard({ service, index }: Prop) {
               className={cn(
                 "invisible h-full w-full cursor-pointer group/main",
                 {
-                  "visible animate-in fade-in-5 cursor-pointer": isVisible,
+                  "visible animate-in fade-in-5 cursor-pointer ": isVisible,
                 }
               )}
             
@@ -56,17 +56,18 @@ function ServiceCard({ service, index }: Prop) {
                 <Image
                   src={`${service.image}`}
                   alt="service"
-                  width={1500}
-                  height={1500}
+                  width={700}
+                  height={700}
                   loading="eager"
-                  className="-z-10 h-full w-full object-cover object-center rounded-lg"
+                  className=" rounded-full w-full h-full object-cover object-center  "
                 />
+                <h3 className=" text-center pt-4 font-medium text-sm text-gray-700 pr-1">
+              
+              {service.en_name}
+              </h3>
             </Link>
               </div>
-              <h3 className=" font-medium text-sm text-gray-700 pr-1">
               
-                {service.en_name}
-                </h3>
                 <div>
                 <p className="text-sm text-gray-500 ">{service.description}</p>
                 <p className="text-sm text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

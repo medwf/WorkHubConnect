@@ -148,7 +148,9 @@ export default function Signup() {
       form.reset();
       setRegionName("");
     } catch (error: any) {
-      toast.error(error.response.data.error);
+      if (error.response.data.error) {
+        toast.error(error.response.data.error);
+      }
     }
   }
 

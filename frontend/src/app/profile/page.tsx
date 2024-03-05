@@ -27,6 +27,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import domain from "@/helpers/constants";
+import toast from "react-hot-toast";
 
 const titleClass = "text-muted-foreground text-md text-semibold";
 const labelClass = "text-md font-poppins font-semibold w-1/3 overflow-x-hidden";
@@ -71,7 +72,7 @@ export default function ProfilePage() {
 
         setUserInfo(response.data);
       } catch (error) {
-        console.error("Error fetching user information:", error);
+        toast.error("invalid user info");
       }
     };
 
