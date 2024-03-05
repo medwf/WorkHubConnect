@@ -219,10 +219,14 @@ def workers_filter():
     """
     state_id = request.args.get("state", default=None, type=int)
     city_id = request.args.get("city", default=None, type=int)
-    service_id = request.args.get("service", default=None, type=int)
+    service_arg_str = request.args.get("service", default=None)
     page = request.args.get('page', default=1, type=int)
     limit = request.args.get('limit', default=10, type=int)
 
+    if service_arg_str is not None and service_arg_str.isdigit():
+        service_id = int(service_arg_str)
+    else:
+        service_id = None
     state_id = state_id if state_id != "" else None
     city_id = city_id if city_id != "" else None
     service_id = service_id if service_id != "" else None
@@ -249,7 +253,6 @@ def workers_filter():
         return jsonify(result[0:index + limit])
     # Filter by state
     if state_id is not None:
-        print("in state")
         state = storage.get(State, state_id)
         if state is None:
             return make_response(jsonify({"error": "Region not found"}), 404)
@@ -283,6 +286,17 @@ def workers_filter():
 
     # Filter by service
     if service_id is not None:
+        if len(result) == 0:
+            workers = storage.all(Worker).values()
+            for worker in workers:
+                user = storage.get(User, worker.user_id).to_dict()
+                del user['id']
+                workerdict = worker.to_dict()
+                workerdict.update(**user)
+                workerdict['fullName'] = str(workerdict['first_name']) + " " + str(workerdict['last_name'])
+                ServiceName = storage.get(Service, worker.service_id).en_name
+                workerdict['ServiceName'] = ServiceName
+                result.append(workerdict)
         service = storage.get(Service, service_id)
         if service is None:
             return make_response(jsonify({"error": "Service not found"}), 404)
@@ -292,7 +306,6 @@ def workers_filter():
     # workers = [worker.to_dict() for worker in result]
     # return jsonify(workers), 200
     return jsonify(result[0:index + limit]), 200
-
 
 
 @app_views.route("/workers_filter", strict_slashes=False, methods=["GET"])
