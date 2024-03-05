@@ -1,14 +1,9 @@
 "use client"
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { CiEdit } from "react-icons/ci";
 import Image from "next/image";
-import { RootState } from "@/Redux/store";
-import { removeToken } from "@/state";
-import { isTokenExpired } from "@/helpers/expireToken";
-import { useRouter } from "next/navigation"; 
 import { ChevronRight } from "lucide-react";
 import { GrProjects } from "react-icons/gr";
 import { CgProfile } from "react-icons/cg";
@@ -28,15 +23,14 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import domain from "@/helpers/constants";
 import toast from "react-hot-toast";
+import { useCookies } from "next-client-cookies";
 
 const titleClass = "text-muted-foreground text-md text-semibold";
 const labelClass = "text-md font-poppins font-semibold w-1/3 overflow-x-hidden";
 
 export default function ProfilePage() {
-  const userId = useSelector((state: RootState) => state.user);
-  const token = useSelector((state: RootState) => state.token);
-  const dispatch = useDispatch();
-  const router = useRouter();
+  const cookies = useCookies();
+  const userId = cookies.get("userId");
   const [userInfo, setUserInfo] = useState({
     first_name: "",
     last_name: "",
@@ -57,13 +51,6 @@ export default function ProfilePage() {
   });
 
   useEffect(() => {
-    // if (!token){
-    //   router.replace('/')
-    // }
-    // if (isTokenExpired(token)) {
-    //   dispatch(removeToken());
-    //   router.replace("/");
-    // }
     const fetchUserInfo = async () => {
       try {
         const response = await axios.get(
@@ -81,7 +68,9 @@ export default function ProfilePage() {
     if (userId) {
       fetchUserInfo();
     }
-  }, [token,userId,dispatch,router]);
+  }, [userId]);
+
+
 
   return (
     <main className="h-screen w-full">

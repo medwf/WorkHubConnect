@@ -20,17 +20,18 @@ import {
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import {logout} from "@/state";
-import { useDispatch } from 'react-redux';
-import { useSelector } from "react-redux"; 
-import { RootState } from "@/Redux/store";
+import { useCookies } from 'next-client-cookies';
+import domain from '@/helpers/constants';
 export function DropdownMenuProfile() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();+
+  const cookies = useCookies();
   const router = useRouter();
 
   const logoutAction = async () => {
     try {
-      dispatch(logout());
+      // dispatch(logout());
+      cookies.remove('token');
+      cookies.remove('userId');
       const response = await axios.get("/api/users/logout");
       toast.success(response.data.message);
       router.push('/')
@@ -46,7 +47,7 @@ export function DropdownMenuProfile() {
     { name: 'Settings', link: '/profile/settings', icon: <Settings className="mr-2 h-4 w-4" /> },
     { name: 'Log out', link: '/', icon: <LogOut className="mr-2 h-4 w-4" /> ,onclick: logoutAction},
   ];
-  const userId = useSelector((state: RootState) => state.user); // Access userId from Redux state
+  // const userId = useSelector((state: RootState) => state.user); // Access userId from Redux state
   const [userInfo, setUserInfo] = useState({
     first_name: "",
     last_name: "",
@@ -59,14 +60,15 @@ export function DropdownMenuProfile() {
     image: "",
     service: "",
   });
-
+const userId = cookies.get('userId');
+console.log(userId);
   useEffect(() => {
     console.log("Inside useEffect"); // Log when useEffect is executed
     const fetchUserInfo = async () => {
       try {
         console.log(`Fetching user info ${userId}`); // Log before making the API call
         const response = await axios.get(
-          `http://localhost:5000/api/v1/users/${userId}`
+          `${domain}/api/v1/users/${userId}`
         );
         // const response = await axios(`/api/users/profile/${userId}`);
         console.log(`response ${response}`);
@@ -103,6 +105,7 @@ export function DropdownMenuProfile() {
               <div>
                  <p className="md:text-[16px] font-semibold">
                   {userInfo.first_name} {userInfo.last_name}
+                  
                 
                 </p>
               </div>

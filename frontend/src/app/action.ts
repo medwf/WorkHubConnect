@@ -14,12 +14,12 @@ export const fetchWorkers = async (
     const response = await axios.get(`${domain}/api/v1/workers_search`, {
       params: {
         page: page,
-        limit: 10,
+        limit: 2,
         service: selectedService,
         state: selectedRegion?.id,
         city: selectedCity?.id,
       },
-      // Set the option directly in the request configuration to disable SSL certificate validation
+  
       httpsAgent: new https.Agent({ rejectUnauthorized: false }),
     });
     console.log(response);

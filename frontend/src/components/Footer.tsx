@@ -5,14 +5,14 @@ import { FaDiscord, FaGithub } from 'react-icons/fa'
 
 export default function Footer() {
   return (
-    <footer className="sm:px-16 py-4 px-8 flex justify-between items-center gap-2 flex-wrap bg-slate-200">
+    <footer className="absolute bottom-0 w-full sm:px-16 py-4 px-8 flex justify-between items-center gap-2 flex-wrap bg-slate-100 border-t border-4">
 
       <div className='flex items-center justify-center md:flex-row flex-col px-4'>
       <h1 className='text-gray-800 md:text-md text-sm font-bold font-poppins px-3'>
         WorkHubconnect
       {/* WorkHubConnect - Copyright © 2024 */}
       </h1>
-      <span className='text-muted-foreground text-sm font-poppins text-white'>© This Project made by alx Students - cohort 16</span>
+      <span className='text-muted-foreground text-sm font-poppins text-gray'>© This Project made by alx Students - cohort 16</span>
       </div>
      
 
