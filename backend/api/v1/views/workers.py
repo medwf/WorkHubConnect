@@ -36,8 +36,15 @@ def workers(worker_id):
     """
     worker = storage.get(Worker, worker_id)
     if worker:
-        return jsonify(worker.to_dict()), 200
-    return make_response(jsonify({"error": "Not found"}), 404)
+        user = storage.get(User, worker.user_id).to_dict()
+        del user['id']
+        workerdict = worker.to_dict()
+        workerdict.update(**user)
+        workerdict['fullName'] = str(workerdict['first_name']) + " " + str(workerdict['last_name'])
+        ServiceName = storage.get(Service, worker.service_id).en_name
+        workerdict['ServiceName'] = ServiceName
+        return jsonify(workerdict), 200
+    return make_response(jsonify({"error": "Worker Not found"}), 404)
 
 
 @app_views.route("/workers/<int:worker_id>", strict_slashes=False, methods=["DELETE"])
