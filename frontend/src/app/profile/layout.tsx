@@ -9,18 +9,18 @@ import { removeToken } from '@/state';
 import ProfileHeader from '@/components/profile/ProfileHeader';
 
 export default function ProfileLayout({ children } :{ children:ReactNode}) {
-  const token = useSelector((state: RootState) => state.token);
-  const dispatch = useDispatch();
-  const router = useRouter();
+  // const token = useSelector((state: RootState) => state.token);
+  // const dispatch = useDispatch();
+  // const router = useRouter();
 
-  useEffect(() => {
-    if (!token) {
-      router.push('/auth/login');
-    } else if (isTokenExpired(token)) {
-      dispatch(removeToken());
-      router.push('/auth/login');
-    }
-  }, [token, dispatch, router]);
+  // useEffect(() => {
+  //   if (!token) {
+  //     router.push('/auth/login');
+  //   } else if (isTokenExpired(token)) {
+  //     dispatch(removeToken());
+  //     router.push('/auth/login');
+  //   }
+  // }, [token, dispatch, router]);
   return (
     <>
       <ProfileHeader/>

@@ -1,6 +1,7 @@
 "use server"
 import axios from "axios";
-import toast from "react-hot-toast";
+import https from "https"; // Import the https module
+
 import domain from "@/helpers/constants";
 
 export const fetchWorkers = async (
@@ -9,7 +10,6 @@ export const fetchWorkers = async (
   selectedRegion: { id: number } | null,
   selectedCity: { id: number } | null
 ) => {
-  console.log(domain)
   try {
     const response = await axios.get(`${domain}/api/v1/workers_search`, {
       params: {
@@ -19,7 +19,10 @@ export const fetchWorkers = async (
         state: selectedRegion?.id,
         city: selectedCity?.id,
       },
+      // Set the option directly in the request configuration to disable SSL certificate validation
+      httpsAgent: new https.Agent({ rejectUnauthorized: false }),
     });
+    console.log(response);
     const data = await response.data;
     return data;
   } catch (error: any) {
@@ -29,17 +32,16 @@ export const fetchWorkers = async (
 };
 
 export const fetchServices = async () => {
-    try {
-        const response = await axios.get(
-            `${domain}/api/v1/services`
-        );
-        const services = response.data;
-        return services;
-
-
-    } catch (error:any) {
-      console.error("Error fetching workers:", error);
-        
-        
+  try {
+    const response = await axios.get(`${domain}/api/v1/services`,
+    {
+      httpsAgent: new https.Agent({ rejectUnauthorized: false }),
     }
-}
+    );
+    const services = response.data;
+    return services;
+  } catch (error: any) {
+    console.error("Error fetching services", error);
+    
+  }
+};

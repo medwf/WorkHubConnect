@@ -48,7 +48,7 @@ function WorkerCard({ worker, index }: Prop) {
             >
               
                 <Image
-                  src={`${domain}/api/v1/get_image/${worker.profile_img}`}
+                 src={`${domain}/api/v1/get_image/${worker.profile_img}`}
                   alt="worker"
                   width={1500}
                   height={1500}
@@ -56,6 +56,7 @@ function WorkerCard({ worker, index }: Prop) {
                   className="-z-10 h-full w-full object-cover object-center rounded-lg"
                 />
             </Link>
+            {/* <img src={`${domain}/api/v1/get_image/${worker.profile_img}`}/> */}
               </div>
               <h3 className=" font-medium text-sm text-gray-700 pr-1">
               
