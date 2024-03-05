@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    
   images: {
       remotePatterns: [
           {
@@ -13,7 +14,12 @@ const nextConfig = {
           },
           {
               hostname: 'avatars.githubusercontent.com',
-          }
+          },
+          {
+        
+            hostname: '34.229.66.77',
+
+        }
       ],
   },
 //   compiler: {

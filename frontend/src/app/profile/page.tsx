@@ -13,7 +13,7 @@ import { ChevronRight } from "lucide-react";
 import { GrProjects } from "react-icons/gr";
 import { CgProfile } from "react-icons/cg";
 import { IoMdSettings } from "react-icons/io";
-
+import https from "https";
 import {
   Dialog,
   DialogClose,
@@ -67,7 +67,9 @@ export default function ProfilePage() {
     const fetchUserInfo = async () => {
       try {
         const response = await axios.get(
-          `${domain}api/v1/users/${userId}`
+          `${domain}/api/v1/users/${userId}`,{
+            httpsAgent: new https.Agent({ rejectUnauthorized: false }),
+          }
         );
 
         setUserInfo(response.data);

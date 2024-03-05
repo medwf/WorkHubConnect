@@ -52,20 +52,25 @@ function ServiceCard({ service, index }: Prop) {
             
            
             >
+              {service.image ? (
+   <Image
+   src={`${service.image}`}
+   alt="service"
+   width={700}
+   height={700}
+   loading="eager"
+   className=" rounded-full w-full h-full object-cover object-center  "
+ />
+              ) : (
+                null
+              )}
+             
               
-                <Image
-                  src={`${service.image}`}
-                  alt="service"
-                  width={700}
-                  height={700}
-                  loading="eager"
-                  className=" rounded-full w-full h-full object-cover object-center  "
-                />
-                <h3 className=" text-center pt-4 font-medium text-sm text-gray-700 pr-1">
+            </Link>
+            <h3 className=" text-center pt-4 font-medium text-sm text-gray-700 pr-1">
               
               {service.en_name}
               </h3>
-            </Link>
               </div>
               
                 <div>

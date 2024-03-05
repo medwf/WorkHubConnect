@@ -1,6 +1,6 @@
 
-const DOMAIN_DEV='http://127.0.0.1:5000'
-const DOMAIN_PROD='http://100.25.170.62'
+const DOMAIN_DEV='https://34.229.66.77'
+const DOMAIN_PROD='https://100.25.170.62'
 
 const domain = process.env.NODE_ENV !== 'production'
   ? DOMAIN_DEV
