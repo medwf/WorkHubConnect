@@ -18,11 +18,11 @@ import {
 import { CreditCard, LogOut, Settings, User } from "lucide-react";
 import { FaDiscord, FaGithub } from "react-icons/fa";
 import { DropdownMenuProfile } from "./ProfileMenu";
-import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { logout } from "@/state";
+import { useCookies } from "next-client-cookies";
+import domain from "@/helpers/constants";
 const links = [
   { label: "Home", path: "/" },
   { label: "Services", path: "/services" },
@@ -33,16 +33,12 @@ const links = [
 const Navbar = () => {
   const [activeLink, setActiveLink] = useState("/");
   const [sheetOpen, setSheetOpen] = useState(false);
-  const dispatch = useDispatch();
+  const cookies = useCookies();
   const router = useRouter();
   const logoutAction = async () => {
     try {
-      // Make a request to logout endpoint
-      console.log("logged out");
-      dispatch(logout());
-      const response = await axios.get("/api/users/logout");
+      const response = await axios.get(`${domain}/api/users/logout`);
       console.log(response);
-     
       toast.success(response.data.message);
 
       router.push("/");
@@ -55,7 +51,7 @@ const Navbar = () => {
   const menuItems = [
     {
       label: "Profile",
-      path: "/profile/1/myprofile",
+      path: "/profile",
       icon: <User className="mr-2 h-4 w-4" />,
     },
     {
@@ -78,7 +74,7 @@ const Navbar = () => {
   const menuItems2 = [
     {
       label: "Profile",
-      path: "/profile/1/myprofile",
+      path: "/profile",
       icon: <User className="mr-2 h-4 w-4" />,
     },
 
@@ -89,12 +85,13 @@ const Navbar = () => {
       onclick: logoutAction,
     },
   ];
-  // Function to handle closing the sheet
   const closeSheet = () => {
     setSheetOpen(false);
   };
 
-  const isAuth = Boolean(useSelector((state: any) => state.token));
+  const isAuth = Boolean(cookies.get("token"));
+  console.log("isAuth" + isAuth);
+
 
   return (
     <div className="bg-white sticky z-50 top-0 inset-x-0 h-16 w-full">

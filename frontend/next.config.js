@@ -19,6 +19,8 @@ const nextConfig = {
         
             hostname: '34.229.66.77',
 
+        },{
+            hostname : 'workhubconnect.me'
         }
       ],
   },

@@ -4,7 +4,8 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import axios from "axios";
-import { RootState } from "@/Redux/store";
+import { useCookies } from "next-client-cookies";
+
 import { testProjects } from "@/helpers/Mytest";
 interface Project {
   id: number;
@@ -14,7 +15,8 @@ interface Project {
 
 const SearchProject: React.FC = () => {
   const [activeSearch, setActiveSearch] = useState<Project[]>([]);
-  const userId = useSelector((state: RootState) => state.user);
+  const cookies = useCookies();
+  const userId = cookies.get("userId");
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value.trim();

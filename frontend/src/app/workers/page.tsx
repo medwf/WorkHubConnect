@@ -16,8 +16,6 @@ import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
 import SearchWorker from "@/components/workers/SearchWorker";
-import {  useSelector } from "react-redux";
-import { RootState } from "@/Redux/store";
 import { SlidersHorizontal } from "lucide-react";
 import WorkerCard, { workerProp } from "@/components/workers/WorkerCard";
 import { regions } from "@/helpers/regions";
@@ -40,6 +38,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { fetchServices, fetchWorkers } from "../action";
+import { useCookies } from "next-client-cookies";
 interface Service {
   id: string;
   en_name: string;
@@ -74,24 +73,12 @@ export default function Workers() {
   const [regionPopoverOpen, setRegionPopoverOpen] = React.useState(false);
   const { ref, inView } = useInView();
   const [isLoading, setIsLoading] = useState(false);
-  const NewServiceId = useSelector((state : RootState) => state.serviceId);
-  // console.log(`NewServiceId: ${NewServiceId}`)
-  useEffect(() => {
-    if(NewServiceId) {
-      setSelectedService(NewServiceId);
-    }
-  }, [NewServiceId]);
-
-  // console.log(`NewServiceId: ${selectedService}`);  
 
   const handleMenu = () => {
     setOpen(!open);
   };
 
   const handleServiceChange = (value: string) => {
-    // console.log(value);
-    // const selectedService = services.find((service) => service.id === value);
-    // setSelectedService(selectedService || null);
     setSelectedService(value);
     setSelectedRegion(null);
     setSelectedCity(null);
@@ -99,7 +86,6 @@ export default function Workers() {
     
   };
   const handleRegionChange = (regionName: string) => {
-    // console.log(regionName + " region selected");
     const normalize = regionName.toLowerCase().trim();
     const foundRegion = regions.find(
       (r) => r.region.toLowerCase().trim() === normalize
@@ -117,16 +103,19 @@ export default function Workers() {
         const services = await fetchServices();
         setServices(services);
       } catch (error) {
-        console.error("Error fetching services:", error);
+        
       }
     };
 
     fetchInitialData();
   }, [selectedService]);
-
+  if (inView) {
+    page++;
+  }
   useEffect(() => {
     const handleFetchWorkers = async () => {
-      if (inView) {
+      
+        page++;
         try {
           setIsLoading(true);
           const data = await fetchWorkers(
@@ -136,16 +125,18 @@ export default function Workers() {
             selectedCity
           );
           setWorkers(data);
-          page++;
+          
+         
         } catch (error) {
-          console.error("Error fetching workers:", error);
+         
         } finally {
           setIsLoading(false); 
         }
-      }
+      
     };
     handleFetchWorkers();
-  }, [inView, selectedRegion, selectedCity,selectedService]);
+  }, [inView, selectedService,selectedRegion, selectedCity]);
+ 
   return (
     <>
       <MaxWidthWrapper>
@@ -320,7 +311,7 @@ export default function Workers() {
           </div>
           <div className=" relative h-full" ref={ref} >
             <div className="mt-6 flex items-center ">
-              <div className="w-full grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-10 lg:gap-x-8">
+              <div className="w-full grid grid-cols-2 gap-x-2 gap-y-6 sm:gap-x-4 md:grid-cols-4 md:gap-y-2 lg:gap-x-6">
                 {workers &&
                   workers.map((item: workerProp, index) => (
                     <WorkerCard key={item.id} worker={item} index={index} />

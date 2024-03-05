@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils";
 import domain from "@/helpers/constants";
 
 export interface workerProp {
-  name: string;
-  service: string;
+  fullName: string;
+  ServiceName: string;
   id: number;
   href: string;
   profile_img: string;
@@ -58,11 +58,17 @@ function WorkerCard({ worker, index }: Prop) {
             </Link>
             {/* <img src={`${domain}/api/v1/get_image/${worker.profile_img}`}/> */}
               </div>
-              <h3 className=" font-medium text-sm text-gray-700 pr-1">
+              <div>
+                <div>
+                <h3 className=" font-medium text-sm text-gray-700 pr-1">
               
-                {worker.name}
-                </h3>
-                <p className="text-sm text-gray-500">{worker.service}</p>
+              {worker.fullName}
+              </h3>
+              <p className="text-sm text-gray-500">{worker.ServiceName}</p>
+                </div>
+              
+              </div>
+             
          
             </div>
          

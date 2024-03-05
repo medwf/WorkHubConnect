@@ -5,7 +5,6 @@ import { ArrowUpWideNarrow, Globe } from "lucide-react";
 import { GrUserExpert } from "react-icons/gr";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import ServiceCard, { servicesProps } from "@/components/services/ServiceCard";
-import { serviceData } from "@/helpers/Mytest";
 import domain from "@/helpers/constants";
 import axios from "axios";
 

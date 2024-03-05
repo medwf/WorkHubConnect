@@ -53,12 +53,12 @@ interface Worker {
   id: string;
   fullName?: string;
   email?: string;
-  status?: boolean;
+  is_active?: boolean;
   projects?: Array<any>;
   description?: string;
   price?: number;
   city?: string;
-  service?: string;
+  ServiceName?: string;
   profile_img?: string;
   insta_url?: string;
 }
@@ -76,7 +76,7 @@ const Page = ({ params }: PageProps) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`${domain}/api/v1/workers/${id}`);
+        const res = await axios.get(`${domain}/api/v1/users/${id}`);
         setWorkerData(res.data);
       } catch (error) {
         console.log(error);
@@ -153,7 +153,7 @@ const Page = ({ params }: PageProps) => {
             <section className="mt-4">
               <div className="flex items-center">
                 <p className="font-medium text-gray-900">
-                  {wokerData?.service}
+                  {wokerData?.ServiceName}
                 </p>
 
                 <div className="ml-4 border-l text-muted-foreground border-gray-300 pl-4">
@@ -168,7 +168,7 @@ const Page = ({ params }: PageProps) => {
               </div>
 
               <div className="mt-6 flex items-center">
-                {wokerData?.status ? (
+                {wokerData?.is_active ? (
                   <Check
                     aria-hidden="true"
                     className="h-5 w-5 flex-shrink-0 text-green-500"
@@ -180,7 +180,7 @@ const Page = ({ params }: PageProps) => {
                   />
                 )}
                 <p className="ml-2 text-sm text-muted-foreground">
-                  {wokerData?.status ? "available" : "not available"}
+                  {wokerData?.is_active ? "available" : "not available"}
                 </p>
               </div>
             </section>
@@ -191,7 +191,7 @@ const Page = ({ params }: PageProps) => {
             <div className="aspect-square rounded-lg">
               {wokerData?.profile_img && (
                 <Image
-                  src={wokerData.profile_img}
+                src={`${domain}/api/v1/get_image/${wokerData.profile_img}`}
                   alt="profile image"
                   width={500}
                   height={500}

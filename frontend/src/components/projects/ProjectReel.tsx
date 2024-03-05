@@ -1,13 +1,12 @@
 "use client"
 // ProjectReel.tsx
-import { RootState } from '@/Redux/store';
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import ProjectListing from './ProjectListing';
 import { testProjects2 } from '../../helpers/Mytest';
 import domain from '@/helpers/constants';
+import { useCookies } from 'next-client-cookies';
 
 
 
@@ -34,7 +33,8 @@ const DEFAULT_LIMIT = 4;
 
 const ProjectReel = (props: ProjectReelProps) => {
   const { title, subtitle, href, page = DEFAULT_PAGE, limit = DEFAULT_LIMIT } = props;
-  const userId = useSelector((state: RootState) => state.user);
+  const cookies = useCookies();
+  const userId = cookies.get('userId');
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {

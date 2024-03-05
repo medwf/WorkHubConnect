@@ -24,7 +24,7 @@ interface Prop {
 // src={`${domain}/api/v1/get_image/${service.image}`}
 function ServiceCard({ service, index }: Prop) {
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -41,7 +41,7 @@ function ServiceCard({ service, index }: Prop) {
     <div className="relative  md:h-[30vh] h-[24vh]  rounded-lg p-10">
             <Link
             href={'/workers'}
-               onClick={() => dispatch(setServiceId(service.id))}
+              //  onClick={() => dispatch(setServiceId(service.id))}
                  
               className={cn(
                 "invisible h-full w-full cursor-pointer group/main",

@@ -6,33 +6,22 @@ import axios from "axios";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
+import {useCookies}  from "next-client-cookies"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+
 
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import { FaGoogle } from "react-icons/fa";
 import { toast } from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { setLogin } from "@/state";
-import { Checkbox } from "@/components/ui/checkbox"
 
-import { Check } from "lucide-react";
 import domain from "@/helpers/constants";
 const FormSchema = z.object({
   Email: z.string().min(2),
@@ -44,8 +33,9 @@ export default function Signup() {
   const [selectedRegion, setSelectedRegion] = useState("");
   const [RegionName, setRegionName] = useState("");
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const router = useRouter();
+  const cookie = useCookies();
   
   
 
@@ -83,15 +73,8 @@ export default function Signup() {
     });
 
       const userData = response.data;
-      if(userData){
-        dispatch(
-          setLogin({
-            token: userData.token,
-            user: userData.user_id,
-          })
-        )
-        
-      }
+      cookie.set('token',userData.token );
+      cookie.set('userId',userData.user_id );
       toast.success(response.data.message);
     
     
@@ -102,7 +85,6 @@ export default function Signup() {
       if (error.response.data.error){
         toast.error(error.response.data.error);
       }
-      // toast.error(error.response.data.error);
     } finally {
       setIsLoading(false);
     }
@@ -111,7 +93,7 @@ export default function Signup() {
   }
 
   return (
-    <div className="h-screen">
+    <div className="">
     <MaxWidthWrapper>
 
   

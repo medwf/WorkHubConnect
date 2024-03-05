@@ -35,7 +35,7 @@ const aboutData = [
   },
   {
       name: "Essalhi Mustapha",
-      title: "Full-Stack web developer",
+      title: "Front-end web developer",
       description: "As a full-stack web developer, I've had the privilege of leading a talented team in crafting compelling front-end experiences for our projects. Together, we've built dynamic web applications using Next.js and seamlessly integrated them with APIs to deliver robust functionalities. Our collaborative approach ensures that every aspect of the project, from design to deployment, meets the highest standards. Let's work together to bring your vision to reality!",
       twitter:"https://twitter.com/essalhi_007",
       github: "https://github.com/MEKuroko007",

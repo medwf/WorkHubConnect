@@ -10,7 +10,6 @@ import domain from "@/helpers/constants";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -28,11 +27,9 @@ import { Input } from "@/components/ui/input";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import { FaGoogle } from "react-icons/fa";
 import { regions } from "@/helpers/regions";
 import { cities } from "@/helpers/cities";
-import { useDispatch } from "react-redux";
-import { setLogin } from "@/state";
+
 
 const FormSchema = z.object({
   first_name: z.string(),
@@ -84,7 +81,7 @@ export default function Signup() {
       type: "",
     },
   });
-  const dispatch = useDispatch();
+
   const [services, setServices] = useState<{ id: string; en_name: string }[]>(
     []
   );
@@ -107,7 +104,6 @@ export default function Signup() {
   }, [watchType,form]);
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    // console.log(data);
     data.region = RegionName;
     const selectedCity = cities.find((city) => city.ville === data.city);
 
@@ -131,18 +127,9 @@ export default function Signup() {
         `${domain}/api/v1/register`,
         formDataWithcity_id
       );
-      // console.log(`response : ${res}`);
+  
       const resData = res.data;
-      // console.log(resData);
-      if (resData) {
-        dispatch(
-          setLogin({
-            token: resData.token,
-            user: resData.user_id,
-          })
-        );
-      }
-      // console.log(res.data.message);
+ 
       router.push(`/`);
       toast.success(res.data.message);
       form.reset();

@@ -19,19 +19,19 @@ import domain from "@/helpers/constants";
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const token = useSelector((state: RootState) => state.token);
-  const user = useSelector((state: RootState) => state.user);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const checkTokenAndFetchUserInfo = async () => {
-      if (isTokenExpired(token)) {
-        dispatch(removeToken());
+  // const token = useSelector((state: RootState) => state.token);
+  // const user = useSelector((state: RootState) => state.user);
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   const checkTokenAndFetchUserInfo = async () => {
+  //     if (isTokenExpired(token)) {
+  //       dispatch(removeToken());
 
-        return;
-      }
-    };
-    checkTokenAndFetchUserInfo();
-  }, [token, dispatch]);
+  //       return;
+  //     }
+  //   };
+  //   checkTokenAndFetchUserInfo();
+  // }, [token, dispatch]);
 
   const perks = [
     {

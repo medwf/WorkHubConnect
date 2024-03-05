@@ -46,6 +46,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLogin } from "@/state";
 import { Textarea } from "@/components/ui/textarea";
 import { RootState } from "@/Redux/store";
+import { useCookies } from "next-client-cookies";
 
 const FormSchema = z.object({
   first_name: z.string(),
@@ -121,9 +122,9 @@ export default function Settings() {
       password: '',
     },
   });
-  const dispatch = useDispatch();
   const [services, setServices] = useState<{ id: string; en_name: string }[]>([]);
-  const token = useSelector((state: RootState) => state.token);
+const cookies = useCookies();
+const token = cookies.get('token');
   const watchType = form.watch("type");
   useEffect(() => {
     const fetchServices = async () => {
@@ -171,18 +172,8 @@ export default function Settings() {
           },
         }
       );
-      // console.log(`response : ${res}`);
+
       const resData = res.data;
-      // console.log(resData);
-      if (resData) {
-        dispatch(
-          setLogin({
-            token: resData.token,
-            user: resData.user_id,
-          })
-        );
-      }
-      // console.log(res.data.message);
       router.push(`/`);
       toast.success(res.data.message);
       form.reset();
