@@ -17,10 +17,9 @@ def services():
     services = storage.all(Service).values()
     for service in services:
         nbworkers = len(service.workers)
-        # print(f"Worker number in {service.en_name} is: {nbworkers}")
         servicedict = service.to_dict()
         del servicedict['workers']
-        servicedict['nbw'] = nbworkers
+        servicedict['nbworkers'] = nbworkers
         result.append(servicedict)
     return jsonify(result)
 
@@ -32,12 +31,12 @@ def service_id(service_id):
     Or not found if id not exsit"""
     service = storage.get(Service, service_id)
     if service is None:
-        return make_response(jsonify({"error": "Not found"}), 404)
+        return make_response(jsonify({"error": "Service Not found"}), 404)
     
     nbworkers = len(service.workers)
     servicedict = service.to_dict()
     del servicedict['workers']
-    servicedict['nbw'] = nbworkers
+    servicedict['nbworkers'] = nbworkers
     return jsonify(servicedict)
 
 
@@ -50,7 +49,7 @@ def delete_services(service_id):
     or Not found if id not exist"""
     service = storage.get(Service, service_id)
     if service is None:
-        return make_response(jsonify({"error": "Not found"}), 404)
+        return make_response(jsonify({"error": "Service Not found"}), 404)
     storage.delete(service)
     storage.save()
     return make_response(jsonify({}), 200)
@@ -72,12 +71,12 @@ def Create_Service():
             if len(json_data['en_name']) > 128 or len(json_data['en_name']) == 0:
                 return make_response(jsonify({"error": "Please enter a en_name (up to 128 characters). This field cannot be left empty"}), 400)
         else:
-            return make_response(jsonify({"error": "Missing en_name"}), 400)
+            return make_response(jsonify({"error": "Missing service name in english"}), 400)
         if "ar_name" in json_data:
             if len(json_data['ar_name']) > 128 or len(json_data['ar_name']) == 0:
-                return make_response(jsonify({"error": "Please enter a ar_name (up to 128 characters). This field cannot be left empty"}), 400)
+                return make_response(jsonify({"error": "Please enter an arabic name (up to 128 characters). This field cannot be left empty"}), 400)
         else:
-            return make_response(jsonify({"error": "Missing en_name"}), 400)
+            return make_response(jsonify({"error": "Missing service name in arabic"}), 400)
         if "description" in json_data:
             if len(json_data['description']) > 255 or len(json_data['description']) == 0:
                 return make_response(jsonify({"error": "Please enter a description (up to 255 characters). This field cannot be left empty"}), 400)
@@ -98,9 +97,6 @@ def Update_Service(service_id):
         raise a 400 error with the message Not a JSON
     Returns: the new Service with the status code 200
     """
-    raw_data = request.get_data(as_text=True)
-    print("raw data is:",raw_data)  # Print the raw request data
-    
     json_data = request.get_json(force=True, silent=True)
     print("json data is:",json_data)  
     if not json_data:
