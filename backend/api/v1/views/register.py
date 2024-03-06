@@ -205,7 +205,7 @@ def register_client_worker():
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
 
-@app_views.route("/upload", strict_slashes=False, methods=["POST"])
+@app_views.route("/uploadprofile", strict_slashes=False, methods=["POST"])
 def upload_img():
     if request.method == 'POST':
         if 'files' not in request.files:
@@ -227,7 +227,7 @@ def upload_img():
         print("current dir : ",current_directory)
         file.save('images/' + new_filename)
 
-        file_path = f"{current_directory}/images/{new_filename}"
+        file_path = f"{current_directory}/images/workers/{new_filename}"
         mime = magic.Magic(mime=True)
         file_mime_type = mime.from_file(file_path)
         if file_mime_type not in allowed_mime_types:
