@@ -120,6 +120,7 @@ def update_worker(worker_id):
     worker.insta_url = data.get("insta_url", worker.insta_url)
     worker.tiktok_url = data.get("tiktok_url", worker.tiktok_url)
     worker.linkedin_url = data.get("linkedin_url", worker.linkedin_url)
+    worker.is_available = data.get("is_available", worker.is_available)
     worker.website_url = data.get("website_url", worker.website_url)
     # worker.user_id = worker.user_id
     worker.save()
