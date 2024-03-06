@@ -94,10 +94,15 @@ def register_client_worker():
                 return make_response(jsonify({"error": "Missing city_id"}), 400)
             if not storage.get(City, json_data['city_id']):
                 return make_response(jsonify({"error": "city not found"}), 400)
-            if len(json_data.get('first_name', "")) > 20:
-                return make_response(jsonify({"error": "Input first_name must be less than 20 characters"}), 400)
-            if len(json_data.get('last_name', "")) > 20:
-                return make_response(jsonify({"error": "Input last_name must be less than 20 characters"}), 400)
+
+            if "first_name" not in json_data:
+                return make_response(jsonify({"error": "Missing first name"}), 400)
+            if len(json_data.get('first_name')) > 20 or len(json_data.get('first_name')) < 3:
+                return make_response(jsonify({"error": "Input first_name must be between 3 and 20 characters"}), 400)
+            if "last_name" not in json_data:
+                return make_response(jsonify({"error": "Missing last name"}), 400)
+            if len(json_data.get('last_name')) > 20 or len(json_data.get('last_name')) < 3:
+                return make_response(jsonify({"error": "Input last_name must be between 3 and 20 characters"}), 400)
             phone = json_data.get('phone_number', "")
             if len(phone) > 0:
                 Phone = phone.replace(" ", "")
@@ -233,7 +238,7 @@ def upload_img():
             return jsonify({"message": "Image size must be less than 2MB"})
         url_img = f"/backend/images/{new_filename}"
         print("url of image is", url_img)
-        # response = jsonify({"message": "Image uploaded succesfully", "imgurl" :{url_img} }), 200
+        # response = jsonify({"message": "Image uploaded successfully", "imgurl" :{url_img} }), 200
         # url_img = f"/backend/images/{new_filename}"
         response = jsonify({"message": "Image uploaded successfully", "imgurl": {"url": url_img}}), 200
         return response

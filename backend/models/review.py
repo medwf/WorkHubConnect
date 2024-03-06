@@ -14,6 +14,7 @@ class Review(BaseModel, Base):
     worker_id = Column(Integer, ForeignKey('workers.id'), nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     text = Column(String(1024), nullable=False)
+    note = Column(Integer, nullable=False)
 
     def __init__(self, *args, **kwargs):
         """initializes Review"""

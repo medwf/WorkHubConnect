@@ -1,0 +1,41 @@
+Gets the list of all workers of a city
+---
+tags:
+  - Reviews
+parameters:
+  - name: worker_id
+    in: path
+    type: integer
+    required: true
+    description: the unique id of the worker
+
+responses:
+  200:
+    description: Successful request
+    schema:
+      type: array
+      items:
+        properties:
+          text:
+            type: string
+            description: "text of the user"
+          note:
+            type: integer
+            description: "the note of that review X/5"
+          created_at:
+            type: string
+            description: "Timestamp of user creation"
+          id:
+            type: integer
+            description: "Unique identifier of the user"
+          user_id:
+            type: integer
+            description: "the user id"
+          worker_id:
+            type: integer
+            description: "the worker id"
+          updated_at:
+            type: string
+            description: "Timestamp of last user update"
+  404:
+    description: worker not found
