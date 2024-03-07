@@ -213,21 +213,29 @@ def UpdatePassword():
     if not data:
         return make_response(jsonify({"error": "Bad Request, Not a json"}), 400)
     password = data.get("password", None)
-    if not password:
+    if password is None:
         return make_response(jsonify({"error": "you have to enter old password"}), 400)
     new_password = data.get("new_password", None)
-    if not new_password:
+    if new_password is None:
         return make_response(jsonify({"error": "you have to enter new password"}), 400)
     confirm_password = data.get("confirm_password", None)
-    if not confirm_password:
+    if confirm_password is None:
         return make_response(jsonify({"error": "you have to enter confirm password"}), 400)
     user_id = get_jwt_identity()
     user = storage.get(User, user_id)
+    if user is None:
+        return make_response(jsonify({"error": "User not found"}), 400)
     password = md5(password.encode()).hexdigest()
     if user.password == password:
         if new_password == confirm_password:
+            if len(new_password) < 6:
+                return make_response(jsonify({"error": "Password very weak. It should be at least 6 characters long."}), 400)
+            if len(new_password) > 16:
+                return make_response(jsonify({"error": "Input password must be less than 16 characters"}), 400)
+            if user.password == md5(new_password.encode()).hexdigest():
+                return make_response(jsonify({"error": "Old password and new password must be different"}))
             user.password = new_password
             user.save()
-            return make_response(jsonify({"message": "password updated"}))
+            return make_response(jsonify({"message": "password updated successfully"}))
         return make_response(jsonify({"error": "The new password and confirm password not match."}))
-    return make_response(jsonify({"error": "The old password you entered does not match our records. Please try again."}))
+    return make_response(jsonify({"error": "The old password is incorrect. Please try again."}))
