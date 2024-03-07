@@ -3,10 +3,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "react-hot-toast";
-
 import { Poppins } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import {ReduxStore} from "@/Redux/provider"
 import { CookiesProvider } from 'next-client-cookies/server';
 const poppins = Poppins({
   subsets: ["latin"],
@@ -37,8 +37,11 @@ export default function RootLayout({
         >
           <main className="relative flex flex-col min-h-screen">
             <div className="flex-grow  flex-1">
+            <ReduxStore>
 
             <CookiesProvider>
+
+             
               <Navbar />
               <Toaster
               position="top-center"
@@ -49,6 +52,7 @@ export default function RootLayout({
              
               <Footer />
               </CookiesProvider>
+              </ReduxStore>
 
              
             </div>

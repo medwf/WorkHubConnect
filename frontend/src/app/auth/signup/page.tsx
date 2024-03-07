@@ -29,6 +29,7 @@ import { useForm } from "react-hook-form";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { regions } from "@/helpers/regions";
 import { cities } from "@/helpers/cities";
+import { useCookies } from "next-client-cookies";
 
 
 const FormSchema = z.object({
@@ -47,6 +48,7 @@ export default function Signup() {
   const [RegionName, setRegionName] = useState("");
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const router = useRouter();
+  const cookie = useCookies();
 
   const handleRegionChange = (regionName: string) => {
     const selectedRegion = regions.find(
@@ -129,7 +131,8 @@ export default function Signup() {
       );
   
       const resData = res.data;
- 
+      cookie.set('token',resData.token );
+      cookie.set('userId',resData.user_id );
       router.push(`/`);
       toast.success(res.data.message);
       form.reset();

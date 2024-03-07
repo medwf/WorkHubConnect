@@ -15,7 +15,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
+import { useDispatch } from "react-redux";
+import { setLogin } from "@/state";
 
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
@@ -29,13 +30,14 @@ const FormSchema = z.object({
 
 });
 
-export default function Signup() {
+export default function Login() {
   const [selectedRegion, setSelectedRegion] = useState("");
   const [RegionName, setRegionName] = useState("");
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   // const dispatch = useDispatch();
   const router = useRouter();
   const cookie = useCookies();
+  const dispatch = useDispatch();
   
   
 
@@ -64,17 +66,24 @@ export default function Signup() {
         password: data.password,
     }, {
         withCredentials: true,
-       
         headers: {
           "Content-type": "application/json",
-          'Access-Control-Allow-Origin': 'localhost',
-        
       },
     });
 
       const userData = response.data;
-      cookie.set('token',userData.token );
-      cookie.set('userId',userData.user_id );
+      if(userData){
+        dispatch(
+          setLogin({
+            token: userData.token,
+            user: userData.user_id,
+          })
+        )
+        cookie.set('token',userData.token );
+        cookie.set('userId',userData.user_id );
+        
+      }
+    
       toast.success(response.data.message);
     
     

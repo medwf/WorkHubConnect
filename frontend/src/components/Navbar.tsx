@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import Link from "next/link";
@@ -31,8 +31,8 @@ const links = [
 ];
 
 const Navbar = () => {
-  const [activeLink, setActiveLink] = useState("/");
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const cookies = useCookies();
   const router = useRouter();
   const logoutAction = async () => {
@@ -42,10 +42,8 @@ const Navbar = () => {
       toast.success(response.data.message);
 
       router.push("/");
-   } catch (error) {
-  
+    } catch (error) {
       toast.error("Logout failed");
-
     }
   };
   const menuItems = [
@@ -88,10 +86,13 @@ const Navbar = () => {
   const closeSheet = () => {
     setSheetOpen(false);
   };
-
+  useEffect(() => {
+    // Check authentication status
+    const token = cookies.get("token");
+    setIsAuthenticated(!!token);
+  }, [cookies]);
   const isAuth = Boolean(cookies.get("token"));
-  console.log("isAuth" + isAuth);
-
+  // console.log("isAuth" + isAuth);
 
   return (
     <div className="bg-white sticky z-50 top-0 inset-x-0 h-16 w-full">
@@ -113,7 +114,7 @@ const Navbar = () => {
               </h1>
 
               {/* md lg xl devices */}
-              <div className="hidden md:flex justify-center items-center flex-grow gap-4 mr-20">
+              <div className="hidden md:flex justify-center items-center flex-grow gap-4">
                 <div className="md:flex justify-center items-center gap-2">
                   {links.map((link) => (
                     <Link
@@ -128,32 +129,30 @@ const Navbar = () => {
                       <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-black"></span>
                     </Link>
                   ))}
-                  </div>
-                  <div className="absolute right-28 ">
-                  {isAuth ? (
-                    <DropdownMenuProfile />
-                  ) : (
-                    <div className="flex">
-                      {/* <Button variant={"outline"}>
+                </div>
+              </div>
+              <div className="hidden md:flex ">
+                {isAuthenticated ? (
+                  <DropdownMenuProfile />
+                ) : (
+                  <div className="flex">
+                    {/* <Button variant={"outline"}>
                       {" "}
                       <Link href="/auth/signup">Become a worker</Link>{" "}
                     </Button> */}
-                      <Button
-                        asChild
-                        variant={"default"}
-                        className=" ml-2 rounded-lg bg-gray-900"
-                      >
-                        <Link href="/auth/login" className="flex gap-1">
-                          {" "}
-                          <User className="w-5 h-5 text-white" />{" "}
-                          <h1 className="text-white">Login</h1>
-                        </Link>
-                      </Button>
-                    </div>
-                  )}
+                    <Button
+                      asChild
+                      variant={"default"}
+                      className=" ml-2 rounded-lg bg-gray-900"
+                    >
+                      <Link href="/auth/login" className="flex gap-1">
+                        {" "}
+                        <User className="w-5 h-5 text-white" />{" "}
+                        <h1 className="text-white">Login</h1>
+                      </Link>
+                    </Button>
                   </div>
-                 
-               
+                )}
               </div>
               {/* small devices as phones */}
 

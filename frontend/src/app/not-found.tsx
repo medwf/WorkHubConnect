@@ -8,15 +8,15 @@ export default function NotFound() {
       <MaxWidthWrapper>
         <section className='wrapper flex flex-col justify-center  items-center gap-4 mx-auto my-auto'>
         <div>
-          <Image 
-          src={'/assets/killua.jpg'}
+        <Link href="/" className='text-sky-400 text-bold text-3xl'> <Image 
+          src={'/assets/notFound.jpg'}
           width={700}
           height={700}
           alt='404'
           className=' rounded-full'
-          />
+          /></Link>
         </div>
-      <Link href="/" className='text-sky-400 text-bold text-3xl'>Return Home</Link>
+      
         </section>
       </MaxWidthWrapper>
       

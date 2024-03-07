@@ -1,6 +1,6 @@
 
-const DOMAIN_DEV='https://workhubconnect.me'
-const DOMAIN_PROD='https://100.25.170.62'
+const DOMAIN_DEV='http://localhost:5000'
+const DOMAIN_PROD='https://workhubconnect.me'
 
 const domain = process.env.NODE_ENV !== 'production'
   ? DOMAIN_DEV

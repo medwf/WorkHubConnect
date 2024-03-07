@@ -43,6 +43,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { workerData } from "worker_threads";
+
 
 interface PageProps {
   params: {
@@ -51,14 +53,16 @@ interface PageProps {
 }
 interface Worker {
   id: string;
-  fullName?: string;
+  first_name?: string;
+  last_name?: string;
   email?: string;
-  is_active?: boolean;
+  is_available?: boolean;
   projects?: Array<any>;
   description?: string;
   price?: number;
   city?: string;
-  ServiceName?: string;
+  region?: string;
+  service?: string;
   profile_img?: string;
   insta_url?: string;
 }
@@ -77,6 +81,7 @@ const Page = ({ params }: PageProps) => {
     const fetchData = async () => {
       try {
         const res = await axios.get(`${domain}/api/v1/users/${id}`);
+        console.log(res.data);
         setWorkerData(res.data);
       } catch (error) {
         console.log(error);
@@ -114,9 +119,9 @@ const Page = ({ params }: PageProps) => {
   async function onSubmit(data: z.infer<typeof formSchema>) { alert(data.description)}
 
   return (
-    <MaxWidthWrapper className="bg-white">
-      <div className="bg-white">
-        <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-24 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
+    <MaxWidthWrapper className="bg-white ">
+      <div className=" mb-2">
+        <div className="mx-auto max-w-2xl px-4 py-4 sm:px-6 sm:py-2 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
           {/* Product Details */}
           <div className="lg:max-w-lg lg:self-end">
             <ol className="flex items-center space-x-2">
@@ -146,14 +151,14 @@ const Page = ({ params }: PageProps) => {
 
             <div className="mt-4">
               <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                {wokerData?.fullName}
+                {wokerData?.first_name} {wokerData?.last_name}
               </h1>
             </div>
 
             <section className="mt-4">
               <div className="flex items-center">
                 <p className="font-medium text-gray-900">
-                  {wokerData?.ServiceName}
+                  {wokerData?.service}
                 </p>
 
                 <div className="ml-4 border-l text-muted-foreground border-gray-300 pl-4">
@@ -166,9 +171,13 @@ const Page = ({ params }: PageProps) => {
                   {wokerData?.description}
                 </p>
               </div>
-
+              <div>
+                <p className="text-base text-muted-foreground">
+                  {wokerData?.region} <span aria-hidden='true'>&rarr;</span> {wokerData?.city}
+                </p>
+              </div>
               <div className="mt-6 flex items-center">
-                {wokerData?.is_active ? (
+                {wokerData?.is_available ? (
                   <Check
                     aria-hidden="true"
                     className="h-5 w-5 flex-shrink-0 text-green-500"
@@ -180,14 +189,14 @@ const Page = ({ params }: PageProps) => {
                   />
                 )}
                 <p className="ml-2 text-sm text-muted-foreground">
-                  {wokerData?.is_active ? "available" : "not available"}
+                  {wokerData?.is_available ? "available" : "not available"}
                 </p>
               </div>
             </section>
           </div>
 
           {/* Product images */}
-          <div className="mt-10 lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center">
+          <div className="mt-8 lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center">
             <div className="aspect-square rounded-lg">
               {wokerData?.profile_img && (
                 <Image
@@ -199,10 +208,12 @@ const Page = ({ params }: PageProps) => {
                 />
               )}
             </div>
+            
           </div>
+    
 
           {/* add to cart part */}
-          <div className="mt-10 lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start">
+          <div className="mt-8 lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start">
             <div>
               <div className="mt-10">
                 {/* <Button>Contact Me</Button> */}
@@ -361,13 +372,14 @@ const Page = ({ params }: PageProps) => {
             </div>
           </div>
         </div>
-      </div>
-
-      <ProjectReel
+        <ProjectReel
         href="/products"
         title={`The latest projects`}
         subtitle={`Review me`}
       />
+      </div>
+
+      
     </MaxWidthWrapper>
   );
 };

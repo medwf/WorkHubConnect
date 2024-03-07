@@ -9,7 +9,7 @@ import domain from "@/helpers/constants";
 export interface workerProp {
   fullName: string;
   ServiceName: string;
-  id: number;
+  user_id: number;
   href: string;
   profile_img: string;
 }
@@ -36,7 +36,7 @@ function WorkerCard({ worker, index }: Prop) {
     <div className="max-w-sm rounded-lg border-none p-1 relative w-full cursor-pointer ">
     <div className="relative w-full h-[37vh]">
             <Link
-                href={`/workers/${worker.id}`}
+                href={`/workers/${worker.user_id}`}
               className={cn(
                 "invisible h-full w-full cursor-pointer group/main",
                 {

@@ -5,26 +5,23 @@ import { Skeleton } from "../ui/skeleton";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import domain from "@/helpers/constants";
-import { setServiceId } from "@/state";
-import { Dispatch } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
 export interface servicesProps {
   id: number;
   en_name?: string;
   href?: string;
   description?: string;
   image?: string;
-  numWorkers?: number;
+  nbworkers?: number;
 }
 
 interface Prop {
   service: servicesProps;
   index: number;
 }
-// src={`${domain}/api/v1/get_image/${service.image}`}
+
 function ServiceCard({ service, index }: Prop) {
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  // const dispatch = useDispatch();
+
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -35,60 +32,62 @@ function ServiceCard({ service, index }: Prop) {
   }, [index]);
 
   if (!service || !isVisible) return <ProjectPlaceholder />;
-
+  // console.log(service.image)
   return (
     <div className="max-w-sm rounded-lg border-none  relative w-full  group hover:scale-105 hover:z-30 select-none">
-    <div className="relative  md:h-[30vh] h-[24vh]  rounded-lg p-10">
-            <Link
-            href={'/workers'}
-              //  onClick={() => dispatch(setServiceId(service.id))}
-                 
-              className={cn(
-                "invisible h-full w-full cursor-pointer group/main",
-                {
-                  "visible animate-in fade-in-5 cursor-pointer ": isVisible,
-                }
-              )}
-            
-           
-            >
-              {service.image ? (
-   <Image
-   src={`${service.image}`}
-   alt="service"
-   width={700}
-   height={700}
-   loading="eager"
-   className=" rounded-full w-full h-full object-cover object-center  "
- />
-              ) : (
-                null
-              )}
-             
-              
-            </Link>
-            <h3 className=" text-center pt-4 font-medium text-sm text-gray-700 pr-1">
-              
-              {service.en_name}
-              </h3>
-              </div>
-              
-                <div>
-                <p className="text-sm text-gray-500 ">{service.description}</p>
-                <p className="text-sm text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                We have  {service.numWorkers ? (
-            <span className="font-medium text-blue-900">{service.numWorkers}</span>
+      <div className="relative  md:h-[30vh] h-[24vh] md:py-10 py-40">
+        <Link
+          href={"/workers"}
+           onClick={() => localStorage.setItem('id',`${service?.id}`)}
+
+          className={cn("invisible h-full w-full cursor-pointer group/main", {
+            "visible animate-in fade-in-5 cursor-pointer ": isVisible,
+          })}
+        >
+          {service.image ? (
+            <Image
+              src={`${domain}/api/v1/get_image/${service.image}`}
+              alt="service"
+              width={700}
+              height={700}
+              loading="eager"
+              className=" rounded-md w-full h-full object-cover object-center  "
+            />
+          ) : null}
+          <h3 className=" text-start  font-medium text-sm text-gray-700 ">
+          {service.en_name}
+        </h3>
+        <p className="text-sm text-gray-500 ">{service.description}</p>
+        <p className="text-sm text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          We have{" "}
+          {service.nbworkers ? (
+            <span className="font-medium text-blue-900">
+              {service.nbworkers}
+            </span>
+          ) : (
+            "0"
+          )}{" "}
+          workers
+        </p>
+        </Link>
+        
+      </div>
+
+      {/* <div>
+        <p className="text-sm text-gray-500 px-10">{service.description}</p>
+        <p className="text-sm text-gray-500 px-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          We have{" "}
+          {service.numWorkers ? (
+            <span className="font-medium text-blue-900">
+              {service.numWorkers}
+            </span>
           ) : (
             "an unspecified number of"
-          )} workers
-                </p>
-                </div>
-                
-         
-            </div>
-         
-    
-  
+          )}{" "}
+          workers
+        </p>
+      </div> */}
+    </div>
   );
 }
 const ProjectPlaceholder = () => {

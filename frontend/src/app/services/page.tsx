@@ -43,6 +43,7 @@ export default function Services() {
           `${domain}/api/v1/services`
         );
         const services = response.data;
+        console.log(services)
         setServices(services);
       } catch (error) {
         console.error("Error fetching services:", error);
@@ -79,7 +80,7 @@ export default function Services() {
         <h1 className="text-4xl font-medium font-poppins border-b border-gray-600">
           Our Services
         </h1>
-        <div className="grid md:grid-cols-4 grid-cols-2 md:gap-x-6 gap-x-2 md:gap-y-4 gap-y-2 m-2">
+        <div className="grid md:grid-cols-4 grid-cols-2 md:gap-x-6 gap-x-2 md:gap-y-6 gap-y-2">
 
             {services && services.map((item:servicesProps,index) =>
             <ServiceCard key={item.id} service={item} index={index} />)}

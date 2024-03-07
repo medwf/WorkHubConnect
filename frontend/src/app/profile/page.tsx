@@ -9,28 +9,18 @@ import { GrProjects } from "react-icons/gr";
 import { CgProfile } from "react-icons/cg";
 import { IoMdSettings } from "react-icons/io";
 import https from "https";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import domain from "@/helpers/constants";
 import toast from "react-hot-toast";
 import { useCookies } from "next-client-cookies";
+import StatusToggle from "@/components/profile/toggleStatus";
+import Link from "next/link";
 
 const titleClass = "text-muted-foreground text-md text-semibold";
 const labelClass = "text-md font-poppins font-semibold w-1/3 overflow-x-hidden";
 
 export default function ProfilePage() {
   const cookies = useCookies();
-  const userId = cookies.get("userId");
+  const userId = cookies.get("userId") || "";
   const [userInfo, setUserInfo] = useState({
     first_name: "",
     last_name: "",
@@ -75,12 +65,14 @@ export default function ProfilePage() {
   return (
     <main className="h-screen w-full">
       <div className="hidden md:flex flex-col items-start justify-center mx-auto p-7 ">
-        
+        <div>
+
+        </div>
         <h1 className="md:text-3xl text-xl font-semibold font-poppins">
           My Profile
         </h1>
         {userInfo && (
-          <section className="flex items-center justify-between gap-4 w-full py-5">
+          <section className="flex items-center justify-between gap-4 w-full py-5 border rounded-lg p-4 my-2">
             <div className="flex items-center gap-4">
               <div className="md:min-h-20 md:min-w-20 min-h-14 min-w-14 rounded-full border flex justify-center items-center">
                 {userInfo.image ? (
@@ -107,52 +99,9 @@ export default function ProfilePage() {
                 </p>
               </div>
             </div>
-            <div>
-            <Dialog>
-      <DialogTrigger asChild>
-      <Button
-                variant="outline"
-                type="button"
-                className="flex gap-1 rounded-lg hover:bg-slate-400 hover:text-white"
-              >
-                <p>Edit</p>
-                <CiEdit />
-              </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>Edit Profile</DialogTitle>
-          <DialogDescription>
-            Anyone who has this link will be able to view this.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="flex items-center space-x-2">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="link" className="sr-only">
-              Link
-            </Label>
-            <Input
-              id="link"
-              defaultValue="..."
-              readOnly
-            />
+          <div>
+          <StatusToggle userId={userId} />
           </div>
-          <Button type="submit" size="sm" className="px-3">
-            <span className="sr-only">Copy</span>
-           
-          </Button>
-        </div>
-        <DialogFooter className="sm:justify-start">
-          <DialogClose asChild>
-            <Button type="button" variant="secondary">
-              Close
-            </Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-              
-            </div>
           </section>
         )}
 
@@ -163,16 +112,9 @@ export default function ProfilePage() {
             <h1 className="md:text-3xl text-md font-semibold font-poppins">
               Personal Information
             </h1>
-            <Button
-              variant="outline"
-              type="button"
-              className="flex gap-1 rounded-lg hover:bg-slate-400 hover:text-white"
-            >
-              <p>Edit</p>
-              <CiEdit />
-            </Button>
+            
           </div>
-          <div className="grid md:grid-cols-2 grid-cols-1 p-4">
+          <div className="grid md:grid-cols-2 grid-cols-1 p-4 border rounded-lg my-2">
             {userInfo && (
               <>
                 <div>
@@ -186,8 +128,14 @@ export default function ProfilePage() {
                   <h1 className={titleClass}>Phone</h1>
                   <p className={labelClass}>{userInfo.phone_number}</p>
                   <br />
-                      <h1 className={titleClass}>Bio</h1>
-                      <p className={labelClass}>{userInfo.service}</p>
+                  {userInfo.type === 'workers' && (
+                    <div>
+                       <h1 className={titleClass}>Profession</h1>
+                       <p className={labelClass}>{userInfo.service}</p>
+                    </div>
+
+                  )}
+                     
                     </div>
                   {/* )} */}
                   
@@ -198,7 +146,7 @@ export default function ProfilePage() {
                    
                  
                  
-                  <br />
+   
                  
                     <div>
                       <h1 className={titleClass}>Region</h1>
@@ -224,7 +172,7 @@ export default function ProfilePage() {
 
         {/* Social Media */}
         {userInfo.fb_url || userInfo.linkedin_url || userInfo.tiktok_url || userInfo.website_url || userInfo.insta_url || userInfo.github_url ? (
-          <>
+          <div className="border rounded-e-lg my-2 ">
             <div className="flex items-center justify-between w-full">
               <h1 className="md:text-3xl text-md font-semibold font-poppins">
                 Social media
@@ -273,7 +221,7 @@ export default function ProfilePage() {
                 </>
               )}
             </div>
-          </>
+          </div>
         ) : null}
       </div>
 
@@ -315,27 +263,30 @@ export default function ProfilePage() {
           <h1>{userInfo.email}</h1>
         </div>
         <div className="flex justify-between items-center px-4 py-4 border-y hover:bg-sky-300">
-          <div className="flex justify-center items-center">
+          <Link href={'/profile/projects'} className="flex justify-center items-center">
             <GrProjects/>
           <h1 className="text-muted-foreground text-md text-gray-950 font-poppins pl-2">Projects</h1>
-          </div>
+          </Link>
 
         <ChevronRight />
 
         </div>
         <div className="flex justify-between items-center px-4 py-4 border-y">
-        <div className="flex justify-center items-center">
+        <Link href={'/profile'} className="flex justify-center items-center">
             <CgProfile />
           <h1 className="text-muted-foreground text-md text-gray-950 font-poppins pl-2">Profile Details</h1>
-          </div>
+          </Link>
         <ChevronRight />
 
         </div>
         <div className="flex justify-between items-center px-4 py-4 border-y">
-        <div className="flex justify-center items-center">
-            <IoMdSettings className="h-6 w-6" />
+        
+          <Link href={'/profile/settings'} passHref className="flex justify-center items-center">
+          <IoMdSettings className="h-6 w-6" />
           <h1 className="text-muted-foreground text-md text-gray-950 font-poppins pl-2">Settings</h1>
-          </div>
+          </Link>
+           
+        
         <ChevronRight />
         </div>
       </div>

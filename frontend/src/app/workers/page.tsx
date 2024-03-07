@@ -54,13 +54,13 @@ interface Region {
   region: string;
 }
 let page = 1;
-const sampleServices = [
-  { id: "1", en_name: "Plumbing" },
-  { id: "2", en_name: "Electrician" },
-  { id: "3", en_name: "Cleaning" },
-  { id: "4", en_name: "Landscaping" },
-  { id: "5", en_name: "Carpentry" }
-];
+// const sampleServices = [
+//   { id: "1", en_name: "Plumbing" },
+//   { id: "2", en_name: "Electrician" },
+//   { id: "3", en_name: "Cleaning" },
+//   { id: "4", en_name: "Landscaping" },
+//   { id: "5", en_name: "Carpentry" }
+// ];
 export default function Workers() {
   const [workers, setWorkers] = useState<workerProp[]>([]);
   const [services, setServices] = useState<Service[]>([]);
@@ -314,7 +314,7 @@ export default function Workers() {
               <div className="w-full grid grid-cols-2 gap-x-2 gap-y-6 sm:gap-x-4 md:grid-cols-4 md:gap-y-2 lg:gap-x-6">
                 {workers &&
                   workers.map((item: workerProp, index) => (
-                    <WorkerCard key={item.id} worker={item} index={index} />
+                    <WorkerCard key={item.user_id} worker={item} index={index} />
                   ))}
               </div>
             </div>

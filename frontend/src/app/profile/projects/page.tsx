@@ -17,7 +17,10 @@ const Projects = () => {
     height={500}
     alt='project'
 
-    />
+    /> 
+    <div>
+      Add new Project
+    </div>
     </div>
     <div className='flex justify-center items-center'>
    

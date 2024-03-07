@@ -20,9 +20,10 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/auth/login', request.nextUrl));
   }
 
+
   return null;
 }
 export const config = {
 
-  matcher: '/profile/:path',
+  matcher: '/profile',
 };
