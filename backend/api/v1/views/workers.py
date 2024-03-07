@@ -321,7 +321,7 @@ def ChangeWorkerAvailability():
     current_user_id = get_jwt_identity()
     user = storage.get(User, current_user_id)
     if user is None:
-        return make_response(jsonify({"error": "User not found"}), 404)
+        return make_response(jsonify({"error": "User not found"}), 400)
     state = json_data.get("is_available")
     worker = user.worker
     worker.is_available = state
