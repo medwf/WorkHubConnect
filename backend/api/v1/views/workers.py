@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """import module"""
 from flask import jsonify, make_response, request
-
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, JWTManager
 from api.v1.views import app_views
 from models import storage
 from models.city import City
@@ -10,6 +10,9 @@ from models.user import User
 from models.state import State
 from models.service import Service
 from flasgger.utils import swag_from
+
+
+jwt = JWTManager()
 
 
 @app_views.route("/cities/<int:city_id>/workers", strict_slashes=False, methods=["GET"])
@@ -309,11 +312,17 @@ def workers_filter():
     return jsonify(result[0:index + limit]), 200
 
 
-@app_views.route("/workers_filter", strict_slashes=False, methods=["GET"])
-def workersfilter():
-    state_id = request.args.get("state", default=None, type=int)
-    city_id = request.args.get("city", default=None, type=int)
-    service_id = request.args.get("service", default=None, type=int)
-    page = request.args.get('page', default=1, type=int)
-    limit = request.args.get('limit', default=10, type=int)
-    
+@app_views.route("/worker_status", strict_slashes=False, methods=["PUT"])
+@jwt_required()
+def ChangeWorkerAvailability():
+    json_data = request.get_json(force=True, silent=True)
+    if not json_data:
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
+    current_user_id = get_jwt_identity()
+    user = storage.get(User, current_user_id)
+    if user is None:
+        return make_response(jsonify({"error": "User not found"}), 404)
+    state = json_data.get("is_available")
+    worker = user.worker
+    worker.is_available = state
+    return make_response(jsonify({"message": "Worker State updated successfully"}), 200)
