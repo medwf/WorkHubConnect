@@ -205,6 +205,22 @@ def ResetPassword():
         return make_response(jsonify({"error": "Both New password and Confirm New password are required"}), 400)
     return make_response(jsonify({"error": "Bad Request, Not a json"}), 400)
 
+def MailUpdatePassword(first_name, email):
+    body = f"""Dear {first_name},
+
+This is to inform you that your password has been successfully changed.
+
+If you did not make this change or if you have any concerns about the security of your account,
+please contact our support team immediately at workhubconnect.2024@gmail.com.
+
+Thank you for choosing our service.
+
+Best regards,
+The WorkHubConnect Team
+"""
+    SendMail(email, "Password Change Successful", body)
+
+
 @app_views.route('/update_password', methods=['PUT'])
 @jwt_required()
 def UpdatePassword():
@@ -236,6 +252,7 @@ def UpdatePassword():
                 return make_response(jsonify({"error": "Old password and new password must be different"}))
             user.password = new_password
             user.save()
+            MailUpdatePassword(user.first_name, user.email)
             return make_response(jsonify({"message": "password updated successfully"}))
         return make_response(jsonify({"error": "The new password and confirm password not match."}))
     return make_response(jsonify({"error": "The old password is incorrect. Please try again."}))
