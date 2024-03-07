@@ -266,8 +266,6 @@ def UpdatePassword():
     return make_response(jsonify({"error": "The old password is incorrect. Please try again."}))
 
 
-
-
 @app_views.route("/updateprofile", strict_slashes=False, methods=["PUT"])
 @jwt_required()
 def update_client_worker():
@@ -366,7 +364,7 @@ def update_client_worker():
             user.save()
             return make_response(jsonify({"message": "Profile Updated Successfully"}), 400)
 
-    
+
         #update in case client become a worker
         if json_data['type'] == 'worker' and currenttype == 'client':
             user_keys = ['first_name', 'last_name', 'city_id', 'profile_img', 'phone_number', 'is_active']
