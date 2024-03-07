@@ -13,13 +13,16 @@ from models.service import Service
 from models.review import Review
 from models.image import Image
 from models.project import Project
+from models.tokenblocklist import TokenBlockList
 from os import getenv
 import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-classes = {"Wroker": Worker, "City": City,
-           "Service": Service, "Review": Review, "State": State, "User": User, "Project": Project, "Image": Image}
+classes = {"Worker": Worker, "City": City,
+           "Service": Service, "Review": Review,
+           "State": State, "User": User, "Project": Project,
+           "Image": Image, "TokenBlockList": TokenBlockList}
 
 
 class DBStorage:

@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 from flask import request, make_response, jsonify
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, JWTManager
-from datetime import timedelta, datetime
+from models.tokenblocklist import TokenBlockList
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, JWTManager, get_jwt
+from datetime import timedelta, datetime, timezone
 import time
 from models.user import User
 from models.service import Service
@@ -75,6 +76,24 @@ def create_token():
             return make_response(jsonify({"token": generate_token, "user_id": user.id, "message": "You are successfully logged in"}))
     else:
         return jsonify({"error": "Not json"}), 400
+
+
+@app_views.route("/logout", methods=["DELETE"])
+@jwt_required()
+def modify_token():
+    jti = get_jwt()["jti"]
+    instance = TokenBlockList(jti=jti)
+    instance.save()
+    return make_response(jsonify({"message": "logout successfully"}), 200)
+
+@jwt.token_in_blocklist_loader
+def check_if_token_revoked(jwt_header, jwt_payload: dict) -> bool:
+    jti = jwt_payload["jti"]
+    tokens = storage.all(TokenBlockList).values()
+    if jti not in tokens.to_dict():
+        return False
+    return True
+
 
 @app_views.route("/protected", methods=["GET"])
 @jwt_required()
