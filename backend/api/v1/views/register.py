@@ -225,7 +225,7 @@ def upload_img():
         new_filename = generate_filename(file_extension, 5)
         current_directory = os.getcwd()
         print("current dir : ",current_directory)
-        file.save('images/' + new_filename)
+        file.save('images/workers/' + new_filename)
 
         file_path = f"{current_directory}/images/workers/{new_filename}"
         mime = magic.Magic(mime=True)
@@ -236,7 +236,7 @@ def upload_img():
         is_valid = check_image_size(file_path)
         if not is_valid:
             return jsonify({"message": "Image size must be less than 2MB"})
-        url_img = f"/backend/images/{new_filename}"
+        url_img = f"/backend/images/workers/{new_filename}"
         print("url of image is", url_img)
         # response = jsonify({"message": "Image uploaded successfully", "imgurl" :{url_img} }), 200
         # url_img = f"/backend/images/{new_filename}"
