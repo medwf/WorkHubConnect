@@ -20,6 +20,7 @@ Welcome to workhubconnect, where excellence meets expertise. We understand the i
 - Designing APIs and backend systems.
 - Sending email confirmations for login and password recovery.
 - Documenting APIs.
+- Testing api using POSTMAN
 
 # [ESSALHI Mustapha](https://www.linkedin.com/in/essalhi-mustapha-98749b268/) - Full Stack Developer & DevOps:
 
@@ -41,6 +42,7 @@ Welcome to workhubconnect, where excellence meets expertise. We understand the i
 - Designing APIs and backend systems.
 - Sending email confirmations for login and password recovery.
 - Documenting APIs.
+- Testing api using POSTMAN
 
 ## Technologies:
 
