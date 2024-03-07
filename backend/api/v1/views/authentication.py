@@ -204,3 +204,30 @@ def ResetPassword():
             return make_response(jsonify({"error": "Password and confirm password do not match"}), 400)
         return make_response(jsonify({"error": "Both New password and Confirm New password are required"}), 400)
     return make_response(jsonify({"error": "Bad Request, Not a json"}), 400)
+
+@app_views.route('/update_password', methods=['PUT'])
+@jwt_required()
+def UpdatePassword():
+    """update password for user"""
+    data = request.get_json()
+    if not data:
+        return make_response(jsonify({"error": "Bad Request, Not a json"}), 400)
+    password = data.get("password", None)
+    if not password:
+        return make_response(jsonify({"error": "you have to enter old password"}), 400)
+    new_password = data.get("new_password", None)
+    if not new_password:
+        return make_response(jsonify({"error": "you have to enter new password"}), 400)
+    confirm_password = data.get("confirm_password", None)
+    if not confirm_password:
+        return make_response(jsonify({"error": "you have to enter confirm password"}), 400)
+    user_id = get_jwt_identity()
+    user = storage.get(User, user_id)
+    password = md5(password.encode()).hexdigest()
+    if user.password == password:
+        if new_password == confirm_password:
+            user.password = new_password
+            user.save()
+            return make_response(jsonify({"message": "password updated"}))
+        return make_response(jsonify({"error": "The new password and confirm password not match."}))
+    return make_response(jsonify({"error": "The old password you entered does not match our records. Please try again."}))
