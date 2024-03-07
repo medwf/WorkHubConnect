@@ -85,8 +85,8 @@ def register_client_worker():
                 return make_response(jsonify({"error": "Input email must be less than 50 characters"}), 400)
             if "password" not in json_data:
                 return make_response(jsonify({"error": "Missing password"}), 400)
-            if len(json_data['password']) > 80:
-                return make_response(jsonify({"error": "Input password must be less than 80 characters"}), 400)
+            if len(json_data['password']) > 16:
+                return make_response(jsonify({"error": "Input password must be less than 16 characters"}), 400)
             if len(json_data['password']) < 6:
                 return make_response(jsonify({"error": "Password very weak. It should be at least 6 characters long."}), 400)
             # most cast city id.
@@ -156,8 +156,8 @@ def register_client_worker():
 
             if "password" not in json_data:
                 return make_response(jsonify({"error": "Missing password"}), 400)
-            if len(json_data['password']) > 80:
-                return make_response(jsonify({"error": "Input password must be less than 80 characters"}), 400)
+            if len(json_data['password']) > 16:
+                return make_response(jsonify({"error": "Input password must be less than 16 characters"}), 400)
             if len(json_data['password']) < 6:
                 return make_response(jsonify({"error": "Password very weak. It should be at least 6 characters long."}), 400)
             # most cast city id.
