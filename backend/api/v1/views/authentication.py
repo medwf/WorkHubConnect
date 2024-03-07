@@ -11,7 +11,7 @@ from utils.send_email import SendMail
 from hashlib import md5
 from models import storage
 from api.v1.views import app_views
-import re
+import re, os
 
 
 jwt = JWTManager()
@@ -431,6 +431,15 @@ def update_client_worker():
             user.city_id = user_data.get("city_id", user.city_id)
             user.save()
             worker = user.worker
+            for project in worker.projects:
+                for image in project.images:
+                    img_url = image.url
+                    full_path =  f"{os.getcwd()}/projects/{img_url}"
+                    os.remove(full_path)
+                    storage.delete(image)
+                storage.delete(project)
+            for review in worker.reviews:
+                storage.delete(review)
             storage.delete(worker)
             storage.save()
             return make_response(jsonify({"message": "Profile Updated Successfully, You are no longer designated as a worker."}), 200)
