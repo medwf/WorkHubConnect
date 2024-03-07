@@ -322,7 +322,7 @@ def update_client_worker():
             if not storage.get(Service, service_id):
                 return make_response(jsonify({"error": "Service not found"}), 404)
             worker = user.worker
-            worker.service = worker_data.get("service", worker.service)
+            worker.service_id = worker_data.get("service_id", worker.service_id)
             worker.certifications = worker_data.get("certifications", worker.certifications)
             worker.description = worker_data.get("description", worker.description)
             worker.diplome = worker_data.get("diplome", worker.diplome)
@@ -334,7 +334,7 @@ def update_client_worker():
             worker.website_url = worker_data.get("website_url", worker.website_url)
             user.save()
             worker.save()
-            return make_response(jsonify({"message": "Profile Updated Successfully"}), 400)
+            return make_response(jsonify({"message": "Profile Updated Successfully"}), 200)
 
 
         # update in case client and still client
@@ -362,7 +362,7 @@ def update_client_worker():
             user.is_active = user_data.get("is_active", user.is_active)
             user.city_id = user_data.get("city_id", user.city_id)
             user.save()
-            return make_response(jsonify({"message": "Profile Updated Successfully"}), 400)
+            return make_response(jsonify({"message": "Profile Updated Successfully"}), 200)
 
 
         #update in case client become a worker
@@ -402,7 +402,7 @@ def update_client_worker():
             instance = Worker(**worker_data)
             instance.save()
             user.save()
-            return make_response(jsonify({"message": "Profile Updated Successfully"}), 400)
+            return make_response(jsonify({"message": "Profile Updated Successfully"}), 200)
 
 
         #update in case worker become a client
@@ -433,6 +433,6 @@ def update_client_worker():
             worker = user.worker
             storage.delete(worker)
             storage.save()
-            return make_response(jsonify({"message": "Profile Updated Successfully, You are no longer designated as a worker."}), 400)
+            return make_response(jsonify({"message": "Profile Updated Successfully, You are no longer designated as a worker."}), 200)
     else:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
