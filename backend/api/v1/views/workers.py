@@ -322,7 +322,10 @@ def ChangeWorkerAvailability():
     user = storage.get(User, current_user_id)
     if user is None:
         return make_response(jsonify({"error": "User not found"}), 400)
+    if "is_available" not in json_data:
+        return make_response(jsonify({"error": "Availability state is missing"}), 400)
     state = json_data.get("is_available")
     worker = user.worker
     worker.is_available = state
-    return make_response(jsonify({"message": "Worker State updated successfully"}), 200)
+    worker.save()
+    return make_response(jsonify({"message": "Worker state updated successfully"}), 200)
