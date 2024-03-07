@@ -43,15 +43,13 @@ Here are a few things you can do to get started:
     learn how to connect with professionals, and discover the full range of possibilities our platform offers
 
 Remember, WorkHubConnect is all about empowering professionals like you. If you have any questions or need assistance,
-feel free to reach out to our support team at [workhubconnect.2024@gmail.com].
+feel free to reach out to our support team at workhubconnect.2024@gmail.com.
 
 Once again, welcome to WorkHubConnect! We look forward to seeing you thrive in our community.
 visit Now : https://workhubconnect.com/
 
 Best Regards,
 The WorkHubConnect Team
-[WorkHubConnect]
-[workhubconnect.2024@gmail.com]
 """
     return (content)
 
