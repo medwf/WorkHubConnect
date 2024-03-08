@@ -5,7 +5,7 @@ import models
 from models.base_model import BaseModel, Base
 from models.user import User
 import sqlalchemy
-from sqlalchemy import Column, String, Integer, UniqueConstraint, ForeignKey
+from sqlalchemy import Column, String, Integer, Float, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from hashlib import md5
 
@@ -16,8 +16,10 @@ class Worker(BaseModel, Base):
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False, unique=True)
     service_id = Column(Integer, ForeignKey('services.id'), nullable=False)
     city_id = Column(Integer, ForeignKey('cities.id'), nullable=False)
+    is_available = Column(Boolean, default=True , nullable=False)
     description = Column(String(255), nullable=True)
     diplome = Column(String(100), nullable=True)
+    price = Column(Float, nullable=True)
     certifications = Column(String(255), nullable=True)
     fb_url = Column(String(100), nullable=True)
     insta_url = Column(String(100), nullable=True)

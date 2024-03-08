@@ -1,0 +1,32 @@
+Updates the review info based on ID
+---
+tags:
+  - Reviews
+parameters:
+  - name: review_id
+    in: path
+    type: integer
+    required: true
+    description: The unique id of the review
+  - name: parameters to update
+    in: body
+    required: true
+    requires:
+      - review_id
+    properties:
+      text:
+        type: string
+        description: "text of the user"
+      node:
+        type: integer
+        description: "the note of that review X/5"
+      user_id:
+        type: integer
+        description: "the user id"
+responses:
+  404:
+    description: resource not found!
+  400:
+    description: Not a Valid JSON
+  200:
+    description: Successful request

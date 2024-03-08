@@ -16,6 +16,7 @@
                 Image<span class="req">*</span>
             </label>
             <input name="profile_img" type="file" id="fileUpload" />
+            <input name="name" type="text" id="name" />
             <button type="submit" id="uploadbtn" class="button button-block">Upload</button>
         </div>
     </div>
@@ -30,7 +31,7 @@
             data.append('name', fileName);
             console.log(data.get('files'));
 
-            let url = "http://127.0.0.1:5000/api/v1/upload";
+            let url = "http://172.26.79.166:5000/api/v1/uploadprofile";
             fetch(url, {
                 method: "POST",
                 body: data,

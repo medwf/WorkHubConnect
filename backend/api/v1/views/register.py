@@ -43,15 +43,13 @@ Here are a few things you can do to get started:
     learn how to connect with professionals, and discover the full range of possibilities our platform offers
 
 Remember, WorkHubConnect is all about empowering professionals like you. If you have any questions or need assistance,
-feel free to reach out to our support team at [workhubconnect.2024@gmail.com].
+feel free to reach out to our support team at workhubconnect.2024@gmail.com.
 
 Once again, welcome to WorkHubConnect! We look forward to seeing you thrive in our community.
 visit Now : https://workhubconnect.com/
 
 Best Regards,
 The WorkHubConnect Team
-[WorkHubConnect]
-[workhubconnect.2024@gmail.com]
 """
     return (content)
 
@@ -85,8 +83,8 @@ def register_client_worker():
                 return make_response(jsonify({"error": "Input email must be less than 50 characters"}), 400)
             if "password" not in json_data:
                 return make_response(jsonify({"error": "Missing password"}), 400)
-            if len(json_data['password']) > 80:
-                return make_response(jsonify({"error": "Input password must be less than 80 characters"}), 400)
+            if len(json_data['password']) > 16:
+                return make_response(jsonify({"error": "Input password must be less than 16 characters"}), 400)
             if len(json_data['password']) < 6:
                 return make_response(jsonify({"error": "Password very weak. It should be at least 6 characters long."}), 400)
             # most cast city id.
@@ -94,10 +92,15 @@ def register_client_worker():
                 return make_response(jsonify({"error": "Missing city_id"}), 400)
             if not storage.get(City, json_data['city_id']):
                 return make_response(jsonify({"error": "city not found"}), 400)
-            if len(json_data.get('first_name', "")) > 20:
-                return make_response(jsonify({"error": "Input first_name must be less than 20 characters"}), 400)
-            if len(json_data.get('last_name', "")) > 20:
-                return make_response(jsonify({"error": "Input last_name must be less than 20 characters"}), 400)
+
+            if "first_name" not in json_data:
+                return make_response(jsonify({"error": "Missing first name"}), 400)
+            if len(json_data.get('first_name')) > 20 or len(json_data.get('first_name')) < 3:
+                return make_response(jsonify({"error": "Input first_name must be between 3 and 20 characters"}), 400)
+            if "last_name" not in json_data:
+                return make_response(jsonify({"error": "Missing last name"}), 400)
+            if len(json_data.get('last_name')) > 20 or len(json_data.get('last_name')) < 3:
+                return make_response(jsonify({"error": "Input last_name must be between 3 and 20 characters"}), 400)
             phone = json_data.get('phone_number', "")
             if len(phone) > 0:
                 Phone = phone.replace(" ", "")
@@ -151,8 +154,8 @@ def register_client_worker():
 
             if "password" not in json_data:
                 return make_response(jsonify({"error": "Missing password"}), 400)
-            if len(json_data['password']) > 80:
-                return make_response(jsonify({"error": "Input password must be less than 80 characters"}), 400)
+            if len(json_data['password']) > 16:
+                return make_response(jsonify({"error": "Input password must be less than 16 characters"}), 400)
             if len(json_data['password']) < 6:
                 return make_response(jsonify({"error": "Password very weak. It should be at least 6 characters long."}), 400)
             # most cast city id.
@@ -200,7 +203,7 @@ def register_client_worker():
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
 
-@app_views.route("/upload", strict_slashes=False, methods=["POST"])
+@app_views.route("/uploadprofile", strict_slashes=False, methods=["POST"])
 def upload_img():
     if request.method == 'POST':
         if 'files' not in request.files:
@@ -220,9 +223,9 @@ def upload_img():
         new_filename = generate_filename(file_extension, 5)
         current_directory = os.getcwd()
         print("current dir : ",current_directory)
-        file.save('images/' + new_filename)
+        file.save('images/workers/' + new_filename)
 
-        file_path = f"{current_directory}/images/{new_filename}"
+        file_path = f"{current_directory}/images/workers/{new_filename}"
         mime = magic.Magic(mime=True)
         file_mime_type = mime.from_file(file_path)
         if file_mime_type not in allowed_mime_types:
@@ -231,9 +234,9 @@ def upload_img():
         is_valid = check_image_size(file_path)
         if not is_valid:
             return jsonify({"message": "Image size must be less than 2MB"})
-        url_img = f"/backend/images/{new_filename}"
+        url_img = f"/backend/images/workers/{new_filename}"
         print("url of image is", url_img)
-        # response = jsonify({"message": "Image uploaded succesfully", "imgurl" :{url_img} }), 200
+        # response = jsonify({"message": "Image uploaded successfully", "imgurl" :{url_img} }), 200
         # url_img = f"/backend/images/{new_filename}"
         response = jsonify({"message": "Image uploaded successfully", "imgurl": {"url": url_img}}), 200
         return response

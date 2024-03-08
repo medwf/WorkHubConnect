@@ -41,7 +41,7 @@ def users():
 @swag_from('documentation/user/get_user.yml', methods=["GET"])
 def users_id(user_id):
     """return a JSON: list of all users objects or one User,
-    Or not found if id not exsit"""
+    Or not found if id not exist"""
     user = storage.get(User, user_id)
     if user is None:
         return make_response(jsonify({"error": "User Not found"}), 404)
@@ -95,14 +95,14 @@ def update_user(user_id):
     data = request.get_json(force=True, silent=True)
     if not data:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
-    if len(data.get("password", "")) > 80:
-        return make_response(jsonify({"error": "Input password must be less than 80 characters"}), 400)
+    if len(data.get("password", "")) > 16:
+        return make_response(jsonify({"error": "Input password must be less than 16 characters"}), 400)
     if "city_id" in data and not storage.get(City, data['city_id']):
         return make_response(jsonify({"error": "city not found"}), 400)
-    if len(data.get("first_name", "")) > 20:
-        return make_response(jsonify({"error": "Input first_name must be less than 20 characters"}), 400)
-    if len(data.get("last_name", "")) > 20:
-        return make_response(jsonify({"error": "Input last_name must be less than 20 characters"}), 400)
+    if len(data.get('first_name')) > 20 or len(data.get('first_name')) < 3:
+        return make_response(jsonify({"error": "Input first_name must be between 3 and 20 characters"}), 400)
+    if len(data.get('last_name')) > 20 or len(data.get('last_name')) < 3:
+        return make_response(jsonify({"error": "Input last_name must be between 3 and 20 characters"}), 400)
     phone = data.get('phone_number', "")
     if len(phone) > 0:
         Phone = phone.replace(" ", "")
@@ -111,7 +111,7 @@ def update_user(user_id):
         if len(Phone) > 16:
             return make_response(jsonify({"error": "Input phone_number must be less than 16 characters"}), 400)
         data['phone_number'] = Phone
-    # fix problem encrection password 2 times.jsonify({"error": 
+    # fix problem encryption password 2 times.jsonify({"error": 
     pss = data.get("password", None)
     if pss:
         obj.password = pss
@@ -148,8 +148,8 @@ def Create_user():
 
         if "password" not in json_data:
             return make_response(jsonify({"error": "Missing password"}), 400)
-        if len(json_data['password']) > 80:
-            return make_response(jsonify({"error": "Input password must be less than 80 characters"}), 400)
+        if len(json_data['password']) > 16:
+            return make_response(jsonify({"error": "Input password must be less than 16 characters"}), 400)
         if len(json_data['password']) < 6:
             return make_response(jsonify({"error": "Password very weak. It should be at least 6 characters long."}), 400)
         # most cast city id.
@@ -158,10 +158,15 @@ def Create_user():
         if not storage.get(City, json_data['city_id']):
             return make_response(jsonify({"error": "city not found"}), 400)
 
-        if len(json_data.get('first_name', "")) > 20:
-            return make_response(jsonify({"error": "Input first_name must be less than 20 characters"}), 400)
-        if len(json_data.get('last_name', "")) > 20:
-            return make_response(jsonify({"error": "Input last_name must be less than 20 characters"}), 400)
+        if "first_name" not in json_data:
+            return make_response(jsonify({"error": "Missing first name"}), 400)
+        if len(json_data.get('first_name')) > 20 or len(json_data.get('first_name')) < 3:
+            return make_response(jsonify({"error": "Input first_name must be between 3 and 20 characters"}), 400)
+        
+        if "last_name" not in json_data:
+            return make_response(jsonify({"error": "Missing last name"}), 400)
+        if len(json_data.get('last_name')) > 20 or len(json_data.get('last_name')) < 3:
+            return make_response(jsonify({"error": "Input last_name must be between 3 and 20 characters"}), 400)
 
         phone = json_data.get('phone_number', "")
         if len(phone) > 0:

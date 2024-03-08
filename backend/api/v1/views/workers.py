@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """import module"""
 from flask import jsonify, make_response, request
-
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, JWTManager
 from api.v1.views import app_views
 from models import storage
 from models.city import City
@@ -10,6 +10,9 @@ from models.user import User
 from models.state import State
 from models.service import Service
 from flasgger.utils import swag_from
+
+
+jwt = JWTManager()
 
 
 @app_views.route("/cities/<int:city_id>/workers", strict_slashes=False, methods=["GET"])
@@ -120,6 +123,7 @@ def update_worker(worker_id):
     worker.insta_url = data.get("insta_url", worker.insta_url)
     worker.tiktok_url = data.get("tiktok_url", worker.tiktok_url)
     worker.linkedin_url = data.get("linkedin_url", worker.linkedin_url)
+    worker.is_available = data.get("is_available", worker.is_available)
     worker.website_url = data.get("website_url", worker.website_url)
     # worker.user_id = worker.user_id
     worker.save()
@@ -219,10 +223,14 @@ def workers_filter():
     """
     state_id = request.args.get("state", default=None, type=int)
     city_id = request.args.get("city", default=None, type=int)
-    service_id = request.args.get("service", default=None, type=int)
+    service_arg_str = request.args.get("service", default=None)
     page = request.args.get('page', default=1, type=int)
     limit = request.args.get('limit', default=10, type=int)
 
+    if service_arg_str is not None and service_arg_str.isdigit():
+        service_id = int(service_arg_str)
+    else:
+        service_id = None
     state_id = state_id if state_id != "" else None
     city_id = city_id if city_id != "" else None
     service_id = service_id if service_id != "" else None
@@ -249,7 +257,6 @@ def workers_filter():
         return jsonify(result[0:index + limit])
     # Filter by state
     if state_id is not None:
-        print("in state")
         state = storage.get(State, state_id)
         if state is None:
             return make_response(jsonify({"error": "Region not found"}), 404)
@@ -283,6 +290,17 @@ def workers_filter():
 
     # Filter by service
     if service_id is not None:
+        if len(result) == 0:
+            workers = storage.all(Worker).values()
+            for worker in workers:
+                user = storage.get(User, worker.user_id).to_dict()
+                del user['id']
+                workerdict = worker.to_dict()
+                workerdict.update(**user)
+                workerdict['fullName'] = str(workerdict['first_name']) + " " + str(workerdict['last_name'])
+                ServiceName = storage.get(Service, worker.service_id).en_name
+                workerdict['ServiceName'] = ServiceName
+                result.append(workerdict)
         service = storage.get(Service, service_id)
         if service is None:
             return make_response(jsonify({"error": "Service not found"}), 404)
@@ -294,12 +312,20 @@ def workers_filter():
     return jsonify(result[0:index + limit]), 200
 
 
-
-@app_views.route("/workers_filter", strict_slashes=False, methods=["GET"])
-def workersfilter():
-    state_id = request.args.get("state", default=None, type=int)
-    city_id = request.args.get("city", default=None, type=int)
-    service_id = request.args.get("service", default=None, type=int)
-    page = request.args.get('page', default=1, type=int)
-    limit = request.args.get('limit', default=10, type=int)
-    
+@app_views.route("/worker_status", strict_slashes=False, methods=["PUT"])
+@jwt_required()
+def ChangeWorkerAvailability():
+    json_data = request.get_json(force=True, silent=True)
+    if not json_data:
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
+    current_user_id = get_jwt_identity()
+    user = storage.get(User, current_user_id)
+    if user is None:
+        return make_response(jsonify({"error": "User not found"}), 400)
+    if "is_available" not in json_data:
+        return make_response(jsonify({"error": "Availability state is missing"}), 400)
+    state = json_data.get("is_available")
+    worker = user.worker
+    worker.is_available = state
+    worker.save()
+    return make_response(jsonify({"message": "Worker state updated successfully"}), 200)
