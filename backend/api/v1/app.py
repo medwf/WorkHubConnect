@@ -2,13 +2,14 @@
 """Main module for the Flask web application."""
 import os
 
-from flask import Flask
+from flask import Flask, jsonify
 from flask_cors import CORS
 from api.v1.views import app_views
 from models import storage
 from datetime import timedelta
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from flasgger import Swagger
+from models.tokenblocklist import TokenBlockList
+from flask_jwt_extended import JWTManager
 
 
 # Create a Flask app
@@ -47,10 +48,6 @@ swagger_config['swagger_ui_standalone_preset_js'] = '//unpkg.com/swagger-ui-dist
 swagger_config['jquery_js'] = '//unpkg.com/jquery@2.2.4/dist/jquery.min.js'
 swagger_config['swagger_ui_css'] = '//unpkg.com/swagger-ui-dist@3/swagger-ui.css'
 Swagger(app, config=swagger_config)
-from models.tokenblocklist import TokenBlockList
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, JWTManager, get_jwt
-from flask import request, make_response, jsonify
-from models.user import User
 
 
 @jwt.expired_token_loader
