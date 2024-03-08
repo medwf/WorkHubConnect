@@ -166,7 +166,7 @@ console.log(formDataWithcity_id);
 
 
   return (
-    <section className="w-full h-full">
+    <section className="py-3">
       <MaxWidthWrapper>
         <div className="hidden ">
           <div className="flex items-center justify-center relative">

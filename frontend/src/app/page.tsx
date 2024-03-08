@@ -15,6 +15,9 @@ import { FaHandshakeSimple } from "react-icons/fa6";
 import { MdOutlineWifiProtectedSetup } from "react-icons/md";
 import ServicesSlider from "@/components/ServicesSlider";
 import domain from "@/helpers/constants";
+import { useDispatch, useSelector } from "react-redux";
+import { setLogin } from "@/state";
+import { RootState } from "@/Redux/store";
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -66,6 +69,15 @@ export default function Home() {
   //   setSearchResults(filteredResults);
   // };
   // wrapper grid grid-cols-1 gap-5 md:grid-cols-2 2xl:gap-0
+  // const dispatch = useDispatch()
+  // dispatch(
+  //   setLogin({
+  //     token: 'hi',
+  //     user: '100',
+  //   })
+  // )
+  const id = useSelector((state: RootState) => state.user);
+  console.log("hi"+ id);
   return (
     <>
       <MaxWidthWrapper>

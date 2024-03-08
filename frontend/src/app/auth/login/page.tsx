@@ -72,15 +72,17 @@ export default function Login() {
     });
 
       const userData = response.data;
+      console.log(userData);
       if(userData){
+        console.log("yeah there a user data here")
         dispatch(
           setLogin({
             token: userData.token,
-            user: userData.user_id,
+            user: userData.id,
           })
         )
         cookie.set('token',userData.token );
-        cookie.set('userId',userData.user_id );
+        cookie.set('userId',userData.id );
         
       }
     
@@ -102,7 +104,7 @@ export default function Login() {
   }
 
   return (
-    <div className="">
+    <div className="mx-auto">
     <MaxWidthWrapper>
 
   

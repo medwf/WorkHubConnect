@@ -97,7 +97,7 @@ export default function EditPassword() {
   }
 
   return (
-    <section className="w-full h-full">
+    <section className="py-3">
       <MaxWidthWrapper>
      
       

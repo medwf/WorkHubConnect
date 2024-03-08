@@ -31,6 +31,7 @@ export function DropdownMenuProfile() {
       dispatch(logout());
       cookies.remove("token");
       cookies.remove("userId");
+
       toast.success("logged out successfully");
       router.push("/");
     } catch (error) {
@@ -61,9 +62,10 @@ export function DropdownMenuProfile() {
       onclick: logoutAction,
     },
   ];
-  // const userId = useSelector((state: RootState) => state.user);
-  const userId = cookies.get("userId");
-  console.log("hi"+ userId);
+  const userI = useSelector((state: RootState) => state.user);
+  // console.log(`userid of redux ${userI}`);
+  // const userId = cookies.get("userId");
+  // console.log("hi"+ userId);
   const [userInfo, setUserInfo] = useState({
     first_name: "",
     last_name: "",
@@ -81,8 +83,8 @@ export function DropdownMenuProfile() {
     console.log("Inside useEffect");
     const fetchUserInfo = async () => {
       try {
-        console.log(`Fetching user info ${userId}`);
-        const response = await axios.get(`${domain}/api/v1/users/${userId}`);
+        console.log(`Fetching user info ${userI}`);
+        const response = await axios.get(`${domain}/api/v1/users/${userI}`);
         // const response = await axios(`/api/users/profile/${userId}`);
         console.log(`response ${response}`);
         console.log("API response:", response.data);
@@ -95,7 +97,7 @@ export function DropdownMenuProfile() {
  
       fetchUserInfo();
     
-  }, [userId,cookies]);
+  }, [userI,cookies]);
 
   return (
     <DropdownMenu>
@@ -137,12 +139,16 @@ export function DropdownMenuProfile() {
                 href={item.link}
                 passHref
                 className=" flex items-center"
-                onClick={() => {
-                  if (item.onclick) item.onclick();
-                }}
+                
               >
-                {item.icon}
-                <span>{item.name}</span>
+                <div onClick={() => {
+                  if (item.onclick) item.onclick();
+                }} 
+                >
+                  {item.icon}
+                  <span>{item.name}</span>
+                </div>
+          
               </Link>
             </DropdownMenuItem>
           ))}

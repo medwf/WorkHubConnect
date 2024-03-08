@@ -94,7 +94,7 @@ export default function EditImage() {
     }
   }
   return (
-    <section className="w-full h-full">
+    <section className="py-3">
       <MaxWidthWrapper>
         
       
@@ -104,8 +104,8 @@ export default function EditImage() {
         {/* //images */}
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="outline" className="w-full flex justify-between md:px-20">
-              Edit Image <ChevronRight />
+            <Button variant="outline" className="w-full flex justify-between md:px-20 hover:px-10 group">
+              Edit Image <ChevronRight className="group-hover:rotate-90"/>
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-4xl">

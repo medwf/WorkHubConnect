@@ -279,7 +279,7 @@ export default function Settings() {
           </div>
         </div>
         <div className="grid md:grid-cols-2 grid-cols-1 gap-y-2 my-10 ">
-          <div className="flex flex-col my-10 items-center justify-center gap-7">
+          <div className="flex flex-col ">
             <EditImage />
             <EditPassword />
             <EditProfile />
