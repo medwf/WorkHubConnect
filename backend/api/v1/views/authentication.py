@@ -24,6 +24,8 @@ def is_valid_phone_number(phone):
 @app_views.route('/login', methods=["POST"])
 def create_token():
     """check email and password, then generate a new token"""
+    if not request.is_json:
+        return jsonify({"error": "Bad request, not JSON format"}), 400
     data = request.get_json()
     if data:
         email = data.get("email", None)
@@ -38,16 +40,16 @@ def create_token():
             PASSWORD = md5(password.encode()).hexdigest()
             user = storage.GetUserEmail(User, email=email, password=PASSWORD)
             if user is None:
-                print("bad email or password")
+                print("Bad email or password")
                 return make_response(jsonify({"error": "Invalid email or password"}), 401)
-            generate_token = create_access_token(identity=user.id, expires_delta=timedelta(hours=1))
+            access_token = create_access_token(identity=user.id, expires_delta=timedelta(hours=1))
             createtime = datetime.utcnow()
             expiretime = createtime + timedelta(hours=1)
             print(createtime)
             print(expiretime)
-            print("login success", generate_token)
+            print("login success", access_token)
             response_data = {
-            "token": generate_token,
+            "token": access_token,
             "user_id": user.id,
             "message": "You are successfully logged in"
             }
@@ -59,12 +61,12 @@ def create_token():
             current_datetime = datetime.fromtimestamp(timestamp)
             exptimestamp = current_datetime + timedelta(hours=1)
             exptimecookie = exptimestamp.timestamp()
-            # response.set_cookie('token', value = generate_token, expires = cookie_expire, httponly=True,secure=True, samesite='None',domain = None)
+            # response.set_cookie('token', value = access_token, expires = cookie_expire, httponly=True,secure=True, samesite='None',domain = None)
             # response.set_cookie('user_id', value = str(user.id), expires = cookie_expire, httponly=True, secure=True,samesite='None',domain = None)
             # response.set_cookie('expToken', value = str(expiretime), expires = cookie_expire, httponly=True,secure=True, samesite='None',domain = None)
             response.headers.clear()
-            response.headers['tokennn'] = generate_token
-            response.set_cookie('token', value = generate_token, expires = cookie_expire, samesite='None',max_age = 600)
+            response.headers['tokennn'] = access_token
+            response.set_cookie('token', value = access_token, expires = cookie_expire, samesite='None',max_age = 600)
             response.set_cookie('user_id', value = str(user.id), expires = cookie_expire, samesite='None',max_age = 600)
             response.set_cookie('dateToken', value = str(timestamp), expires = cookie_expire, samesite='None',max_age = 600)
             response.set_cookie('expToken', value = str(exptimecookie), expires = cookie_expire, samesite='None',max_age = 600)
@@ -73,40 +75,14 @@ def create_token():
             # Set cookies for token and user_id
             print("header : ", response.headers)
             return response
-            return make_response(jsonify({"token": generate_token, "user_id": user.id, "message": "You are successfully logged in"}))
+            return make_response(jsonify({"token": access_token, "user_id": user.id, "message": "You are successfully logged in"}))
     else:
-        return jsonify({"error": "Not json"}), 400
+        return jsonify({'error': 'Data is empty JSON'}), 400
 
-
-@app_views.route("/logout", methods=["DELETE"])
-@jwt_required()
-def modify_token():
-    jti = get_jwt()["jti"]
-    instance = TokenBlockList(jti=jti)
-    instance.save()
-    return make_response(jsonify({"message": "logout successfully"}), 200)
-
-@jwt.token_in_blocklist_loader
-def check_if_token_revoked(jwt_header, jwt_payload: dict) -> bool:
-    jti = jwt_payload["jti"]
-    tokens = storage.all(TokenBlockList).values()
-    if jti not in tokens.to_dict():
-        return False
-    return True
-
-
-@app_views.route("/protected", methods=["GET"])
-@jwt_required()
-def protected():
-    current_user_id = get_jwt_identity()
-    user = storage.get(User, current_user_id)
-    if not user:
-        return make_response(jsonify({"error": "user not found"}), 400)
-    return make_response(jsonify({"id": user.id, "email": user.email}), 200)
 
 
 def create_token_register(userID, email=None, password=None):
-    """check email and password, then generate a new token"""
+    """check email and password, then generate an access token"""
     #Email cannot be empty. Please enter and try again.
     if not email or len(email) == 0:
         return make_response(jsonify({"error": "Oops! Something went wrong. Please try again later."}), 401)
@@ -187,16 +163,6 @@ Support: workhubconnect.2024@gmail.com
     }
     response = make_response(jsonify(response_data))
     return response
-
-@jwt.expired_token_loader
-def expired_token_callback(expired_token):
-    print("Token has expired")
-    return jsonify({"message": "Token has expired"}), 401
-
-@jwt.invalid_token_loader
-def invalid_token_callback(invalid_token):
-    print("Invalid Token")
-    return jsonify({"message": "Invalid token"}), 401
 
 
 @app_views.route('/reset-password', methods=['POST'])
@@ -284,3 +250,22 @@ def UpdatePassword():
         return make_response(jsonify({"error": "The new password and confirm password not match."}))
     return make_response(jsonify({"error": "The old password is incorrect. Please try again."}))
 
+
+
+@app_views.route("/logout", methods=["DELETE"])
+@jwt_required()
+def modify_token():
+    jti = get_jwt()["jti"]
+    instance = TokenBlockList(jti=jti)
+    instance.save()
+    return make_response(jsonify({"message": "logout successfully"}), 200)
+
+
+@app_views.route("/protected1", methods=["GET"])
+@jwt_required()
+def protected():
+    current_user_id = get_jwt_identity()
+    user = storage.get(User, current_user_id)
+    if not user:
+        return make_response(jsonify({"error": "user not found"}), 400)
+    return make_response(jsonify({"id": user.id, "email": user.email}), 200)
