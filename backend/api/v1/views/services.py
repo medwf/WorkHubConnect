@@ -115,3 +115,22 @@ def Update_Service(service_id):
     obj.description = json_data.get("description", obj.description)
     obj.save()
     return jsonify(obj.to_dict()), 200
+
+
+
+@app_views.route("/popular_services", strict_slashes=False, methods=["GET"])
+# @swag_from('documentation/service/get_services.yml', methods=['GET'])
+def PopularServices():
+    """return a JSON: list of all Service objects or one Service,
+    Or not found if id not exsit"""
+    limit = request.args.get('limit', default=10, type=int)
+    result = []
+    services = storage.all(Service).values()
+    for service in services:
+        nbworkers = len(service.workers)
+        servicedict = service.to_dict()
+        del servicedict['workers']
+        servicedict['nbworkers'] = nbworkers
+        result.append(servicedict)
+        sorted_result = sorted(result, key=lambda x: x["nbworkers"], reverse=True)
+    return make_response(jsonify(sorted_result[:limit]), 200)
