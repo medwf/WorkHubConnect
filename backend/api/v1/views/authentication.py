@@ -318,7 +318,7 @@ def update_client_worker():
                            'fb_url', 'insta_url','tiktok_url', 'linkedin_url', 'website_url']
             worker_data = {key: json_data[key] for key in worker_keys if key in json_data}
 
-            if not storage.get(City, user_data['city_id']):
+            if not storage.get(City, user_data.get('city_id', None)):
                 return make_response(jsonify({"error": "city not found"}), 400)
             if len(user_data.get('first_name')) > 20 or len(user_data.get('first_name')) < 3:
                 return make_response(jsonify({"error": "Input first_name must be between 3 and 20 characters"}), 400)
@@ -361,7 +361,7 @@ def update_client_worker():
             user_keys = ['first_name', 'last_name', 'city_id', 'profile_img', 'phone_number', 'is_active']
             user_data = {key: json_data[key] for key in user_keys if key in json_data}
 
-            if not storage.get(City, user_data['city_id']):
+            if not storage.get(City, user_data.get('city_id', None)):
                 return make_response(jsonify({"error": "city not found"}), 400)
             if len(user_data.get('first_name')) > 20 or len(user_data.get('first_name')) < 3:
                 return make_response(jsonify({"error": "Input first_name must be between 3 and 20 characters"}), 400)
@@ -392,7 +392,7 @@ def update_client_worker():
                            'fb_url', 'insta_url','tiktok_url', 'linkedin_url', 'website_url']
             worker_data = {key: json_data[key] for key in worker_keys if key in json_data}
 
-            if not storage.get(City, user_data['city_id']):
+            if not storage.get(City, user_data.get('city_id', None)):
                 return make_response(jsonify({"error": "city not found"}), 400)
             if len(user_data.get('first_name')) > 20 or len(user_data.get('first_name')) < 3:
                 return make_response(jsonify({"error": "Input first_name must be between 3 and 20 characters"}), 400)
@@ -453,7 +453,7 @@ def update_client_worker():
             for project in worker.projects:
                 for image in project.images:
                     img_url = image.url
-                    full_path =  f"{os.getcwd()}/projects/{img_url}"
+                    full_path =  f"{os.getcwd()}{img_url}"
                     os.remove(full_path)
                     storage.delete(image)
                 storage.delete(project)
