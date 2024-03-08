@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """Importing modules"""
-import hashlib
 from flask import jsonify, make_response, request
 from api.v1.views import app_views
 from models import storage
@@ -8,12 +7,10 @@ from models.user import User
 from models.service import Service
 from models.city import City
 from models.worker import Worker
-import magic
-import re, os
+import re
 from api.v1.views.users import *
 from api.v1.views.authentication import *
 from utils.send_email import SendMail
-from utils.upload import upload_image, generate_filename, check_image_size
 
 email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
 email_regex =  r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
@@ -87,7 +84,7 @@ def register_client_worker():
                 return make_response(jsonify({"error": "Input password must be less than 16 characters"}), 400)
             if len(json_data['password']) < 6:
                 return make_response(jsonify({"error": "Password very weak. It should be at least 6 characters long."}), 400)
-            # most cast city id.
+
             if "city_id" not in json_data:
                 return make_response(jsonify({"error": "Missing city_id"}), 400)
             if not storage.get(City, json_data['city_id']):
@@ -123,10 +120,8 @@ def register_client_worker():
             service_id = json_data["service_id"]
             if not storage.get(Service, service_id):
                 return make_response(jsonify({"error": "Service not found"}), 404)
-            print("ALL DATA\n:",json_data)
             user_keys = ['email', 'password', 'first_name', 'last_name', 'city_id', 'profile_img', 'phone_number', 'is_active']
             user_data = {key: json_data[key] for key in user_keys if key in json_data}
-            print("USER DATA\n:", user_data)
             instance = User(**user_data)
             instance.save()
             user_id = instance.id
@@ -136,7 +131,6 @@ def register_client_worker():
             worker_keys = ['user_id', 'service_id', 'city_id', 'description', 'diplome', 'certifications',
                            'fb_url', 'insta_url','tiktok_url', 'linkedin_url', 'website_url']
             worker_data = {key: json_data[key] for key in worker_keys if key in json_data}
-            print("WORKER DATA\n:", worker_data)
             instance = Worker(**worker_data)
             instance.save()
             content = MailBody(json_data['first_name'])
@@ -158,7 +152,7 @@ def register_client_worker():
                 return make_response(jsonify({"error": "Input password must be less than 16 characters"}), 400)
             if len(json_data['password']) < 6:
                 return make_response(jsonify({"error": "Password very weak. It should be at least 6 characters long."}), 400)
-            # most cast city id.
+
             if "city_id" not in json_data:
                 return make_response(jsonify({"error": "Missing city_id"}), 400)
             if not storage.get(City, json_data['city_id']):
@@ -181,16 +175,16 @@ def register_client_worker():
                     return make_response(jsonify({"error": "Email already exists"})), 400
             if 'id' in json_data:
                 del json_data['id']
-            if "profile_img" in json_data:
-                file = request.files.get('profile_img')
-                print(file)
-                response = upload_image(file)
-                data  = response.get_json()
-                if response.status_code == 200:
-                    message = data.get('message', '')
-                    img_url = data.get('imgurl', {}).get('url_img', '')
-                    print(f"Message: {message}")
-                    print(f"Image URL: {img_url}")
+            # if "profile_img" in json_data:
+            #     file = request.files.get('profile_img')
+            #     print(file)
+            #     response = upload_image(file)
+            #     data  = response.get_json()
+            #     if response.status_code == 200:
+            #         message = data.get('message', '')
+            #         img_url = data.get('imgurl', {}).get('url_img', '')
+            #         print(f"Message: {message}")
+            #         print(f"Image URL: {img_url}")
             user_keys = ['email', 'password', 'first_name', 'last_name', 'city_id', 'profile_img', 'phone_number', 'is_active']
             user_data = {key: json_data[key] for key in user_keys if key in json_data}
             instance = User(**user_data)
@@ -201,42 +195,3 @@ def register_client_worker():
             return res, 201
     else:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
-
-
-@app_views.route("/uploadprofile", strict_slashes=False, methods=["POST"])
-def upload_img():
-    if request.method == 'POST':
-        if 'files' not in request.files:
-            print("not file")
-            return make_response(jsonify({"message": "No selected file"}), 403)
-        file = request.files['files']
-        if file.filename == '':
-            return make_response(jsonify({"message": "No selected file"}))
-        if file.filename == '':
-            return make_response(jsonify({"message": "No No selected file"}))
-        allowed_extensions = ("png", "jpeg", "jpg")
-        allowed_mime_types = ("image/jpeg", "image/png", "image/jpg")
-        basename, file_extension = file.filename.rsplit('.', 1)
-        if file_extension.lower() not in allowed_extensions:
-            return make_response(jsonify({"message": "Please upload images in one of the following formats: PNG, JPEG, or JPG"}))
-
-        new_filename = generate_filename(file_extension, 5)
-        current_directory = os.getcwd()
-        print("current dir : ",current_directory)
-        file.save('images/workers/' + new_filename)
-
-        file_path = f"{current_directory}/images/workers/{new_filename}"
-        mime = magic.Magic(mime=True)
-        file_mime_type = mime.from_file(file_path)
-        if file_mime_type not in allowed_mime_types:
-            os.remove(file_path)
-            return make_response(jsonify({"message": "Please upload images in one of the following mime_types : PNG, JPEG, or JPG"}))
-        is_valid = check_image_size(file_path)
-        if not is_valid:
-            return jsonify({"message": "Image size must be less than 2MB"})
-        url_img = f"/backend/images/workers/{new_filename}"
-        print("url of image is", url_img)
-        # response = jsonify({"message": "Image uploaded successfully", "imgurl" :{url_img} }), 200
-        # url_img = f"/backend/images/{new_filename}"
-        response = jsonify({"message": "Image uploaded successfully", "imgurl": {"url": url_img}}), 200
-        return response
