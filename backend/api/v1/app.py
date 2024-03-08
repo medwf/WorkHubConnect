@@ -21,6 +21,7 @@ app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=30)
 app.config['JWT_BLACKLIST_ENABLED'] = True
 app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
 jwt = JWTManager(app)
+
 # Register the blueprint for API routes
 app.register_blueprint(app_views, url_prefix="/api/v1")
 
@@ -46,6 +47,35 @@ swagger_config['swagger_ui_standalone_preset_js'] = '//unpkg.com/swagger-ui-dist
 swagger_config['jquery_js'] = '//unpkg.com/jquery@2.2.4/dist/jquery.min.js'
 swagger_config['swagger_ui_css'] = '//unpkg.com/swagger-ui-dist@3/swagger-ui.css'
 Swagger(app, config=swagger_config)
+from models.tokenblocklist import TokenBlockList
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, JWTManager, get_jwt
+from flask import request, make_response, jsonify
+from models.user import User
+
+
+@jwt.expired_token_loader
+def expired_token_callback(expired_token):
+    print("Token has expired")
+    return jsonify({"message": "Token has expired"}), 401
+
+@jwt.invalid_token_loader
+def invalid_token_callback(invalid_token):
+    print("Invalid Token")
+    return jsonify({"message": "Invalid token"}), 401
+
+@jwt.revoked_token_loader
+def revoked_token_response(jwt_header, jwt_payload):
+    return jsonify({'message': 'Token has been revoked'}), 401
+
+@jwt.token_in_blocklist_loader
+def check_if_token_revoked(jwt_header, jwt_payload: dict) -> bool:
+    jti = jwt_payload["jti"]
+    tokens = storage.all(TokenBlockList).values()
+    for token in tokens:
+        if jti == token.to_dict()['jti']:
+            return True
+    return False
+
 
 if __name__ == "__main__":
     HOST = os.getenv('WORKHUB_API_HOST', "0.0.0.0")
