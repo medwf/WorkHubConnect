@@ -205,27 +205,32 @@ def users_with_offset(offset=1):
 
 
 @app_views.route("/uploadprofile", strict_slashes=False, methods=["POST"])
+@jwt_required()
 def upload_img():
     if request.method == 'POST':
+        # request_data = request.get_json()
+        # print(request_data)
         if 'files' not in request.files:
             print("not file")
             return make_response(jsonify({"message": "No selected file"}), 400)
         file = request.files['files']
         if file.filename == '':
             return make_response(jsonify({"message": "No selected file"}))
-        if file.filename == '':
-            return make_response(jsonify({"message": "No No selected file"}))
+
         allowed_extensions = ("png", "jpeg", "jpg")
         allowed_mime_types = ("image/jpeg", "image/png", "image/jpg")
         basename, file_extension = file.filename.rsplit('.', 1)
         if file_extension.lower() not in allowed_extensions:
             return make_response(jsonify({"message": "Please upload images in one of the following formats: PNG, JPEG, or JPG"}))
-
-        new_filename = generate_filename(file_extension, 5)
+        current_user_id = get_jwt_identity()
+        new_filename = generate_filename(file_extension, current_user_id)
+        user = storage.get(User, current_user_id)
+        print(user.email)
         current_directory = os.getcwd()
-        file.save('images/workers/' + new_filename)
-
-        file_path = f"{current_directory}/images/workers/{new_filename}"
+        os.makedirs('images/users/', exist_ok=True)
+        file.save('images/users/' + new_filename)
+        
+        file_path = f"{current_directory}/images/users/{new_filename}"
         mime = magic.Magic(mime=True)
         file_mime_type = mime.from_file(file_path)
         if file_mime_type not in allowed_mime_types:
@@ -234,11 +239,19 @@ def upload_img():
         is_valid = check_image_size(file_path)
         if not is_valid:
             return jsonify({"message": "Image size must be less than 2MB"})
-        url_img = f"/backend/images/workers/{new_filename}"
-        # response = jsonify({"message": "Image uploaded successfully", "imgurl" :{url_img} }), 200
-        # url_img = f"/backend/images/{new_filename}"
-        response = jsonify({"message": "Image uploaded successfully", "imgurl": {"url": url_img}}), 200
-        return response
+        new_img = f"users/{new_filename}"
+
+        if os.path.exists(file_path):
+            if user.profile_img:
+                try:
+                    path_oldimg = f"{current_directory}/images/{user.profile_img}"
+                    os.remove(path_oldimg)
+                except:
+                    pass
+        user.profile_img = new_img
+        user.save()
+        response_data = {"message": "Profile image updated successfully", "url": (new_img)}
+        return make_response (jsonify(response_data),200)
 
 
 
