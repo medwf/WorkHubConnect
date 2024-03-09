@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ReduxStore } from "@/Redux/provider";
 import { CookiesProvider } from 'next-client-cookies/server';
+import Foter from "@/components/Foter";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -35,7 +36,7 @@ export default function RootLayout({
                 <Navbar />
                 <Toaster position="top-center" reverseOrder={false} />
                 {children}
-                <Footer />
+                <Footer/>
               </CookiesProvider>
             </ReduxStore>
           </div>

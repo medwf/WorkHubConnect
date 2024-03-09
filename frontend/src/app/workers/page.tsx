@@ -124,6 +124,7 @@ export default function Workers() {
             selectedRegion,
             selectedCity
           );
+          console.log(data);
           setWorkers(data);
           
          

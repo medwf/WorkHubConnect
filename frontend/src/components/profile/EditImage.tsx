@@ -67,20 +67,18 @@ export default function EditImage() {
   const token = cookies.get("token");
   const userId =  cookies.get("userId");
 
-
   async function onSubmitTwo(data: z.infer<typeof FormSchemaTwo>) {
-    console.log(data);
     try {
+      const formData = new FormData();
+      formData.append('image', data.image);
+  
       const response = await axios.post(
         `${domain}/api/v1/uploadprofile`,
-        {
-        
-          image:data.image,
-        },
+        formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
-
+            'Content-Type': 'multipart/form-data',
           },
         }
       );
@@ -90,9 +88,9 @@ export default function EditImage() {
       if (error.response && error.response.data && error.response.data.error) {
         toast.error(error.response.data.error);
       }
-      
     }
   }
+  
   return (
     <section className="py-3">
       <MaxWidthWrapper>

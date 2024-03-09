@@ -23,6 +23,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCookies } from "next-client-cookies";
 import domain from "@/helpers/constants";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/state";
 const links = [
   { label: "Home", path: "/" },
   { label: "Services", path: "/services" },
@@ -35,15 +37,19 @@ const Navbar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const cookies = useCookies();
   const router = useRouter();
+  const dispatch = useDispatch();
   const logoutAction = async () => {
     try {
-      const response = await axios.get(`${domain}/api/users/logout`);
-      console.log(response);
-      toast.success(response.data.message);
-
-      router.push("/");
+      dispatch(logout());
+    
+      cookies.remove('token');
+      cookies.remove('userId');
+      toast.success('logged out successfully')
+      router.push('/')
+      
     } catch (error) {
       toast.error("Logout failed");
+     
     }
   };
   const menuItems = [
@@ -86,12 +92,8 @@ const Navbar = () => {
   const closeSheet = () => {
     setSheetOpen(false);
   };
-  useEffect(() => {
-    // Check authentication status
-    const token = cookies.get("token");
-    setIsAuthenticated(!!token);
-  }, [cookies]);
-  const isAuth = Boolean(cookies.get("token"));
+
+  const isAuth = Boolean(useSelector((state: any) => state.token));
   // console.log("isAuth" + isAuth);
 
   return (
@@ -132,7 +134,7 @@ const Navbar = () => {
                 </div>
               </div>
               <div className="hidden md:flex ">
-                {isAuthenticated ? (
+                {isAuth ? (
                   <DropdownMenuProfile />
                 ) : (
                   <div className="flex">
@@ -188,14 +190,18 @@ const Navbar = () => {
                                 <Link
                                   href={item.path}
                                   passHref
-                                  onClick={() => {
-                                    if (item.onclick) item.onclick();
-                                  }}
                                   className={`text-black flex flex-col gap-4  font-meduim font-poppins text-2xl  group  transition duration-300 `}
                                 >
                                   {/* <ArrowUpRight /> */}
-                                  {item.label}
-                                  <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-black"></span>
+                                  <div
+                                    onClick={() => {
+                                      if (item.onclick) item.onclick();
+                                    }}
+                                  >
+                                    {item.label}
+                                  </div>
+
+                                  <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.2 bg-black"></span>
                                 </Link>
                               </SheetClose>
                             ))}

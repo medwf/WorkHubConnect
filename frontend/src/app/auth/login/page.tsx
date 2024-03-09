@@ -2,6 +2,7 @@
 import React,{useState} from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import "../../globals.css";
 import axios from "axios";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -73,18 +74,20 @@ export default function Login() {
 
       const userData = response.data;
       console.log(userData);
-      if(userData){
+      console.log(userData.user_id);
+      
         console.log("yeah there a user data here")
         dispatch(
           setLogin({
             token: userData.token,
-            user: userData.id,
+            user: userData.user_id,
+            
           })
         )
         cookie.set('token',userData.token );
         cookie.set('userId',userData.id );
         
-      }
+      
     
       toast.success(response.data.message);
     
@@ -104,7 +107,7 @@ export default function Login() {
   }
 
   return (
-    <div className="mx-auto">
+    <div className="mx-auto my-4">
     <MaxWidthWrapper>
 
   
@@ -113,7 +116,17 @@ export default function Login() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-4/5 space-y-2 ">
         <div className="flex items-center justify-center py-8">
 
-           <p className="text-xl text-gray-950 font-bold">WorkHubConnect</p>
+        {isLoading ? (
+                  <div className="flex justify-center items-center mx-auto">
+                    <div className="loader"></div>
+                  </div>
+                ) : (
+                  <div>
+                    <p className="md:text-2xl text-xl text-gray-900 font-bold font-poppins ">
+                      WorkHubConnect
+                    </p>
+                  </div>
+                )}
         </div>
       {/* <Button variant="outline" type="button" className="w-full mx-auto border-slate-400" disabled={isLoading}>
         {isLoading ? (

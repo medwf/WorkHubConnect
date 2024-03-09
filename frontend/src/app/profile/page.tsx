@@ -14,13 +14,15 @@ import toast from "react-hot-toast";
 import { useCookies } from "next-client-cookies";
 import StatusToggle from "@/components/profile/toggleStatus";
 import Link from "next/link";
+import { useSelector } from "react-redux";
+import { RootState } from "@/Redux/store";
 
 const titleClass = "text-muted-foreground text-md text-semibold";
 const labelClass = "text-md font-poppins font-semibold w-1/3 overflow-x-hidden";
 
 export default function ProfilePage() {
   const cookies = useCookies();
-  const userId = cookies.get("userId") || "";
+  const userId = useSelector((state: RootState) => state.user);
   const [userInfo, setUserInfo] = useState({
     first_name: "",
     last_name: "",

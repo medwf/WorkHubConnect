@@ -48,6 +48,8 @@ import { useCookies } from "next-client-cookies";
 import EditImage from "@/components/profile/EditImage";
 import EditPassword from "@/components/profile/EditPassword";
 import EditProfile from "@/components/profile/EditProfile";
+import { RootState } from "@/Redux/store";
+import { useSelector } from "react-redux";
 const MAX_FILE_SIZE = 5000000;
 const ACCEPTED_IMAGE_TYPES = [
   "image/jpeg",
@@ -151,8 +153,8 @@ export default function Settings() {
     []
   );
   const cookies = useCookies();
-  const token = cookies.get("token");
-  const userId = cookies.get("userId");
+  const token = useSelector((state: RootState) => state.token);
+  const userId = useSelector((state: RootState) => state.user);
   const watchType = form.watch("type");
   useEffect(() => {
     const fetchServices = async () => {

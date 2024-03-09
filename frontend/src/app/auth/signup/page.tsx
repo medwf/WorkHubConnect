@@ -1,12 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import "../../globals.css";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import domain from "@/helpers/constants";
+import { useDispatch } from "react-redux";
 import {
   Form,
   FormControl,
@@ -30,17 +32,24 @@ import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { regions } from "@/helpers/regions";
 import { cities } from "@/helpers/cities";
 import { useCookies } from "next-client-cookies";
-
+import { setLogin } from "@/state";
 
 const FormSchema = z.object({
   first_name: z.string(),
   last_name: z.string(),
-  email: z.string(),
+  email: z
+    .string()
+    .min(1, { message: "This field has to be filled." })
+    .email("This is not a valid email."),
   password: z.string(),
   service_id: z.string(),
   region: z.string(),
   city: z.string(),
   type: z.string(),
+  phone_number: z
+    .string()
+    .min(10, { message: "Must be a valid mobile number" })
+    .max(14, { message: "Must be a valid mobile number" }),
 });
 
 export default function Signup() {
@@ -49,6 +58,7 @@ export default function Signup() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const router = useRouter();
   const cookie = useCookies();
+  const dispatch = useDispatch();
 
   const handleRegionChange = (regionName: string) => {
     const selectedRegion = regions.find(
@@ -69,6 +79,7 @@ export default function Signup() {
     service_id: "",
     city_id: "",
     type: "",
+    phone_number: "",
   });
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -81,6 +92,7 @@ export default function Signup() {
       city: "",
       region: "",
       type: "",
+      phone_number: "",
     },
   });
 
@@ -91,9 +103,7 @@ export default function Signup() {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get(
-          `${domain}/api/v1/services`
-        );
+        const response = await axios.get(`${domain}/api/v1/services`);
         const services = response.data;
         setServices(services);
       } catch (error) {
@@ -103,7 +113,7 @@ export default function Signup() {
     if (watchType === "worker") {
       fetchServices();
     }
-  }, [watchType,form]);
+  }, [watchType, form]);
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     data.region = RegionName;
@@ -125,14 +135,21 @@ export default function Signup() {
         }
         formDataWithcity_id.service_id = selectedService.id;
       }
+      console.log(formDataWithcity_id);
       const res = await axios.post(
         `${domain}/api/v1/register`,
         formDataWithcity_id
       );
-  
+
       const resData = res.data;
-      cookie.set('token',resData.token );
-      cookie.set('userId',resData.user_id );
+      dispatch(
+        setLogin({
+          token: resData.token,
+          user: resData.user_id,
+        })
+      );
+      cookie.set("token", resData.token);
+      cookie.set("userId", resData.user_id);
       router.push(`/`);
       toast.success(res.data.message);
       form.reset();
@@ -154,9 +171,17 @@ export default function Signup() {
               className="w-full   md:px-10  px-3 space-y-1 "
             >
               <div className="flex items-center justify-center py-8">
-                <p className="md:text-2xl text-xl text-gray-900 font-bold font-poppins ">
-                  WorkHubConnect
-                </p>
+                {isLoading ? (
+                  <div className="flex justify-center items-center mx-auto">
+                    <div className="loader"></div>
+                  </div>
+                ) : (
+                  <div>
+                    <p className="md:text-2xl text-xl text-gray-900 font-bold font-poppins ">
+                      WorkHubConnect
+                    </p>
+                  </div>
+                )}
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <FormField
@@ -316,6 +341,24 @@ export default function Signup() {
                   )}
                 />
               </div>
+              <FormField
+                control={form.control}
+                name="phone_number"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Phone number</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="phone number"
+                        type="tel"
+                        {...field}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="email"

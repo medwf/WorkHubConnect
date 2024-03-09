@@ -12,10 +12,13 @@ import { RiUserSettingsFill } from "react-icons/ri";
 import { useCookies } from 'next-client-cookies';
 import domain from '@/helpers/constants';
 import axios from 'axios';
+import { RootState } from '@/Redux/store';
+import { useSelector } from 'react-redux';
 export default function ProfileHeader() {
     const path = usePathname();
-    const cookies = useCookies();
-    const userId = cookies.get("userId") || "";
+    // const cookies = useCookies();
+    const userId = useSelector((state: RootState) => state.user);
+    
     const [isWorker, setIsWorker] = useState<boolean | null>(null);
     const links = [
         { label: "Profile", path: "/profile", icon: <CgProfile className='w-4 h-4'/> },
