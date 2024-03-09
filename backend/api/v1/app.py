@@ -51,7 +51,7 @@ Swagger(app, config=swagger_config)
 
 
 @jwt.expired_token_loader
-def expired_token_callback(expired_token):
+def expired_token_callback(jwt_header, jwt_payload):
     print("Token has expired")
     return jsonify({"message": "Token has expired"}), 401
 
