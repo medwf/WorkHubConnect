@@ -83,17 +83,17 @@ def Create_image(project_id):
 @swag_from("documentation/image/put.yml", methods=['PUT'])
 def update_image(image_id):
     """update image"""
-    obj = storage.get(Image, image_id)
-    if obj is None:
+    image = storage.get(Image, image_id)
+    if image is None:
         return make_response(jsonify({"error": "image Not found"}), 404)
     data = request.get_json(force=True, silent=True)
     if not data:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
     if len(data.get('url', "")) > 100:
             return make_response(jsonify({"error": "Input url must be less than 100 characters"}), 400)
-    obj.url = data.get("url", obj.url)
-    obj.save()
-    return jsonify(obj.to_dict()), 200
+    image.url = data.get("url", image.url)
+    image.save()
+    return jsonify(image.to_dict()), 200
 
 
 @app_views.route('/get_image/<path:image_path>', strict_slashes=False, methods=["GET"])

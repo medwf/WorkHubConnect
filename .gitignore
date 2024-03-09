@@ -4,3 +4,4 @@ test*
 __pycache__
 backend/package.json
 backend/package-lock.json
+backend/images/*

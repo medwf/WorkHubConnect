@@ -4,9 +4,9 @@ import magic
 import os
 
 
-def generate_filename(file_extension, user_id):
+def generate_filename(file_extension, user_info):
     timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-    new_filename = f"{user_id}_{timestamp}.{file_extension}"
+    new_filename = f"{user_info}_{timestamp}.{file_extension}"
     return new_filename
 
 def check_image_size(file_path):

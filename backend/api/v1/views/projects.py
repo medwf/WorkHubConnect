@@ -81,12 +81,12 @@ def Create_project(worker_id):
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
 
-@app_views.route("/projects/<project_id>", strict_slashes=False, methods=["PUT"])
+@app_views.route("/projects/<int:project_id>", strict_slashes=False, methods=["PUT"])
 @swag_from("documentation/project/put.yml", methods=['PUT'])
 def update_project(project_id):
     """update project"""
-    obj = storage.get(Project, project_id)
-    if obj is None:
+    project = storage.get(Project, project_id)
+    if project is None:
         return make_response(jsonify({"error": "project Not found"}), 404)
     data = request.get_json(force=True, silent=True)
     if not data:
@@ -95,10 +95,10 @@ def update_project(project_id):
             return make_response(jsonify({"error": "Input description must be less than 1024 characters"}), 400)
     if len(data.get('title', "")) > 255:
             return make_response(jsonify({"error": "Input title must be less than 255 characters"}), 400)
-    obj.title = data.get("title", obj.title)
-    obj.description = data.get("description", obj.description)
-    obj.save()
-    return jsonify(obj.to_dict()), 200
+    project.title = data.get("title", project.title)
+    project.description = data.get("description", project.description)
+    project.save()
+    return jsonify(project.to_dict()), 200
 
 
 @app_views.route("/projects/pages/", strict_slashes=False, methods=["GET"])

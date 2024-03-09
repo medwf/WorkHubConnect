@@ -64,10 +64,8 @@ def register_client_worker():
     Returns: the new User with the status code 201
     """
     json_data = request.get_json(force=True, silent=True)
-    print(json_data)
     if json_data:
         if len(json_data) > 0 and 'type' not in json_data or json_data['type'] not in ("client", "worker"):
-            print("type not found")
             return make_response(jsonify({"error": "Invalid request"}), 400)
 
         # Case register as worker
@@ -114,7 +112,6 @@ def register_client_worker():
                 del json_data['id']
 
             if "service_id" not in json_data:
-                print("not service_id")
                 return make_response(jsonify({"error": "Missing service_id"}), 400)
 
             service_id = json_data["service_id"]
@@ -175,16 +172,7 @@ def register_client_worker():
                     return make_response(jsonify({"error": "Email already exists"})), 400
             if 'id' in json_data:
                 del json_data['id']
-            # if "profile_img" in json_data:
-            #     file = request.files.get('profile_img')
-            #     print(file)
-            #     response = upload_image(file)
-            #     data  = response.get_json()
-            #     if response.status_code == 200:
-            #         message = data.get('message', '')
-            #         img_url = data.get('imgurl', {}).get('url_img', '')
-            #         print(f"Message: {message}")
-            #         print(f"Image URL: {img_url}")
+
             user_keys = ['email', 'password', 'first_name', 'last_name', 'city_id', 'profile_img', 'phone_number', 'is_active']
             user_data = {key: json_data[key] for key in user_keys if key in json_data}
             instance = User(**user_data)

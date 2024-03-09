@@ -82,17 +82,17 @@ def Create_city(state_id):
 @swag_from('documentation/city/put_city.yml', methods=['PUT'])
 def Update_city(city_id):
     """update city"""
-    obj = storage.get(City, city_id)
-    if obj is None:
+    city = storage.get(City, city_id)
+    if city is None:
         return make_response(jsonify({"error": "Not found"}), 404)
     data = request.get_json(force=True, silent=True)
     if not data:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
     if len(data['name']) > 128:
         return make_response(jsonify({"error": "Input name must be less than 128 characters"}), 400)
-    obj.name = data.get("name", obj.name)
-    obj.save()
-    return jsonify(obj.to_dict()), 200
+    city.name = data.get("name", city.name)
+    city.save()
+    return jsonify(city.to_dict()), 200
 
 
 

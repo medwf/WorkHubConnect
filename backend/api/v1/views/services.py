@@ -98,11 +98,11 @@ def Update_Service(service_id):
     Returns: the new Service with the status code 200
     """
     json_data = request.get_json(force=True, silent=True)
-    print("json data is:",json_data)  
+    # print("json data is:",json_data)
     if not json_data:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
-    obj = storage.get(Service, service_id)
-    if obj is None:
+    service = storage.get(Service, service_id)
+    if service is None:
         return make_response(jsonify({"error": "Not found"}), 404)
     if "en_name" in json_data and (len(json_data['en_name']) > 128 or len(json_data['en_name']) == 0):
         return make_response(jsonify({"error":"Please enter an english name (up to 128 characters). This field cannot be left empty"}), 400)
@@ -110,11 +110,11 @@ def Update_Service(service_id):
         return make_response(jsonify({"error": "Please enter an arabic name (up to 128 characters). This field cannot be left empty"}), 400)
     if "description" in json_data and (len(json_data['description']) > 255 or len(json_data['description']) == 0):
         return make_response(jsonify({"error": "Please enter a description (up to 255 characters). This field cannot be left empty"}), 400)
-    obj.en_name = json_data.get("en_name", obj.en_name)
-    obj.ar_name = json_data.get("ar_name", obj.ar_name)
-    obj.description = json_data.get("description", obj.description)
-    obj.save()
-    return jsonify(obj.to_dict()), 200
+    service.en_name = json_data.get("en_name", service.en_name)
+    service.ar_name = json_data.get("ar_name", service.ar_name)
+    service.description = json_data.get("description", service.description)
+    service.save()
+    return jsonify(service.to_dict()), 200
 
 
 

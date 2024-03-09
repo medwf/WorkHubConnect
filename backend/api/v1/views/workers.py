@@ -236,11 +236,11 @@ def workers_filter():
     service_id = service_id if service_id != "" else None
     page = page if page != "" else 1
     limit = limit if limit != "" else 10
-    print("state_id:", state_id)
-    print("city_id:", city_id)
-    print("service_id:", service_id)
-    print("page:", page)
-    print("limit:", limit)
+    # print("state_id:", state_id)
+    # print("city_id:", city_id)
+    # print("service_id:", service_id)
+    # print("page:", page)
+    # print("limit:", limit)
     result = []
     index = limit * (page - 1)
     if state_id is None and city_id is None and service_id is None:

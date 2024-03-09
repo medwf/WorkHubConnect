@@ -77,14 +77,14 @@ def Update_state(state_id):
         raise a 400 error with the message Not a JSON
     Returns: the new State with the status code 200
     """
-    obj = storage.get(State, state_id)
-    if obj is None:
+    state = storage.get(State, state_id)
+    if state is None:
         return make_response(jsonify({"error": "Not found"}), 404)
     data = request.get_json(force=True, silent=True)
     if not data:
         return make_response("Not a JSON", 400)
     if len(data['name']) > 128:
         return make_response(jsonify({"error": "Input name must be less than 128 characters"}), 400)
-    obj.name = data.get("name", obj.name)
-    obj.save()
-    return jsonify(obj.to_dict()), 200
+    state.name = data.get("name", state.name)
+    state.save()
+    return jsonify(state.to_dict()), 200

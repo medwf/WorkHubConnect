@@ -90,9 +90,8 @@ def delete_user(user_id):
 @swag_from('documentation/user/put_user.yml', methods=['PUT'])
 def update_user(user_id):
     """update user"""
-    # print("in user")
-    obj = storage.get(User, user_id)
-    if obj is None:
+    user = storage.get(User, user_id)
+    if user is None:
         return make_response(jsonify({"error": "User Not found"}), 404)
     data = request.get_json(force=True, silent=True)
     if not data:
@@ -116,14 +115,14 @@ def update_user(user_id):
     # fix problem encryption password 2 times.jsonify({"error": 
     pss = data.get("password", None)
     if pss:
-        obj.password = pss
-    obj.first_name = data.get("first_name", obj.first_name)
-    obj.last_name = data.get("last_name", obj.last_name)
-    obj.phone_number = data.get("phone_number", obj.phone_number)
-    obj.is_active = data.get("is_active", obj.is_active)
-    obj.city_id = data.get("city_id", obj.city_id)
-    obj.save()
-    return jsonify(obj.to_dict()), 200
+        user.password = pss
+    user.first_name = data.get("first_name", user.first_name)
+    user.last_name = data.get("last_name", user.last_name)
+    user.phone_number = data.get("phone_number", user.phone_number)
+    user.is_active = data.get("is_active", user.is_active)
+    user.city_id = data.get("city_id", user.city_id)
+    user.save()
+    return jsonify(user.to_dict()), 200
 
 
 @app_views.route("/users", strict_slashes=False, methods=["POST"])
@@ -208,10 +207,7 @@ def users_with_offset(offset=1):
 @jwt_required()
 def upload_img():
     if request.method == 'POST':
-        # request_data = request.get_json()
-        # print(request_data)
         if 'files' not in request.files:
-            print("not file")
             return make_response(jsonify({"message": "No selected file"}), 400)
         file = request.files['files']
         if file.filename == '':
@@ -223,9 +219,10 @@ def upload_img():
         if file_extension.lower() not in allowed_extensions:
             return make_response(jsonify({"message": "Please upload images in one of the following formats: PNG, JPEG, or JPG"}))
         current_user_id = get_jwt_identity()
-        new_filename = generate_filename(file_extension, current_user_id)
+        user_info = f"profile_{current_user_id}"
+        new_filename = generate_filename(file_extension, user_info)
         user = storage.get(User, current_user_id)
-        print(user.email)
+        # print(user.email)
         current_directory = os.getcwd()
         os.makedirs('images/users/', exist_ok=True)
         file.save('images/users/' + new_filename)
