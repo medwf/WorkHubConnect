@@ -1,5 +1,5 @@
 
-const DOMAIN_DEV='http://localhost:5000'
+const DOMAIN_DEV='https://workhubconnect.me'
 const DOMAIN_PROD='https://workhubconnect.me'
 
 const domain = process.env.NODE_ENV !== 'production'

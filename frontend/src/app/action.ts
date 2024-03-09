@@ -45,3 +45,24 @@ export const fetchServices = async () => {
     
   }
 };
+
+
+export const PopularServices = async () => {
+  try {
+    const response = await axios.get(`${domain}/api/v1/popular_services`, {
+      params: {
+    
+        limit: 5,
+       
+      },
+  
+      httpsAgent: new https.Agent({ rejectUnauthorized: false }),
+    });
+    console.log(response);
+    const data = await response.data;
+    return data;
+  } catch (error: any) {
+    console.error("Error fetching workers:", error);
+   
+  }
+};

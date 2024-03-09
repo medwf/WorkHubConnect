@@ -18,46 +18,75 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import MaxWidthWrapper from "../MaxWidthWrapper";
+import domain from "@/helpers/constants";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
-const services = [
-  {
-    title: "CARPENTER",
-    description: "Web Design",
-    image: "/servicesImg/carpenter - woodworker.jpg",
-  },
-  {
-    title: "CLEANING THE HOUSE",
-    description: "Web Design",
-    image: "/servicesImg/cleaning the house.jpg",
-  },
-  {
-    title: "CONSTRUCTION",
-    description: "Web Design",
-    image: "/servicesImg/Construction 1.jpg",
-  },
-  {
-    title: "ELECTRICIEN",
-    description: "Web Design",
-    image: "/servicesImg/Electrician.jpg",
-  },
-  {
-    title: "GARDNER",
-    description: "Web Design",
-    image: "/servicesImg/Gardner.jpg",
-  },
-  {
-    title: "INFORMATICIEN",
-    description: "Web Design",
-    image: "/servicesImg/Informaticien.jpg",
-  },
-  {
-    title: "Plomber",
-    description: "Web Design",
-    image: "/servicesImg/Plomber.jpg",
-  },
-];
+// const services = [
+//   {
+//     title: "CARPENTER",
+//     description: "Web Design",
+//     image: "/servicesImg/carpenter - woodworker.jpg",
+//   },
+//   {
+//     title: "CLEANING THE HOUSE",
+//     description: "Web Design",
+//     image: "/servicesImg/cleaning the house.jpg",
+//   },
+//   {
+//     title: "CONSTRUCTION",
+//     description: "Web Design",
+//     image: "/servicesImg/Construction 1.jpg",
+//   },
+//   {
+//     title: "ELECTRICIEN",
+//     description: "Web Design",
+//     image: "/servicesImg/Electrician.jpg",
+//   },
+//   {
+//     title: "GARDNER",
+//     description: "Web Design",
+//     image: "/servicesImg/Gardner.jpg",
+//   },
+//   {
+//     title: "INFORMATICIEN",
+//     description: "Web Design",
+//     image: "/servicesImg/Informaticien.jpg",
+//   },
+//   {
+//     title: "Plomber",
+//     description: "Web Design",
+//     image: "/servicesImg/Plomber.jpg",
+//   },
+// ];
 
 export default function BestService() {
+    const [services, setServices] = useState<{ 
+        id: number;
+        en_name?: string;
+        href?: string;
+        description?: string;
+        image?: string;
+        numWorkers?: number;
+    
+      }[]>([]);
+    useEffect(() => {
+        const fetchServices = async () => {
+          try {
+            const response = await axios.get(
+              `${domain}/api/v1/services`
+            );
+            const services = response.data;
+            console.log(services)
+            setServices(services);
+          } catch (error) {
+            console.error("Error fetching services:", error);
+          }
+        };
+        
+          fetchServices();
+        
+      }, []);
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: true })
   );
@@ -65,7 +94,7 @@ export default function BestService() {
     <>
       <MaxWidthWrapper>
         <Carousel
-          className="w-full max-w-xs md:max-w-md"
+          className="w-full max-w-xs md:max-w-md select-none"
           plugins={[plugin.current]}
           onMouseEnter={plugin.current.stop}
           onMouseLeave={plugin.current.reset}
@@ -76,13 +105,13 @@ export default function BestService() {
                 <div className="p-1">
                   <Card className="w-full bg-transparent border-none">
                     <CardHeader>
-                      <CardTitle>{service.title}</CardTitle>
+                      <CardTitle>{service.en_name}</CardTitle>
                       <CardDescription>{service.description}</CardDescription>
                     </CardHeader>
                     <CardContent className="relative flex aspect-square items-start justify-start  bg-transparent">
                       <Image
-                        src={service.image}
-                        alt={service.title}
+                        src={`${domain}/api/v1/get_image/${service.image}`}
+                        alt={`${service.en_name}`}
                         width={1500}
                         height={1500}
                         className=" h-full w-full object-cover object-center rounded-md"

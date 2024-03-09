@@ -198,7 +198,7 @@ export const testProjects: string[] = [
       href: "/worker",
       image: "/assets/hero.jpg",
       description:"This description it's for testing purposes not for production",
-      numWorkers: 10,
+      nbworkers: 10,
 
     },
     {
@@ -207,7 +207,7 @@ export const testProjects: string[] = [
       href: "/worker",
       image: "/assets/hero.jpg",
       description:"This description it's for testing purposes not for production",
-      numWorkers: 20,
+      nbworkers: 20,
 
     },
     {

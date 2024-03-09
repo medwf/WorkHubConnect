@@ -34,7 +34,7 @@ function WorkerCard({ worker, index }: Prop) {
 
   return (
     <div className="max-w-sm rounded-lg border-none p-1 relative w-full cursor-pointer ">
-    <div className="relative w-full h-[37vh]">
+    <div className="relative w-full h-[37vh] ">
             <Link
                 href={`/workers/${worker.user_id}`}
               className={cn(
@@ -46,7 +46,7 @@ function WorkerCard({ worker, index }: Prop) {
             
               passHref
             >
-              
+              {worker.profile_img ? (
                 <Image
                  src={`${domain}/api/v1/get_image/${worker.profile_img}`}
                   alt="worker"
@@ -55,6 +55,18 @@ function WorkerCard({ worker, index }: Prop) {
                   loading="eager"
                   className="-z-10 h-full w-full object-cover object-center rounded-lg"
                 />
+              ):(
+<Image
+                 src={"/static/defaultProfile.jpg"}
+                  alt="worker"
+                  width={1200}
+                  height={1200}
+                  loading="eager"
+                  className="-z-10 p-4 h-full w-full object-cover object-center rounded-lg"
+                />
+              )}
+              
+                
             </Link>
             {/* <img src={`${domain}/api/v1/get_image/${worker.profile_img}`}/> */}
               </div>

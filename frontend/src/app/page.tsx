@@ -46,7 +46,7 @@ export default function Home() {
 
   // )
   const id = useSelector((state: RootState) => state.user);
-  console.log("hi" + id);
+  
   return (
     <>
       <MaxWidthWrapper>

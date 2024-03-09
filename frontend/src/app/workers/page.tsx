@@ -74,6 +74,9 @@ export default function Workers() {
   const { ref, inView } = useInView();
   const [isLoading, setIsLoading] = useState(false);
 
+
+
+
   const handleMenu = () => {
     setOpen(!open);
   };
@@ -109,6 +112,28 @@ export default function Workers() {
 
     fetchInitialData();
   }, [selectedService]);
+
+//filter from service page
+const id = localStorage.getItem("id");
+if(id) {
+
+    
+    setSelectedService(id);
+    setServices(services.filter(service => service.id === id))
+
+  localStorage.removeItem("id");
+}
+
+
+
+
+
+
+
+
+
+
+
   if (inView) {
     page++;
   }
@@ -137,7 +162,7 @@ export default function Workers() {
     };
     handleFetchWorkers();
   }, [inView, selectedService,selectedRegion, selectedCity]);
- 
+
   return (
     <>
       <MaxWidthWrapper>
@@ -187,12 +212,12 @@ export default function Workers() {
                       onValueChange={handleServiceChange}
                     >
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="services" />
+                        <SelectValue placeholder="services"  />
                       </SelectTrigger>
                       <SelectContent>
                         {services &&
                           services.map((service) => (
-                            <SelectItem key={service.id} value={service.id}>
+                            <SelectItem key={service.id} value={service.id} >
                               {service.en_name}
                             </SelectItem>
                           ))}

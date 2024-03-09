@@ -4,7 +4,7 @@ import { FaWhatsapp, FaGithub, FaLinkedin } from 'react-icons/fa';
 import { BsTwitterX } from 'react-icons/bs';
 import Link from 'next/link';
 import CircularCarousel from '@/components/about/CircularCarousel';
-
+import Image from 'next/image';
 export default function About() {
   const aboutData = [
     {
@@ -45,13 +45,15 @@ export default function About() {
   return (
     <MaxWidthWrapper>
       <div className='relative w-full h-full'>
-        <div className='my-6 border rounded-md shadow-md w-[90vw] md:h-[78vh] h-full mb-12 relative overflow-hidden'>
+        <div className='relative my-6 border rounded-md shadow-md w-[90vw] md:h-[78vh] h-full mb-12  overflow-hidden'>
           <div className='md:flex hidden'>
             <div className='h-full w-full overflow-hidden'>
               <div className='absolute -ml-56 '>
                 <CircularCarousel />
               </div>
             </div>
+            
+
           </div>
           <div className='md:hidden'>
             <div className='flex flex-col'>
@@ -90,6 +92,14 @@ export default function About() {
               </div>
             </div>
           </div>
+          <div className='absolute bottom-0 p-4 mx-auto w-full'>
+              <div className='flex justify-center items-center gap-8'>
+              <Image src='/static/next.svg' alt='next' width={150} height={150} />
+              <Image src='/static/vercel.svg' alt='next' width={150} height={150} />
+              <Image src='/static/flask.png' alt='next' width={150} height={150} />
+              </div>
+             
+              </div>
         </div>
       </div>
     </MaxWidthWrapper>

@@ -96,9 +96,11 @@ export function DropdownMenuProfile() {
           <div className='flex gap-2 items-center justify-center '>
           <Avatar className=''>
             {userInfo.image ? (
-  <AvatarImage src={userInfo.image} alt="@shadcn"  />
+  <AvatarImage src={userInfo.image} alt="profile image"  />
             ):(
-              <AvatarFallback>{userInfo.first_name[0]}{userInfo.last_name[0]}</AvatarFallback>
+              // <AvatarFallback>{userInfo.first_name[0]}{userInfo.last_name[0]}</AvatarFallback>
+  <AvatarImage src="https://github.com/shadcn.png" alt="Profile image"  />
+
             )}
 
           </Avatar>
