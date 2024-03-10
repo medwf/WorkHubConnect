@@ -32,13 +32,12 @@ export function DropdownMenuProfile() {
   const cookies = useCookies();
   const logoutAction = async () => {
     try {
-      dispatch(logout());
-    
+      
       cookies.remove('token');
       cookies.remove('userId');
-      toast.success('logged out successfully')
+      dispatch(logout());
       router.push('/')
-      
+      toast.success('logged out successfully')
     } catch (error) {
       toast.error("Logout failed");
      
@@ -127,8 +126,7 @@ export function DropdownMenuProfile() {
             <DropdownMenuItem key={index}>
               <Link href={item.link} passHref 
               className=' flex items-center'
-              onClick={() => {
-                if (item.onclick) item.onclick();}}
+             
               >
                <div
                onClick={() => {

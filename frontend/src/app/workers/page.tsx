@@ -139,7 +139,7 @@ if(id) {
             selectedRegion,
             selectedCity
           );
-          // console.log(data);
+          console.log(data);
           setWorkers(data);
           
          

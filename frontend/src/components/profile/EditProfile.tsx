@@ -42,8 +42,9 @@ import { regions } from "@/helpers/regions";
 import { cities } from "@/helpers/cities";
 import { Textarea } from "@/components/ui/textarea";
 import { useCookies } from "next-client-cookies";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/Redux/store";
+import { setUpdateId } from "@/state";
 
 const FormSchema = z.object({
   first_name: z.string(),
@@ -105,6 +106,8 @@ export default function EditProfile() {
   );
   const cookies = useCookies();
   const token = cookies.get("token");
+  const dispatch = useDispatch();
+  const UpId = useSelector((state: RootState) => state.updateId)
   const userId = useSelector((state:RootState) => state.user)
   const watchType = form.watch("type");
   useEffect(() => {
@@ -154,6 +157,11 @@ console.log(formDataWithcity_id);
       );
 
       const resData = res.data;
+      dispatch(
+        setUpdateId({
+          updateId: UpId + 1,
+        })
+      )
       toast.success(res.data.message);
       form.reset();
       setRegionName("");

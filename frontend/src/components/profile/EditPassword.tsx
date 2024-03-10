@@ -31,6 +31,8 @@ import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { useCookies } from "next-client-cookies";
+import { logout } from "@/state";
+import { useDispatch } from "react-redux";
 
 
 const FormSchemaThree = z
@@ -47,6 +49,7 @@ const FormSchemaThree = z
 export default function EditPassword() {
   const router = useRouter();
   const pathname = usePathname();
+  const dispatch =  useDispatch();
   const lastItem = pathname.split("/").pop();
   const handleBack = () => {
     router.back();
@@ -85,6 +88,10 @@ export default function EditPassword() {
           },
         }
       );
+      cookies.remove('token');
+      cookies.remove('userId');
+      dispatch(logout());
+      router.push('/')
       toast.success(response.data.message);
      
     } catch (error: any) {
@@ -191,3 +198,4 @@ export default function EditPassword() {
     </section>
   );
 }
+

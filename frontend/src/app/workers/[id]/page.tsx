@@ -122,10 +122,10 @@ const Page = ({ params }: PageProps) => {
 
   return (
     <MaxWidthWrapper className="bg-white ">
-      <div className=" mb-2">
-        <div className="mx-auto max-w-2xl px-4 py-4 sm:px-6 sm:py-2 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
+      <div className="">
+        <div className="mx-auto max-w-2xl px-4 py-4 sm:px-6 sm:py-2 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-4 lg:px-6">
           {/* Product Details */}
-          <div className="lg:max-w-lg lg:self-end">
+          <div className=" lg:max-w-lg lg:self-center">
             <ol className="flex items-center space-x-2">
               {BREADCRUMBS.map((breadcrumb, i) => (
                 <li key={breadcrumb.href}>
@@ -157,7 +157,7 @@ const Page = ({ params }: PageProps) => {
               </h1>
             </div>
 
-            <section className="mt-4">
+            <section className="mt-6">
               <div className="flex items-center">
                 <p className="font-medium text-gray-900">
                   {wokerData?.service}
@@ -168,7 +168,7 @@ const Page = ({ params }: PageProps) => {
                 </div>
               </div>
 
-              <div className="mt-4 space-y-6">
+              <div className="mt-6 space-y-10">
                 <p className="text-base text-muted-foreground">
                   {wokerData?.description}
                 </p>
@@ -194,19 +194,29 @@ const Page = ({ params }: PageProps) => {
                   {wokerData?.is_available ? "available" : "not available"}
                 </p>
               </div>
+              
             </section>
           </div>
 
-          {/* Product images */}
-          <div className="mt-8 lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center">
+
+          {/* worker image */}
+          <div className="lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center">
             <div className="aspect-square rounded-lg">
-              {wokerData?.profile_img && (
+              {wokerData?.profile_img ? (
                 <Image
                 src={`${domain}/api/v1/get_image/${wokerData.profile_img}`}
                   alt="profile image"
                   width={500}
                   height={500}
-                  className="object-contain"
+                  className="object-contain rounded-md mt-20"
+                />
+              ):(
+                <Image
+                src={"/static/defaultProfile.jpg"}
+                  alt="profile image"
+                  width={500}
+                  height={500}
+                  className="object-contain rounded-md mt-20"
                 />
               )}
             </div>
@@ -214,10 +224,10 @@ const Page = ({ params }: PageProps) => {
           </div>
     
 
-          {/* add to cart part */}
-          <div className="mt-8 lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start">
+       
+          <div className=" lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start">
             <div>
-              <div className="mt-10">
+              <div className="bottom-10">
                 {/* <Button>Contact Me</Button> */}
                 <Drawer>
                   <DrawerTrigger asChild>
@@ -374,11 +384,14 @@ const Page = ({ params }: PageProps) => {
             </div>
           </div>
         </div>
+        <div className="-mt-40">
         <ProjectReel
         href="/products"
         title={`The latest projects`}
-        subtitle={`Review me`}
+        subtitle={`this part of project is under construction and those projects are static files`}
       />
+        </div>
+       
       </div>
 
       
