@@ -39,7 +39,7 @@ export default function ServiceHero() {
           <div className="absolute inset-0 md:top-16 top-16 px-auto h-[60vh] bg-gradient-to-tr from-green-200 to-slate-600 border rounded-lg">
             <div className="flex flex-col md:flex-row  items-center justify-between  h-full ">
               <div className="flex flex-col md:p-4 p-2  w-full">
-                <h1 className="py-3 font-bold text-white font-poppins md:text-4xl text-4xl flex  flex-grow gap-2 w-full ">
+                <h1 className="py-3 font-bold text-white font-poppins md:text-4xl text-xl flex  flex-grow gap-2 w-full ">
                   Find your <Type names={servicesStrings} />
                 </h1>
                 <h3 className="text-sm p-2 text-muted-foreground text-zinc-100  font-medium font-poppins text-wrap text-justify max-w-4xl">

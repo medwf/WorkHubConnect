@@ -60,18 +60,18 @@ export default function Footer() {
             Connect with us:
           </p>
           <div className="flex justify-center gap-4 py-4">
-            <Link href="https://discord.com">
+            <Link href="https://discord.gg/e7VakdYH">
               <FaDiscord className="w-6 h-6 text-white hover:text-blue-700 hover:shadow-md hover:scale-100" />
             </Link>
-            <Link href="https://linkedin.com">
+            {/* <Link href="https://linkedin.com">
               <FaLinkedin className="w-6 h-6  text-white hover:text-sky-700 hover:shadow-md hover:scale-100" />
-            </Link>
-            <Link href="https://whatsapp.com">
+            </Link> */}
+            <Link href="https://chat.whatsapp.com/FJswzBvu61K81XZTkpDAyH">
               <FaWhatsapp className="w-6 h-6  text-white hover:text-green-700 hover:shadow-md hover:scale-100" />
             </Link>
-            <Link href="https://github.com">
+            {/* <Link href="https://github.com">
               <FaGithub className="w-6 h-6  text-white hover:text-slate-700 hover:shadow-md hover:scale-100" />
-            </Link>
+            </Link> */}
           </div>
           <p className="text-white w-full text-sm text-center border-t py-2 absolute bottom-0">
             &copy; {new Date().getFullYear()} Alx Students. All rights reserved.

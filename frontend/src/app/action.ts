@@ -14,7 +14,7 @@ export const fetchWorkers = async (
     const response = await axios.get(`${domain}/api/v1/workers_search`, {
       params: {
         page: page,
-        limit: 2,
+        limit: 10,
         service: selectedService,
         state: selectedRegion?.id,
         city: selectedCity?.id,

@@ -33,8 +33,8 @@ const carouselData = [
     },
     {
         name: "Essalhi Mustapha",
-        title: "Back-end web developer",
-        description: "As a full-stack web developer, I've had the privilege of leading a talented team in crafting compelling front-end experiences for our projects. Together, we've built dynamic web applications using Next.js and seamlessly integrated them with APIs to deliver robust functionalities. Our collaborative approach ensures that every aspect of the project, from design to deployment, meets the highest standards. Let's work together to bring your vision to reality!",
+        title: "Front-end web developer",
+        description: "As a frontend developer in this project, my role revolves around crafting the user-facing aspects of the application using Next.js, TypeScript, Redux, Axios, and related technologies. I'm tasked with creating dynamic and responsive interfaces leveraging the power of Next.js's server-side rendering and routing capabilities. TypeScript comes into play to ensure type safety and code reliability, enabling smoother collaboration and scalability.",
         twitter:"https://twitter.com/essalhi_007",
         github: "https://github.com/MEKuroko007",
         linkedin: "linkedin.com/in/essalhi-mustapha-92751a226",

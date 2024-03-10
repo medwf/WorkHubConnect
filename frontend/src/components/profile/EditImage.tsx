@@ -70,7 +70,7 @@ export default function EditImage() {
   async function onSubmitTwo(data: z.infer<typeof FormSchemaTwo>) {
     try {
       const formData = new FormData();
-      formData.append('image', data.image);
+      formData.append('files', data.image[0]);
   
       const response = await axios.post(
         `${domain}/api/v1/uploadprofile`,
@@ -150,9 +150,11 @@ export default function EditImage() {
                 />
                 
                 <br />
+                <DialogClose asChild>
                 <Button type="submit" className="w-full ">
-                  Upload images
+                  Upload image
                 </Button>
+                </DialogClose>
               </form>
             </Form>
           </DialogContent>

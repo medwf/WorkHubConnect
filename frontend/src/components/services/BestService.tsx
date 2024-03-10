@@ -94,7 +94,7 @@ export default function BestService() {
     <>
       <MaxWidthWrapper>
         <Carousel
-          className="w-full max-w-xs md:max-w-md select-none"
+          className="w-full max-w-xs select-none mt-6 md:max-w-md"
           plugins={[plugin.current]}
           onMouseEnter={plugin.current.stop}
           onMouseLeave={plugin.current.reset}
@@ -102,12 +102,12 @@ export default function BestService() {
           <CarouselContent>
             {services.map((service, index) => (
               <CarouselItem key={index}>
-                <div className="p-1">
+                <div className="">
                   <Card className="w-full bg-transparent border-none">
-                    <CardHeader>
+                    {/* <CardHeader>
                       <CardTitle>{service.en_name}</CardTitle>
                       <CardDescription>{service.description}</CardDescription>
-                    </CardHeader>
+                    </CardHeader> */}
                     <CardContent className="relative flex aspect-square items-start justify-start  bg-transparent">
                       <Image
                         src={`${domain}/api/v1/get_image/${service.image}`}
@@ -117,6 +117,10 @@ export default function BestService() {
                         className=" h-full w-full object-cover object-center rounded-md"
                       />
                     </CardContent>
+                    <CardFooter className="flex flex-col items-start gap-1">
+                    <CardTitle>{service.en_name}</CardTitle>
+                      <CardDescription>{service.description}</CardDescription>
+                    </CardFooter>
                   </Card>
                 </div>
               </CarouselItem>

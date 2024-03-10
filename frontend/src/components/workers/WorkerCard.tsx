@@ -33,7 +33,7 @@ function WorkerCard({ worker, index }: Prop) {
   if (!worker || !isVisible) return <ProjectPlaceholder />;
 
   return (
-    <div className="max-w-sm rounded-lg border-none p-1 relative w-full cursor-pointer ">
+    <div className="max-w-sm rounded-lg border-none p-1 relative w-full cursor-pointer select-none ">
     <div className="relative w-full h-[37vh] ">
             <Link
                 href={`/workers/${worker.user_id}`}
@@ -62,7 +62,7 @@ function WorkerCard({ worker, index }: Prop) {
                   width={1200}
                   height={1200}
                   loading="eager"
-                  className="-z-10 p-4 h-full w-full object-cover object-center rounded-lg"
+                  className="-z-10 md:p-4 h-full w-full object-contain object-center rounded-lg"
                 />
               )}
               

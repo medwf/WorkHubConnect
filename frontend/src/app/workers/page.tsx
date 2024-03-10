@@ -83,9 +83,10 @@ export default function Workers() {
 
   const handleServiceChange = (value: string) => {
     setSelectedService(value);
-    setSelectedRegion(null);
-    setSelectedCity(null);
+    // setSelectedRegion(null);
+    // setSelectedCity(null);
     setOpen(!open);
+    page = 1;
     
   };
   const handleRegionChange = (regionName: string) => {
@@ -123,17 +124,6 @@ if(id) {
 
   localStorage.removeItem("id");
 }
-
-
-
-
-
-
-
-
-
-
-
   if (inView) {
     page++;
   }
@@ -157,7 +147,9 @@ if(id) {
          
         } finally {
           setIsLoading(false); 
+      
         }
+ 
       
     };
     handleFetchWorkers();
@@ -166,7 +158,7 @@ if(id) {
   return (
     <>
       <MaxWidthWrapper>
-        <section className="bg-primary-50 bg-dotted-pattern bg-contain py-5 md:py-10">
+        <section className="bg-primary-50 bg-dotted-pattern bg-contain py-5 md:py-10 select-none">
           <div className="wrapper grid grid-cols-1 gap-5 md:grid-cols-2 2xl:gap-0">
             <div className="flex-1 md:pt-10 pt-6 px-10 padding-x">
               <h1 className="text-4xl font-bold text-gray-900 mb-2">
@@ -184,6 +176,7 @@ if(id) {
             <Image
               src={"/assets/worker_.jpg"}
               alt="hero"
+              priority
               width={1600}
               height={1600}
               className="max-h-[75vh object-contain object-center 2xl:max-h-[60vh]"
@@ -344,8 +337,10 @@ if(id) {
                   ))}
               </div>
             </div>
-            {isLoading && ( // Conditionally render the loading spinner
-              <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-gray-200 bg-opacity-75">
+           
+          </div>
+          {isLoading && (
+              <div className=" w-full h-full flex justify-center items-center">
                 <Image
                   src="/static/spinner.svg"
                   alt="spinner"
@@ -355,7 +350,6 @@ if(id) {
                 />
               </div>
             )}
-          </div>
         </MaxWidthWrapper>
       </section>
     </>

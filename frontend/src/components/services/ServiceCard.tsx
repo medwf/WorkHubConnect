@@ -5,14 +5,6 @@ import { Skeleton } from "../ui/skeleton";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import domain from "@/helpers/constants";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
 export interface servicesProps {
   id: number;
   en_name?: string;
@@ -30,6 +22,7 @@ interface Prop {
 function ServiceCard({ service, index }: Prop) {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
@@ -41,69 +34,44 @@ function ServiceCard({ service, index }: Prop) {
   if (!service || !isVisible) return <ProjectPlaceholder />;
   // console.log(service.image)
   return (
-    // <div className="max-w-sm rounded-lg border-none  relative w-full  group hover:scale-105 hover:z-30 select-none">
-    <div className="group hover:scale-105 hover:z-30 select-none p-4">
-      {/* <div className="relative  h-[24vh] md:py-10 py-40"> */}
-
-      <Card className="w-full border-none ">
+    <div className="max-w-sm rounded-lg border-none  relative w-full  group hover:scale-105 hover:z-30 select-none">
+      <div className="relative  h-[30vh]  md:my-10 my-12">
         <Link
           href={"/workers"}
-          onClick={() => localStorage.setItem("id", `${service?.id}`)}
+           onClick={() => localStorage.setItem('id',`${service?.id}`)}
+
           className={cn("invisible h-full w-full cursor-pointer group/main", {
             "visible animate-in fade-in-5 cursor-pointer ": isVisible,
           })}
         >
-          <CardHeader>
-            <CardTitle className="text-sm md:text-xl">
-              {service.en_name}
-            </CardTitle>
-            {/* <CardDescription>{service.description}</CardDescription> */}
-          </CardHeader>
-          <CardContent className="relative flex aspect-square  items-start justify-start  bg-transparent">
-            <Image
-              src={`${domain}/api/v1/get_image/${service.image}`}
-              alt={`${service.en_name}`}
-              width={1500}
-              height={1500}
-              className=" h-full w-full object-cover object-center rounded-md"
-            />
-<div className="absolute bottom-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-<p className="text-sm text-gray-500  ">
-              We have{" "}
-              {service.nbworkers ? (
-                <span className="font-medium text-blue-900">
-                  {service.nbworkers}
-                </span>
-              ) : (
-                "0"
-              )}{" "}
-              workers
-            </p>
-           
-</div>
-            
-          </CardContent>
-          {/* <CardFooter>
-            
-          </CardFooter> */}
-        </Link>
-      </Card>
-      {/* {service.image ? (
+          {service.image ? (
             <Image
               src={`${domain}/api/v1/get_image/${service.image}`}
               alt="service"
               width={700}
               height={700}
               loading="eager"
-              className=" rounded-md w-full h-full object-cover object-center  "
+              className=" rounded-md w-full h-full object-cover object-center group-hover:blur-sm "
             />
           ) : null}
           <h3 className=" text-start  font-medium text-sm text-gray-700 ">
           {service.en_name}
         </h3>
-        <p className="text-sm text-gray-500 ">{service.description}</p> */}
-
-      {/* </div> */}
+        <p className="md:text-sm  text-xs max-w-sm text-gray-500 ">{service.description}</p>
+        <p className="absolute  left-1/2 top-1/2 transform -translate-x-50 -translate-y-50 z-50 text-sm text-white font-bold font-poppins opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          We have{" "}
+          {service.nbworkers ? (
+            <span className="font-medium text-blue-900">
+              {service.nbworkers}
+            </span>
+          ) : (
+            "0"
+          )}{" "}
+          workers
+        </p>
+        </Link>
+        
+      </div>
 
       {/* <div>
         <p className="text-sm text-gray-500 px-10">{service.description}</p>

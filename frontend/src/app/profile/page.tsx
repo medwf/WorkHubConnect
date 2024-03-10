@@ -16,6 +16,7 @@ import StatusToggle from "@/components/profile/toggleStatus";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { RootState } from "@/Redux/store";
+import { AvatarImage } from "@radix-ui/react-avatar";
 
 const titleClass = "text-muted-foreground text-md text-semibold";
 const labelClass = "text-md font-poppins font-semibold w-1/3 overflow-x-hidden";
@@ -86,10 +87,11 @@ export default function ProfilePage() {
                     className="rounded-full w-full h-full object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full flex justify-center items-center">
-                    {userInfo.first_name[0]}
-                    {userInfo.last_name[0]}
-                  </div>
+                  <AvatarImage src="https://github.com/shadcn.png" alt="Profile image"  />
+                  // <div className="w-full h-full flex justify-center items-center">
+                  //   {userInfo.first_name[0]}
+                  //   {userInfo.last_name[0]}
+                  // </div>
                 )}
               </div>
               <div>

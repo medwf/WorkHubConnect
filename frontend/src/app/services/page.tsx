@@ -7,6 +7,7 @@ import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import ServiceCard, { servicesProps } from "@/components/services/ServiceCard";
 import domain from "@/helpers/constants";
 import axios from "axios";
+import CardServices from "@/components/services/CardServices";
 
 
 export default function Services() {
@@ -80,10 +81,10 @@ export default function Services() {
         <h1 className="text-4xl font-medium font-poppins border-b border-gray-600">
           Our Services
         </h1>
-        <div className="grid mx-auto md:grid-cols-4 grid-cols-2 md:gap-4 gap-2">
+        <div className="grid mx-auto md:grid-cols-4 grid-cols-2 md:gap-6 gap-3 p-2">
 
-            {services && services.map((item:servicesProps,index) =>
-            <ServiceCard key={item.id} service={item} index={index} />)}
+              {services && services.map((item:servicesProps,index) =>
+            <CardServices key={item.id} service={item} index={index} />)} 
         </div>
         </MaxWidthWrapper>
        
