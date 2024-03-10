@@ -19,6 +19,7 @@ interface AuthState {
   user: any;
   token: any;
   serviceId: string | null;
+  updateId:number;
   project: Project[];
   reviews: Review[];
 
@@ -28,6 +29,7 @@ const initialState: AuthState = {
   user: null,
   token: null,
   serviceId: null,
+  updateId:0,
   project: [],
   reviews: [],
  
@@ -50,6 +52,9 @@ export const authSlice = createSlice({
     removeToken: (state) => {
       state.token = null;
       state.user = null;
+    },
+    setUpdateId: (state, action) =>{
+      state.updateId = action.payload.updateId;
     },
     setServiceId: (state, action) => {
       state.serviceId = action.payload;
@@ -78,7 +83,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setLogin, logout, removeToken , setProject, setReviewList, setReviews, setProjectList, setServiceId } =
+export const { setLogin, logout, removeToken , setProject, setReviewList, setReviews, setProjectList, setServiceId, setUpdateId } =
   authSlice.actions;
 
 export default authSlice.reducer;

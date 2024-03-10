@@ -42,13 +42,14 @@ function CardServices({ service, index }: Prop) {
             "visible animate-in fade-in-5 cursor-pointer ": isVisible,
           })}
         >
-          <div className="relative aspect-w-16 aspect-h-9">
+          <div className="relative w-full h-full aspect-w-16 aspect-h-9">
             <Image
               src={`${domain}/api/v1/get_image/${service.image}`}
               alt="service"
               fill
-
-              className="group-hover:blur-sm object-cover object-center"
+              loading="eager"
+              sizes="(min-width: 808px) 50vw, 100vw"
+              className=" group-hover:blur-sm object-cover object-center"
             />
            
           </div>

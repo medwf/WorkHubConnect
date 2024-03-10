@@ -107,8 +107,8 @@ export default function EditPassword() {
         {/* password */}
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="outline" className="w-full flex justify-between md:px-20">
-              Change password <ChevronRight />
+            <Button variant="outline" className="w-full flex justify-between md:px-20 group">
+              Change password <ChevronRight className="group-hover:rotate-90"/>
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-4xl">

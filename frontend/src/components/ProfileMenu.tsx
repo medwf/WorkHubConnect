@@ -52,6 +52,7 @@ export function DropdownMenuProfile() {
     { name: 'Log out', link: '/', icon: <LogOut className="mr-2 h-4 w-4" /> ,onclick: logoutAction},
   ];
   const userId = useSelector((state: RootState) => state.user);
+  const UpId = useSelector((state: RootState) => state.updateId);
   const [userInfo, setUserInfo] = useState({
     first_name: "",
     last_name: "",
@@ -66,26 +67,22 @@ export function DropdownMenuProfile() {
   });
 
   useEffect(() => {
-    console.log("Inside useEffect");
+
     const fetchUserInfo = async () => {
       try {
-        // console.log(`Fetching user info ${userId}`); 
+
         const response = await axios.get(
           `${domain}/api/v1/users/${userId}`
         );
-        // const response = await axios(`/api/users/profile/${userId}`);
-        // console.log(`response ${response}`);
-        // console.log("API response:", response.data);
         setUserInfo(response.data);
       } catch (error) {
-        // console.error("Error fetching user information:", error);
       }
     };
 
     
       fetchUserInfo();
     
-  }, [userId]);
+  }, [userId,UpId]);
 
 
   return (
@@ -93,10 +90,10 @@ export function DropdownMenuProfile() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className='p-1'>
-          <div className='flex gap-2 items-center justify-center '>
+          <div className='flex gap-2 items-center justify-center  '>
           <Avatar className=''>
             {userInfo.profile_img ? (
-  <AvatarImage src={`${domain}/api/v1/get_image/${userInfo.profile_img}`} alt="profile image"  />
+  <AvatarImage src={`${domain}/api/v1/get_image/${userInfo.profile_img}`} alt="profile image"   />
             ):(
               // <AvatarFallback>{userInfo.first_name[0]}{userInfo.last_name[0]}</AvatarFallback>
   <AvatarImage src="https://github.com/shadcn.png" alt="Profile image"  />

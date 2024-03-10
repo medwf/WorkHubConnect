@@ -51,6 +51,7 @@ export default function ServiceHero() {
                   src="/assets/service_image.png"
                   fill
                   loading='eager'
+                  priority
                   className='md:h-[70vh] md:w-[70vw] w-full h-full object-contain object-center'
                   alt='Project image'
                 />

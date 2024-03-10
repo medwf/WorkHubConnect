@@ -44,10 +44,10 @@ export default function Services() {
           `${domain}/api/v1/services`
         );
         const services = response.data;
-        console.log(services)
+ 
         setServices(services);
       } catch (error) {
-        console.error("Error fetching services:", error);
+        
       }
     };
     

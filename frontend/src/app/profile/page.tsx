@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { CiEdit } from "react-icons/ci";
 import Image from "next/image";
 import { ChevronRight } from "lucide-react";
-import { GrProjects } from "react-icons/gr";
+import { GrProjects, GrStatusUnknown } from "react-icons/gr";
 import { CgProfile } from "react-icons/cg";
 import { IoMdSettings } from "react-icons/io";
 import https from "https";
@@ -20,7 +20,7 @@ import { AvatarImage } from "@radix-ui/react-avatar";
 import { Avatar } from "@/components/ui/avatar";
 
 const titleClass = "text-muted-foreground text-md text-semibold";
-const labelClass = "text-md font-poppins font-semibold w-1/3 overflow-x-hidden";
+const labelClass = "text-md font-poppins font-semibold w-2/3  overflow-x-hidden";
 
 export default function ProfilePage() {
   const cookies = useCookies();
@@ -78,26 +78,21 @@ export default function ProfilePage() {
         {userInfo && (
           <section className="flex items-center justify-between gap-4 w-full py-5 border rounded-lg p-4 my-2">
             <div className="flex items-center gap-4">
-              <div className="relative md:min-h-20 md:min-w-20 min-h-14 min-w-14 rounded-full border flex justify-center items-center">
-                {userInfo.profile_img ? (
-                  <Image
-                    src={`${domain}/api/v1/get_image/${userInfo.profile_img}`}
-                    alt="Avatar"
-                    fill
-                    className="absolute rounded-full w-full h-full object-contain"
-                  />
-                ) : (
-                  <Avatar className='object-contain max-h-20 max-w-20'>
+            <div className="relative border rounded-full overflow-hidden w-20 h-20">
+  {userInfo.profile_img ? (
+    <Image
+      src={`${domain}/api/v1/get_image/${userInfo.profile_img}`}
+      alt="Avatar"
+      fill
+      className="rounded-full object-cover"
+    />
+  ) : (
+    <Avatar className="object-contain w-full h-full">
+      <AvatarImage src="https://github.com/shadcn.png" alt="Profile image" />
+    </Avatar>
+  )}
+</div>
 
-                  
-                  <AvatarImage src="https://github.com/shadcn.png" alt="Profile image"  />
-                  </Avatar>
-                  // <div className="w-full h-full flex justify-center items-center">
-                  //   {userInfo.first_name[0]}
-                  //   {userInfo.last_name[0]}
-                  // </div>
-                )}
-              </div>
               <div>
                 <p className="md:text-[16px] font-bold">
                   {userInfo.first_name} {userInfo.last_name}
@@ -235,27 +230,26 @@ export default function ProfilePage() {
 
       {/* Small devices */}
       <div className="md:hidden  h-screen bg-slate-100">
-      <div className=" bg-sky-200  h-[20vh] relative"></div>
+      <div className=" bg-sky-400  h-[16vh] relative"></div>
         <div className="flex items-center justify-center gap-4">
-          <div className=" min-h-[120px] min-w-[120px] rounded-full border-8 border-stone-100  flex justify-center items-center bg-sky-100 -mt-14 z-40">
-            {userInfo.profile_img ? (
-              <Image
-                src={`${domain}/api/v1/get_image/${userInfo.profile_img}`}
-                alt="profile"
-                width={130}
-                height={130}
-                className="rounded-full object-cover"
-              />
-            ) : (
-              <div className="w-full h-full flex justify-center items-center">
-               
-                {userInfo.first_name[0]}
-                {userInfo.last_name[0]}
-              </div>
-            )}
-          </div>
+        <div className="relative -top-12 border rounded-full overflow-hidden max-w-24 max-h-24 min-w-24 min-h-24">
+  {userInfo.profile_img ? (
+    <Image
+      src={`${domain}/api/v1/get_image/${userInfo.profile_img}`}
+      alt="Avatar"
+      fill
+    priority
+
+      className="rounded-full object-cover p-1"
+    />
+  ) : (
+    <Avatar className="object-cover object-center w-full h-full">
+      <AvatarImage src="https://github.com/shadcn.png" alt="Profile image" />
+    </Avatar>
+  )}
+</div>
         </div>
-        <div className="flex flex-col justify-center items-center">
+        <div className="relative -top-10 flex flex-col justify-center items-center">
           <div className="flex justify-center items-center">
             <h1 className="text-md font-bold text-gray-900 mr-1">{userInfo.first_name} </h1>
             <h1 className="text-md font-bold text-gray-900 mr-1">{userInfo.last_name}  </h1>
@@ -271,6 +265,15 @@ export default function ProfilePage() {
           <h1>{userInfo.email}</h1>
         </div>
         <div className="flex justify-between items-center px-4 py-4 border-y hover:bg-sky-300">
+          <div className="flex justify-center items-center">
+          <GrStatusUnknown />
+          <h1 className="text-muted-foreground text-md text-gray-950 font-poppins pl-2">Status</h1>
+          </div>
+
+          <StatusToggle userId={userId} />
+
+        </div>
+        <div className="flex justify-between items-center px-4 py-4 border-y hover:bg-sky-300">
           <Link href={'/profile/projects'} className="flex justify-center items-center">
             <GrProjects/>
           <h1 className="text-muted-foreground text-md text-gray-950 font-poppins pl-2">Projects</h1>
@@ -279,14 +282,15 @@ export default function ProfilePage() {
         <ChevronRight />
 
         </div>
-        <div className="flex justify-between items-center px-4 py-4 border-y">
+       
+        {/* <div className="flex justify-between items-center px-4 py-4 border-y">
         <Link href={'/profile'} className="flex justify-center items-center">
             <CgProfile />
           <h1 className="text-muted-foreground text-md text-gray-950 font-poppins pl-2">Profile Details</h1>
           </Link>
         <ChevronRight />
 
-        </div>
+        </div> */}
         <div className="flex justify-between items-center px-4 py-4 border-y">
         
           <Link href={'/profile/settings'} passHref className="flex justify-center items-center">

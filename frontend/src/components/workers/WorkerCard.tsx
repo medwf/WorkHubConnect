@@ -34,7 +34,7 @@ function WorkerCard({ worker, index }: Prop) {
 
   return (
     <div className="max-w-sm rounded-lg border-none p-1 relative w-full cursor-pointer select-none ">
-    <div className="relative w-full h-[37vh] ">
+    <div className="relative w-full md:h-[37vh] h-[30vh] ">
             <Link
                 href={`/workers/${worker.user_id}`}
               className={cn(
@@ -52,7 +52,10 @@ function WorkerCard({ worker, index }: Prop) {
                   alt="worker"
                   width={1500}
                   height={1500}
-                  loading="eager"
+                  loading="lazy"
+                 
+            
+           
                   className="-z-10 h-full w-full object-cover object-center rounded-lg"
                 />
               ):(

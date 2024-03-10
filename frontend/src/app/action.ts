@@ -14,7 +14,7 @@ export const fetchWorkers = async (
     const response = await axios.get(`${domain}/api/v1/workers_search`, {
       params: {
         page: page,
-        limit: 10,
+        limit: 2,
         service: selectedService,
         state: selectedRegion?.id,
         city: selectedCity?.id,
@@ -22,11 +22,11 @@ export const fetchWorkers = async (
   
       httpsAgent: new https.Agent({ rejectUnauthorized: false }),
     });
-    console.log(response);
+    // console.log(response);
     const data = await response.data;
     return data;
   } catch (error: any) {
-    console.error("Error fetching workers:", error);
+    // console.error("Error fetching workers:", error);
    
   }
 };
@@ -41,7 +41,7 @@ export const fetchServices = async () => {
     const services = response.data;
     return services;
   } catch (error: any) {
-    console.error("Error fetching services", error);
+    // console.error("Error fetching services", error);
     
   }
 };
@@ -58,11 +58,11 @@ export const PopularServices = async () => {
   
       httpsAgent: new https.Agent({ rejectUnauthorized: false }),
     });
-    console.log(response);
+    // console.log(response);
     const data = await response.data;
     return data;
   } catch (error: any) {
-    console.error("Error fetching workers:", error);
+    // console.error("Error fetching workers:", error);
    
   }
 };

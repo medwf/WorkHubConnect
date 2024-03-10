@@ -42,9 +42,9 @@ import { regions } from "@/helpers/regions";
 import { cities } from "@/helpers/cities";
 import { Textarea } from "@/components/ui/textarea";
 import { useCookies } from "next-client-cookies";
+import { useSelector } from "react-redux";
+import { RootState } from "@/Redux/store";
 
-const MAX_FILE_SIZE = 5000000;
-const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 const FormSchema = z.object({
   first_name: z.string(),
   last_name: z.string(),
@@ -53,6 +53,7 @@ const FormSchema = z.object({
   region: z.string(),
   city: z.string(),
   type: z.string(),
+  phone_number:z.string(),
 });
 
 
@@ -66,8 +67,14 @@ export default function EditProfile() {
   const [selectedImage, setSelectedImage] = useState< File | null >(null);
   const [selectedRegion, setSelectedRegion] = useState("");
   const [RegionName, setRegionName] = useState("");
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [cityName, setCityName] = useState("");
+
+  const handleCityChange = (cityName: string) => {
+    setCityName(cityName);
+    form.setValue("city", cityName);
+  };
   const handleRegionChange = (regionName: string) => {
     const selectedRegion = regions.find(
       (region) => region.region === regionName
@@ -78,15 +85,6 @@ export default function EditProfile() {
     }
   };
 
-  const [user, setUser] = React.useState({
-    description: "",
-    username: "",
-    region: "",
-    city: "",
-    service_id: "",
-    city_id: "",
-    type: "",
-  });
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -94,6 +92,7 @@ export default function EditProfile() {
       first_name: "",
       last_name: "",
       service_id: "",
+      phone_number:"",
       city: "",
       region: "",
       type: "",
@@ -106,7 +105,7 @@ export default function EditProfile() {
   );
   const cookies = useCookies();
   const token = cookies.get("token");
-  const userId =  cookies.get("userId");
+  const userId = useSelector((state:RootState) => state.user)
   const watchType = form.watch("type");
   useEffect(() => {
     const fetchServices = async () => {
@@ -165,6 +164,37 @@ console.log(formDataWithcity_id);
   }
 
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get( `${domain}/api/v1/users/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const userData = response.data;
+        console.log(userData);
+        form.setValue("first_name", userData.first_name);
+        form.setValue("last_name", userData.last_name);
+        form.setValue("description", userData.description);
+        form.setValue("type", userData.type);
+       
+        setRegionName(userData.region)
+        setCityName(userData.city)
+
+        form.setValue("phone_number",userData.phone_number)
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        setIsLoading(false);
+      }
+    };
+    fetchUserData();
+  }, [token]);
+
+
+
+
   return (
     <section className="py-3">
       <MaxWidthWrapper>
@@ -193,8 +223,8 @@ console.log(formDataWithcity_id);
         <div className=" md:w-2/3 w-full h-full  flex items-center flex-col  gap-4 mx-auto ">
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="outline" className="w-full flex justify-between md:px-20 mx-auto">
-              Edit Profile <ChevronRight />
+            <Button variant="outline" className="w-full flex justify-between md:px-20 mx-auto group">
+              Edit Profile <ChevronRight className="group-hover:rotate-90"/>
             </Button>
           </DialogTrigger>
           <DialogContent className="md:max-w-4xl mx-auto">
@@ -346,9 +376,10 @@ console.log(formDataWithcity_id);
                           <FormLabel>City</FormLabel>
                           <FormControl>
                             <Select
-                              value={field.value}
-                              onValueChange={field.onChange}
-                              defaultValue={field.value}
+                              value={cityName}
+                              onValueChange={handleCityChange}
+                              // defaultValue={field.value}
+                              
                             >
                               <SelectTrigger>
                                 <SelectValue placeholder="Select a city" />
@@ -376,7 +407,24 @@ console.log(formDataWithcity_id);
                       )}
                     />
                   </div>
+                  <FormField
+                control={form.control}
+                name="phone_number"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Phone number</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="phone number"
+                        type="tel"
+                        {...field}
+                      />
+                    </FormControl>
 
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
                   <FormField
                     control={form.control}
                     name="description"

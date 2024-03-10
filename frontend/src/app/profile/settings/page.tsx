@@ -50,6 +50,7 @@ import EditPassword from "@/components/profile/EditPassword";
 import EditProfile from "@/components/profile/EditProfile";
 import { RootState } from "@/Redux/store";
 import { useSelector } from "react-redux";
+import DeleteAccount from "@/components/profile/DeleteAccount";
 const MAX_FILE_SIZE = 5000000;
 const ACCEPTED_IMAGE_TYPES = [
   "image/jpeg",
@@ -285,6 +286,7 @@ export default function Settings() {
             <EditImage />
             <EditPassword />
             <EditProfile />
+            <DeleteAccount />
           </div>
 
           <div className="hidden md:flex justify-center items-center transition relative">

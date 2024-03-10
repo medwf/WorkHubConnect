@@ -31,6 +31,9 @@ import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { useCookies } from "next-client-cookies";
+import { setUpdateId } from "@/state";
+import {  useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/Redux/store";
 const MAX_FILE_SIZE = 5000000;
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
@@ -48,6 +51,7 @@ const FormSchemaTwo = z.object({
 export default function EditImage() {
   const router = useRouter();
   const pathname = usePathname();
+  const UpId = useSelector((state: RootState) => state.updateId)
   const lastItem = pathname.split("/").pop();
   const handleBack = () => {
     router.back();
@@ -64,9 +68,10 @@ export default function EditImage() {
   });
 
   const cookies = useCookies();
+  const dispatch = useDispatch();
   const token = cookies.get("token");
   const userId =  cookies.get("userId");
-
+  
   async function onSubmitTwo(data: z.infer<typeof FormSchemaTwo>) {
     try {
       const formData = new FormData();
@@ -82,6 +87,11 @@ export default function EditImage() {
           },
         }
       );
+      dispatch(
+        setUpdateId({
+          updateId: UpId + 1,
+        })
+      )
       toast.success(response.data.message);
       formTwo.reset();
     } catch (error: any) {
@@ -102,7 +112,7 @@ export default function EditImage() {
         {/* //images */}
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="outline" className="w-full flex justify-between md:px-20 hover:px-10 group">
+            <Button variant="outline" className="w-full flex justify-between md:px-20  group">
               Edit Image <ChevronRight className="group-hover:rotate-90"/>
             </Button>
           </DialogTrigger>
@@ -150,11 +160,11 @@ export default function EditImage() {
                 />
                 
                 <br />
-                <DialogClose asChild>
+                {/* <DialogClose asChild> */}
                 <Button type="submit" className="w-full ">
                   Upload image
                 </Button>
-                </DialogClose>
+                {/* </DialogClose> */}
               </form>
             </Form>
           </DialogContent>
