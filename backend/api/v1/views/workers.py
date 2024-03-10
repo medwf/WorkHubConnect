@@ -130,7 +130,7 @@ def update_worker(worker_id):
     return jsonify(worker.to_dict()), 200
 
 
-@app_views.route("/workers_search",
+@app_views.route("/workers_search_post",
                  strict_slashes=False,
                  methods=["POST"])
 def workers_search():
@@ -226,7 +226,11 @@ def workers_filter():
     service_arg_str = request.args.get("service", default=None)
     page = request.args.get('page', default=1, type=int)
     limit = request.args.get('limit', default=10, type=int)
-
+    # print("limit : ",limit)
+    # print("state_id : ",state_id)
+    # print("city_id : ",city_id)
+    # print("page : ",page)
+    # print("service_arg_str : ",service_arg_str)
     if service_arg_str is not None and service_arg_str.isdigit():
         service_id = int(service_arg_str)
     else:
@@ -236,14 +240,14 @@ def workers_filter():
     service_id = service_id if service_id != "" else None
     page = page if page != "" else 1
     limit = limit if limit != "" else 10
-    # print("state_id:", state_id)
-    # print("city_id:", city_id)
-    # print("service_id:", service_id)
-    # print("page:", page)
-    # print("limit:", limit)
+    print("limit : ",limit)
+    print("state_id : ",state_id)
+    print("city_id : ",city_id)
+    print("page : ",page)
+    print("service_id : ",service_id)
     result = []
     index = limit * (page - 1)
-    if state_id is None and city_id is None and service_id is None:
+    def GetAllWorkers():
         workers = storage.all(Worker).values()
         for worker in workers:
             user = storage.get(User, worker.user_id).to_dict()
@@ -254,9 +258,14 @@ def workers_filter():
             ServiceName = storage.get(Service, worker.service_id).en_name
             workerdict['ServiceName'] = ServiceName
             result.append(workerdict)
-        return jsonify(result[0:index + limit])
+        return result
+    if state_id is None and city_id is None and service_id is None:
+        print("in all None")
+        result = GetAllWorkers()
+        return make_response (jsonify(result[0:index + limit]), 200)
     # Filter by state
-    if state_id is not None:
+    if state_id is not None and city_id is None:
+        print("in state_id")
         state = storage.get(State, state_id)
         if state is None:
             return make_response(jsonify({"error": "Region not found"}), 404)
@@ -273,8 +282,15 @@ def workers_filter():
 
     # Filter by city
     if city_id is not None:
-        result = []
+        print("in city")
+        state = storage.get(State, state_id)
+        if state is None:
+            return make_response(jsonify({"error": "State not found"}), 400)
         city = storage.get(City, city_id)
+        if city:
+            cities_in_states = state.cities
+            if city not in cities_in_states:
+                return make_response(jsonify({"error": "City not in this state"}), 400)
         if city is None:
             return make_response(jsonify({"error": "City not found"}), 404)
         for worker in city.workers:
@@ -290,25 +306,19 @@ def workers_filter():
 
     # Filter by service
     if service_id is not None:
-        if len(result) == 0:
-            workers = storage.all(Worker).values()
-            for worker in workers:
-                user = storage.get(User, worker.user_id).to_dict()
-                del user['id']
-                workerdict = worker.to_dict()
-                workerdict.update(**user)
-                workerdict['fullName'] = str(workerdict['first_name']) + " " + str(workerdict['last_name'])
-                ServiceName = storage.get(Service, worker.service_id).en_name
-                workerdict['ServiceName'] = ServiceName
-                result.append(workerdict)
         service = storage.get(Service, service_id)
         if service is None:
             return make_response(jsonify({"error": "Service not found"}), 404)
+        if state_id is None and city_id is None:
+            print("in None city state")
+            result = GetAllWorkers()
         # result = [worker for worker in result if worker.service_id == service.id]
-        result =  [worker for worker in result if worker.get("service_id") == service.id]
+        copy_result = result.copy()
+        result = []
+        for worker in copy_result:
+            if worker.get("service_id") == service_id:
+                result.append(worker)
 
-    # workers = [worker.to_dict() for worker in result]
-    # return jsonify(workers), 200
     return jsonify(result[0:index + limit]), 200
 
 

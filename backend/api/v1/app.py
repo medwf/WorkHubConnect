@@ -52,17 +52,15 @@ Swagger(app, config=swagger_config)
 
 @jwt.expired_token_loader
 def expired_token_callback(jwt_header, jwt_payload):
-    print("Token has expired")
-    return jsonify({"message": "Token has expired"}), 401
+    return jsonify({"error": "Token has expired"}), 401
 
 @jwt.invalid_token_loader
 def invalid_token_callback(invalid_token):
-    print("Invalid Token")
-    return jsonify({"message": "Invalid token"}), 401
+    return jsonify({"error": "Invalid token"}), 401
 
 @jwt.revoked_token_loader
 def revoked_token_response(jwt_header, jwt_payload):
-    return jsonify({'message': 'Token has been revoked'}), 401
+    return jsonify({'error': 'Token has been revoked'}), 401
 
 @jwt.token_in_blocklist_loader
 def check_if_token_revoked(jwt_header, jwt_payload: dict) -> bool:

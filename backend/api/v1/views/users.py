@@ -208,10 +208,11 @@ def users_with_offset(offset=1):
 def upload_img():
     if request.method == 'POST':
         if 'files' not in request.files:
+            print("no selected file")
             return make_response(jsonify({"message": "No selected file"}), 400)
         file = request.files['files']
         if file.filename == '':
-            return make_response(jsonify({"message": "No selected file"}))
+            return make_response(jsonify({"message": "No selected file"}), 400)
 
         allowed_extensions = ("png", "jpeg", "jpg")
         allowed_mime_types = ("image/jpeg", "image/png", "image/jpg")
