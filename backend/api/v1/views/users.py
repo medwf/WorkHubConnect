@@ -209,16 +209,16 @@ def upload_img():
     if request.method == 'POST':
         if 'files' not in request.files:
             print("no selected file")
-            return make_response(jsonify({"message": "No selected file"}), 400)
+            return make_response(jsonify({"error": "No selected file"}), 400)
         file = request.files['files']
         if file.filename == '':
-            return make_response(jsonify({"message": "No selected file"}), 400)
+            return make_response(jsonify({"error": "No selected file"}), 400)
 
         allowed_extensions = ("png", "jpeg", "jpg")
         allowed_mime_types = ("image/jpeg", "image/png", "image/jpg")
         basename, file_extension = file.filename.rsplit('.', 1)
         if file_extension.lower() not in allowed_extensions:
-            return make_response(jsonify({"message": "Please upload images in one of the following formats: PNG, JPEG, or JPG"}))
+            return make_response(jsonify({"error": "Please upload images in one of the following formats: PNG, JPEG, or JPG"}))
         current_user_id = get_jwt_identity()
         user_info = f"profile_{current_user_id}"
         new_filename = generate_filename(file_extension, user_info)
@@ -233,10 +233,10 @@ def upload_img():
         file_mime_type = mime.from_file(file_path)
         if file_mime_type not in allowed_mime_types:
             os.remove(file_path)
-            return make_response(jsonify({"message": "Please upload images in one of the following mime_types : PNG, JPEG, or JPG"}))
+            return make_response(jsonify({"error": "Please upload images in one of the following mime_types : PNG, JPEG, or JPG"}))
         is_valid = check_image_size(file_path)
         if not is_valid:
-            return jsonify({"message": "Image size must be less than 2MB"})
+            return jsonify({"error": "Image size must be less than 2MB"})
         new_img = f"users/{new_filename}"
 
         if os.path.exists(file_path):
