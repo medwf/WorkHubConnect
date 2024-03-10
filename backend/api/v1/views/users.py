@@ -233,7 +233,7 @@ def upload_img():
         allowed_mime_types = ("image/jpeg", "image/png", "image/jpg")
         basename, file_extension = file.filename.rsplit('.', 1)
         if file_extension.lower() not in allowed_extensions:
-            return make_response(jsonify({"error": "Please upload images in one of the following formats: PNG, JPEG, or JPG"}))
+            return make_response(jsonify({"error": "Upload images in PNG, JPEG, or JPG format only."}), 400)
         current_user_id = get_jwt_identity()
         user_info = f"profile_{current_user_id}"
         new_filename = generate_filename(file_extension, user_info)
@@ -248,10 +248,10 @@ def upload_img():
         file_mime_type = mime.from_file(file_path)
         if file_mime_type not in allowed_mime_types:
             os.remove(file_path)
-            return make_response(jsonify({"error": "Please upload images in one of the following mime_types : PNG, JPEG, or JPG"}))
+            return make_response(jsonify({"error": "Upload images in PNG, JPEG, or JPG format only."}), 400)
         is_valid = check_image_size(file_path)
         if not is_valid:
-            return jsonify({"error": "Image size must be less than 2MB"})
+            return make_response(jsonify({"error": "Image size must be less than 2MB"}), 400)
         new_img = f"users/{new_filename}"
 
         if os.path.exists(file_path):
@@ -265,7 +265,6 @@ def upload_img():
         user.save()
         response_data = {"message": "Profile image updated successfully", "url": (new_img)}
         return make_response (jsonify(response_data),200)
-
 
 
 @app_views.route("/updateprofile", strict_slashes=False, methods=["PUT"])
