@@ -61,7 +61,7 @@ export function DropdownMenuProfile() {
     city: "",
     region: "",
     type: "",
-    image: "",
+    profile_img: "",
     service: "",
   });
 
@@ -95,8 +95,8 @@ export function DropdownMenuProfile() {
         <Button variant="ghost" className='p-1'>
           <div className='flex gap-2 items-center justify-center '>
           <Avatar className=''>
-            {userInfo.image ? (
-  <AvatarImage src={userInfo.image} alt="profile image"  />
+            {userInfo.profile_img ? (
+  <AvatarImage src={`${domain}/api/v1/get_image/${userInfo.profile_img}`} alt="profile image"  />
             ):(
               // <AvatarFallback>{userInfo.first_name[0]}{userInfo.last_name[0]}</AvatarFallback>
   <AvatarImage src="https://github.com/shadcn.png" alt="Profile image"  />

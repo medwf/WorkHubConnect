@@ -116,7 +116,9 @@ const Page = ({ params }: PageProps) => {
   }
     
   });
-  async function onSubmit(data: z.infer<typeof formSchema>) { alert(data.description)}
+  async function onSubmit(data: z.infer<typeof formSchema>) {
+    console.log(data)
+  }
 
   return (
     <MaxWidthWrapper className="bg-white ">

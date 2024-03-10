@@ -17,6 +17,7 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import { RootState } from "@/Redux/store";
 import { AvatarImage } from "@radix-ui/react-avatar";
+import { Avatar } from "@/components/ui/avatar";
 
 const titleClass = "text-muted-foreground text-md text-semibold";
 const labelClass = "text-md font-poppins font-semibold w-1/3 overflow-x-hidden";
@@ -33,7 +34,7 @@ export default function ProfilePage() {
     city: "",
     region: "",
     type: "",
-    image: "",
+    profile_img: "",
     service: "",
     linkedin_url: "",
     github_url: "",
@@ -77,17 +78,20 @@ export default function ProfilePage() {
         {userInfo && (
           <section className="flex items-center justify-between gap-4 w-full py-5 border rounded-lg p-4 my-2">
             <div className="flex items-center gap-4">
-              <div className="md:min-h-20 md:min-w-20 min-h-14 min-w-14 rounded-full border flex justify-center items-center">
-                {userInfo.image ? (
+              <div className="relative md:min-h-20 md:min-w-20 min-h-14 min-w-14 rounded-full border flex justify-center items-center">
+                {userInfo.profile_img ? (
                   <Image
-                    src={userInfo.image}
+                    src={`${domain}/api/v1/get_image/${userInfo.profile_img}`}
                     alt="Avatar"
-                    width={100}
-                    height={100}
-                    className="rounded-full w-full h-full object-cover"
+                    fill
+                    className="absolute rounded-full w-full h-full object-contain"
                   />
                 ) : (
+                  <Avatar className='object-contain max-h-20 max-w-20'>
+
+                  
                   <AvatarImage src="https://github.com/shadcn.png" alt="Profile image"  />
+                  </Avatar>
                   // <div className="w-full h-full flex justify-center items-center">
                   //   {userInfo.first_name[0]}
                   //   {userInfo.last_name[0]}
@@ -234,9 +238,9 @@ export default function ProfilePage() {
       <div className=" bg-sky-200  h-[20vh] relative"></div>
         <div className="flex items-center justify-center gap-4">
           <div className=" min-h-[120px] min-w-[120px] rounded-full border-8 border-stone-100  flex justify-center items-center bg-sky-100 -mt-14 z-40">
-            {userInfo.image ? (
+            {userInfo.profile_img ? (
               <Image
-                src={"/assets/hero.jpg"}
+                src={`${domain}/api/v1/get_image/${userInfo.profile_img}`}
                 alt="profile"
                 width={130}
                 height={130}
