@@ -116,7 +116,7 @@ def ForgotPassword():
     # token ? check token
     expires_delta = timedelta(minutes=30)
     reset_pass_token = create_access_token(identity=user.id, expires_delta=expires_delta)
-    MakeUrl = f"http://localhost:3000/auth/reset-password?token={reset_pass_token}"
+    MakeUrl = f"https://work-hub-connect.vercel.app/auth/reset-password?token={reset_pass_token}"
     # send email using path /reset-password/token
     subject = "Reset Your WorkHubConnect Password"
     Text = f"""Dear [{user.first_name}],
