@@ -24,8 +24,6 @@ def is_valid_phone_number(phone):
 @app_views.route('/login', methods=["POST"])
 def create_token():
     """check email and password, then generate a new token"""
-    # if not request.is_json:
-    #     return jsonify({"error": "Bad request, not JSON format"}), 400
     data = request.get_json(force=True, silent=True)
     if data:
         email = data.get("email", None)
@@ -38,66 +36,37 @@ def create_token():
             PASSWORD = md5(password.encode()).hexdigest()
             user = storage.GetUserEmail(User, email=email, password=PASSWORD)
             if user is None:
-                print("Bad email or password")
                 return make_response(jsonify({"error": "Invalid email or password"}), 401)
             access_token = create_access_token(identity=user.id, expires_delta=timedelta(hours=1))
-            # createtime = datetime.utcnow()
-            # expiretime = createtime + timedelta(hours=1)
-            # print("login success", access_token)
             response_data = {
             "token": access_token,
             "user_id": user.id,
             "message": "You are successfully logged in"
             }
-            # Create a response with JSON data
-            # cookie_expire = datetime.now()
-            # cookie_expire = cookie_expire + timedelta(hours=1)
             response = make_response(jsonify(response_data))
-            # timestamp = time.time()
-            # current_datetime = datetime.fromtimestamp(timestamp)
-            # exptimestamp = current_datetime + timedelta(hours=1)
-            # exptimecookie = exptimestamp.timestamp()
-            # response.headers.clear()
-            # response.headers['tokennn'] = access_token
-            # response.set_cookie('token', value = access_token, expires = cookie_expire, samesite='None',max_age = 600)
-            # response.set_cookie('user_id', value = str(user.id), expires = cookie_expire, samesite='None',max_age = 600)
-            # response.set_cookie('dateToken', value = str(timestamp), expires = cookie_expire, samesite='None',max_age = 600)
-            # response.set_cookie('expToken', value = str(exptimecookie), expires = cookie_expire, samesite='None',max_age = 600)
-            #response.delete_cookie('')
-            #response.set_cookie("key", value = '', max_age = None, expires = None, path = '/', domain = None,secure = None, httponly = False)
-            # Set cookies for token and user_id
-            # print("header : ", response.headers)
             return response
-            # return make_response(jsonify({"token": access_token, "user_id": user.id, "message": "You are successfully logged in"}))
     else:
-        return jsonify({'error': 'Data is empty JSON'}), 400
+        return jsonify({'error': 'Not a JSON'}), 400
 
 
 def create_token_register(userID, email=None, password=None):
     """check email and password, then generate an access token"""
-    #Email cannot be empty. Please enter and try again.
     if not email or len(email) == 0:
         return make_response(jsonify({"error": "Oops! Something went wrong. Please try again later."}), 401)
-    #Password can't be empty. Enter and try again.
     if not password or len(password) == 0:
         return make_response(jsonify({"error": "Oops! Something went wrong. Please try again later."}), 401)
     if email and password:
-
         PASSWORD = md5(password.encode()).hexdigest()
         user = storage.GetUserEmail(User, email=email, password=PASSWORD)
         if user is None or user.id != userID:
-            print("bad email or password")
             return make_response(jsonify({"error": "Oops! Something went wrong. Please try again later."}), 401)
         access_token = create_access_token(identity=user.id)
-        print("Account created successfully! You are now logged in.", access_token)
         response_data = {
         "token": access_token,
         "user_id": user.id,
         "message": "Account created successfully! You are now logged in."
         }
-        # Create a response with JSON data
         response = make_response(jsonify(response_data), 200)
-        # print(response_data)
         return response
 
 
@@ -231,6 +200,7 @@ def UpdatePassword():
 @app_views.route("/logout", methods=["DELETE"])
 @jwt_required()
 def modify_token():
+    """logout users"""
     jti = get_jwt()["jti"]
     instance = TokenBlockList(jti=jti)
     instance.save()
