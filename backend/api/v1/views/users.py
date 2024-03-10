@@ -80,6 +80,21 @@ def delete_user(user_id):
     user = storage.get(User, user_id)
     if user is None:
         return make_response(jsonify({"error": "Not found"}), 404)
+    if user.worker is not None:
+        worker = user.worker
+        for project in worker.projects:
+            for image in project.images:
+                img_url = image.url
+                full_path =  f"{os.getcwd()}/images/{img_url}"
+                os.remove(full_path)
+                storage.delete(image)
+            storage.delete(project)
+        for review in worker.reviews:
+            storage.delete(review)
+        storage.delete(worker)
+    full_path =  f"{os.getcwd()}/images/{user.profile_img}"
+    if os.path.exists(full_path):
+        os.remove(full_path)
     storage.delete(user)
     storage.save()
     return make_response(jsonify({}), 200)
@@ -421,7 +436,7 @@ def update_client_worker():
             for project in worker.projects:
                 for image in project.images:
                     img_url = image.url
-                    full_path =  f"{os.getcwd()}{img_url}"
+                    full_path =  f"{os.getcwd()}/images/{img_url}"
                     os.remove(full_path)
                     storage.delete(image)
                 storage.delete(project)
