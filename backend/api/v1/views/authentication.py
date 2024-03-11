@@ -102,14 +102,18 @@ Best Regards,
 The WorkHubConnect Team
 Support: workhubconnect.2024@gmail.com
 """
-    SendMail(email, subject, Text)
-    response_data = {
-    "token": reset_pass_token,
-    "user_id": user.id,
-    "message": "email sended"
-    }
-    response = make_response(jsonify(response_data), 200)
-    return response
+    state = SendMail(email, subject, Text)
+    if state.status_code == 200:
+        response_data = {
+        "token": reset_pass_token,
+        "user_id": user.id,
+        "message": "Password reset instructions sent successfully"
+        }
+        response = make_response(jsonify(response_data), 200)
+        return response
+    else:
+        return jsonify({"error": "Failed to send password reset instructions"}), 500
+
 
 
 @app_views.route('/reset-password', methods=['POST'])
