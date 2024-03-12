@@ -26,6 +26,7 @@ def SendMail(receiver, subject, body):
         with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
             smtp.login(sender, password)
             smtp.sendmail(sender, receiver, mail.as_string())
+            return make_response(jsonify({"success": f"Email sent successfully to {receiver}"}), 200)
     except Exception as e:
         return make_response(jsonify({"error": f"Failed to send email to {receiver}"}), 400)
 

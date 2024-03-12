@@ -9,7 +9,9 @@ from models.worker import Worker
 from models.user import User
 from models.state import State
 from models.service import Service
+from utils.send_email import SendMail
 from flasgger.utils import swag_from
+import json
 
 
 jwt = JWTManager()
@@ -339,3 +341,61 @@ def ChangeWorkerAvailability():
     worker.is_available = state
     worker.save()
     return make_response(jsonify({"message": "Worker state updated successfully"}), 200)
+
+@app_views.route("/contact_me", strict_slashes=False, methods=["POST"])
+def contact_me():
+    json_data = request.get_json(force=True, silent=True)
+    if not json_data:
+        return make_response(jsonify({"error": "Bad request , Not a json"}), 400)
+    if "id" not in json_data:
+        return make_response(jsonify({"error": "Please provide worker id"}), 400)
+    worker_id = json_data.get("id")
+    worker = storage.get(Worker, worker_id)
+    if worker is None:
+        return make_response(jsonify({"error": "Worker not found"}), 404)
+    user = storage.get(User, worker.user_id)
+    worker_email = user.email
+    worker_name = user.first_name
+    if "username" not in json_data or len(json_data["username"]) < 3:
+        return make_response(jsonify({"error": "Name cannot be empty or less than 2 characters"}), 400)
+    if "city" not in json_data or len(json_data["city"]) == 0:
+        return make_response(jsonify({"error": "City cannot be empty"}), 400)
+    if "phone" not in json_data or len(json_data["phone"]) < 10:
+        return make_response(jsonify({"error": "Phone cannot be empty"}), 400)
+    if "description" not in json_data or len(json_data["description"]) < 10 or len(json_data["description"]) > 100:
+        return make_response(jsonify({"error": "Description must be between 10 and 100 characters"}), 400)
+    if "date" not in json_data or len(json_data["date"]) == 0:
+        return make_response(jsonify({"error": "Please provide start and end dates"}), 400)
+    start_date = json_data.get("date").get("from", None)
+    end_date = json_data.get("date").get("to", None)
+    if start_date is None:
+        return make_response(jsonify({"error": "Please provide start date"}), 400)
+    if end_date is None:
+        return make_response(jsonify({"error": "Please provide end date"}), 400)
+
+    requester = json_data.get("username")
+    city_of_work = json_data.get("city")
+    contact_phone = json_data.get("phone")
+    description_of_work = json_data.get("description")
+    Subject = "New Job Request"
+    content = f"""Dear {worker_name},
+We have a new job request for you:
+
+Requester: {requester}
+City of work: {city_of_work}
+Description of work: {description_of_work}
+Start date: {start_date}
+End date: {end_date}
+To contact the requester, use this phone number: {contact_phone}
+
+Please contact the requester as soon as possible, whether you are available for this work or not.
+
+Best regards,
+WorkHubConnect"""
+    state = SendMail(worker_email, Subject, content)
+    if state.status_code == 200:
+        return jsonify({"message": "Job request submitted successfully"}), 200
+    else:
+        response_json = json.loads(state.data.decode('utf-8'))
+        return jsonify({"error": f"{response_json['error']}"}), 500
+    
