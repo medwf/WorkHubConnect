@@ -1,4 +1,4 @@
-export const cities = [
+export const citiesData = [
     {
       "id": 1,
       "region": 6,

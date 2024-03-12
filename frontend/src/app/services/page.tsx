@@ -8,6 +8,7 @@ import ServiceCard, { servicesProps } from "@/components/services/ServiceCard";
 import domain from "@/helpers/constants";
 import axios from "axios";
 import CardServices from "@/components/services/CardServices";
+import toast from "react-hot-toast";
 
 
 export default function Services() {
@@ -46,7 +47,9 @@ export default function Services() {
         const services = response.data;
  
         setServices(services);
-      } catch (error) {
+      } catch (error:any) {
+        
+          console.clear();
         
       }
     };

@@ -19,7 +19,7 @@ import SearchWorker from "@/components/workers/SearchWorker";
 import { SlidersHorizontal } from "lucide-react";
 import WorkerCard, { workerProp } from "@/components/workers/WorkerCard";
 import { regions } from "@/helpers/regions";
-import { cities } from "@/helpers/cities";
+import { citiesData } from "@/helpers/cities";
 import { useInView } from "react-intersection-observer";
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 
@@ -144,6 +144,7 @@ if(id) {
           
          
         } catch (error) {
+          console.clear();
          
         } finally {
           setIsLoading(false); 
@@ -291,7 +292,7 @@ if(id) {
                           />
                           <CommandEmpty>No city found.</CommandEmpty>
                           <CommandGroup>
-                            {cities
+                            {citiesData
                               .filter(
                                 (city) => city.region === selectedRegion?.id
                               )

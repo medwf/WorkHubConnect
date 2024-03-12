@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/sheet";
 import { CreditCard, LogOut, Settings, User } from "lucide-react";
 import { FaDiscord, FaGithub } from "react-icons/fa";
+import { RiDiscordFill,RiWhatsappFill } from "react-icons/ri";
 import { DropdownMenuProfile } from "./ProfileMenu";
 import toast from "react-hot-toast";
 import axios from "axios";
@@ -37,18 +38,33 @@ const Navbar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const cookies = useCookies();
   const router = useRouter();
+  const token = cookies.get("token");
   const dispatch = useDispatch();
+ 
   const logoutAction = async () => {
     try {
+      
+      const response = await axios.delete(`${domain}/api/v1/logout`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+   
+      if (response.status === 200) {
       dispatch(logout());
-    
       cookies.remove('token');
       cookies.remove('userId');
       toast.success('logged out successfully')
       router.push('/')
+      } else {
+
+        toast.error('Logout failed');
+      }
+     
       
     } catch (error) {
-      toast.error("Logout failed");
+     
      
     }
   };
@@ -167,7 +183,8 @@ const Navbar = () => {
                   <SheetHeader>
                     <SheetTitle></SheetTitle>
                     <SheetDescription>
-                      <div className="flex flex-col   items-start py-4">
+                      <div className="flex flex-col  justify-between  py-4">
+                        <div className="flex justify-center items-center py-6"><h1 className="font-bold font-poppins text-2xl text-gray-900 ">WorkHubConnect</h1></div>
                         {links.map((link) => (
                           <SheetClose key={link.path} asChild>
                             <Link
@@ -230,14 +247,14 @@ const Navbar = () => {
                         )}
 
                         {/* Social media */}
-                        <div className="absolute bottom-0 left-1/0 translate-x-1/2 mx-auto transform mb-10">
+                        <div className="absolute bottom-0 w-full py-5 ">
                           <div className="flex justify-center items-center gap-3">
-                            <Link href="https://github.com/medwf/WorkHubConnect">
+                            <Link href="https://chat.whatsapp.com/FJswzBvu61K81XZTkpDAyH">
                               {" "}
-                              <FaGithub className="w-9 h-9 rounded-full hover:shadow-lg hover:shadow-sky-500 " />
+                              <RiWhatsappFill className="text-4xl" />
                             </Link>
                             <Link href={"https://discord.gg/KPkCPRwG"}>
-                              <FaDiscord className="w-9 h-9 rounded-full hover:shadow-lg hover:shadow-sky-500 " />
+                              <RiDiscordFill className="text-4xl " />
                             </Link>
                           </div>
                         </div>

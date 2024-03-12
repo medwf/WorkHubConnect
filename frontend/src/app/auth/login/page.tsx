@@ -3,7 +3,7 @@ import React,{useState} from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import "../../globals.css";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -73,10 +73,9 @@ export default function Login() {
     });
 
       const userData = response.data;
-      console.log(userData);
-      console.log(userData.user_id);
+   
       
-        console.log("yeah there a user data here")
+        // console.log("yeah there a user data here")
         dispatch(
           setLogin({
             token: userData.token,
@@ -84,21 +83,25 @@ export default function Login() {
             
           })
         )
+        console.log("error here")
         cookie.set('token',userData.token );
         cookie.set('userId',userData.id );
-        
-      
-    
       toast.success(response.data.message);
-    
-    
-
       router.push(`/profile`);
+      if(response.status !== 200) { console.log("error here") }
       
     } catch (error:any) {
-      if (error.response.data.error){
+    //   console.clear();
+    //   const axiosError = error as AxiosError<any>;
+    // if (axiosError.response && axiosError.response.data && axiosError.response.data.error) {
+    //   toast.error(axiosError.response.data.error);
+    // } else {
+    //   toast.error('An error occurred. Please try again later.');
+    // }
+      if (error.response){
         toast.error(error.response.data.error);
       }
+  
     } finally {
       setIsLoading(false);
     }

@@ -44,6 +44,9 @@ import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { workerData } from "worker_threads";
+import { useSelector } from "react-redux";
+import { RootState } from "@/Redux/store";
+import toast from "react-hot-toast";
 
 
 interface PageProps {
@@ -75,6 +78,7 @@ const BREADCRUMBS = [
 const Page = ({ params }: PageProps) => {
   const { id } = params;
   const [date, setDate] = useState<Date>();
+  const userID = useSelector((state:RootState) => state.user)
   const [wokerData, setWorkerData] = useState<Worker | null>(null);
 
   useEffect(() => {
@@ -117,7 +121,26 @@ const Page = ({ params }: PageProps) => {
     
   });
   async function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data)
+
+    const DataWithId = {
+      ...data,
+      id,
+    }
+
+      try {
+        const res = await axios.post(`${domain}/api/v1/contact`,DataWithId);
+
+        toast.success(res.data.message);
+      } catch (error: any) {
+       
+        if (error.response.data.error){
+          toast.error(error.response.data.error);
+        }else{
+          console.clear();
+        }
+       }
+    
+   
   }
 
   return (

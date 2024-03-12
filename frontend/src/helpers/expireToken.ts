@@ -1,6 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 
-export const isTokenExpired = (token: string): boolean => {
+export const IsTokenExpired = (token: string): boolean => {
   if(!token) return true;
   const decodedToken: { exp: number } = jwtDecode(token);
   const expirationTime = decodedToken.exp * 1000;

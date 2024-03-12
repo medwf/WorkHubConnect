@@ -26,20 +26,39 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from "react-redux"; 
 import { RootState } from "@/Redux/store";
 import domain from '@/helpers/constants';
+import { IsTokenExpired } from "@/helpers/expireToken";
+
+
+
+
+
 export function DropdownMenuProfile() {
   const dispatch = useDispatch();
   const router = useRouter();
   const cookies = useCookies();
+  const token = cookies.get("token");
+  const tokenState = useSelector((state:RootState) => state.token);
   const logoutAction = async () => {
     try {
-      
+      const response = await axios.delete(`${domain}/api/v1/logout`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+   
+      if (response.status === 200) {
+      dispatch(logout());
       cookies.remove('token');
       cookies.remove('userId');
-      dispatch(logout());
-      router.push('/')
       toast.success('logged out successfully')
+      router.push('/')
+      } else {
+
+        toast.error('Logout failed');
+      }
     } catch (error) {
-      toast.error("Logout failed");
+      
      
     }
   };
@@ -68,14 +87,13 @@ export function DropdownMenuProfile() {
   useEffect(() => {
 
     const fetchUserInfo = async () => {
-      try {
+ 
 
         const response = await axios.get(
           `${domain}/api/v1/users/${userId}`
         );
         setUserInfo(response.data);
-      } catch (error) {
-      }
+     
     };
 
     
@@ -83,7 +101,17 @@ export function DropdownMenuProfile() {
     
   }, [userId,UpId]);
 
+  useEffect(() => {
+    const checking =  IsTokenExpired(tokenState);
+    if (checking) {
+      dispatch(logout());
+      cookies.remove('token');
+      cookies.remove('userId');
+      router.push('/')
+      
+    }
 
+  },[token,UpId,cookies,dispatch,router,tokenState]);
   return (
     
     <DropdownMenu>

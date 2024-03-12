@@ -30,7 +30,7 @@ import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { regions } from "@/helpers/regions";
-import { cities } from "@/helpers/cities";
+import { citiesData } from "@/helpers/cities";
 import { useCookies } from "next-client-cookies";
 import { setLogin } from "@/state";
 
@@ -107,7 +107,8 @@ export default function Signup() {
         const services = response.data;
         setServices(services);
       } catch (error) {
-        console.error("Error fetching services:", error);
+        // console.error("Error fetching services:", error);
+        
       }
     };
     if (watchType === "worker") {
@@ -117,7 +118,7 @@ export default function Signup() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     data.region = RegionName;
-    const selectedCity = cities.find((city) => city.ville === data.city);
+    const selectedCity = citiesData.find((city) => city.ville === data.city);
 
     const formDataWithcity_id = {
       ...data,
@@ -135,7 +136,7 @@ export default function Signup() {
         }
         formDataWithcity_id.service_id = selectedService.id;
       }
-      console.log(formDataWithcity_id);
+      // console.log(formDataWithcity_id);
       const res = await axios.post(
         `${domain}/api/v1/register`,
         formDataWithcity_id
@@ -283,7 +284,7 @@ export default function Signup() {
                   name="region"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Region</FormLabel>
+                      <FormLabel>State</FormLabel>
                       <FormControl>
                         <Select
                           onValueChange={handleRegionChange}
@@ -322,7 +323,7 @@ export default function Signup() {
                             <SelectValue placeholder="Select a city" />
                           </SelectTrigger>
                           <SelectContent>
-                            {cities
+                            {citiesData
                               .filter(
                                 (city) =>
                                   city.region.toString() === selectedRegion

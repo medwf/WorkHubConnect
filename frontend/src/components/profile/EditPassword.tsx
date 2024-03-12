@@ -100,6 +100,7 @@ export default function EditPassword() {
       } else {
         toast.error("Invalid or expired token");
       }
+      console.clear();
     }
   }
 

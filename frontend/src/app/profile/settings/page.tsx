@@ -42,7 +42,7 @@ import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { regions } from "@/helpers/regions";
-import { cities } from "@/helpers/cities";
+import { citiesData } from "@/helpers/cities";
 import { Textarea } from "@/components/ui/textarea";
 import { useCookies } from "next-client-cookies";
 import EditImage from "@/components/profile/EditImage";
@@ -175,7 +175,7 @@ export default function Settings() {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     // console.log(data);
     data.region = RegionName;
-    const selectedCity = cities.find((city) => city.ville === data.city);
+    const selectedCity = citiesData.find((city) => city.ville === data.city);
 
     const formDataWithcity_id = {
       ...data,
@@ -209,7 +209,11 @@ export default function Settings() {
       form.reset();
       setRegionName("");
     } catch (error: any) {
-      toast.error(error.response.data.error);
+      if (error.response.data.error){
+        toast.error(error.response.data.error);
+      }else{
+        console.clear();
+      }
     }
   }
   async function onSubmitThree(data: z.infer<typeof FormSchemaThree>) {
