@@ -1,11 +1,7 @@
 #!/usr/bin/python3
 """ holds class State"""
-import models
 from models.base_model import BaseModel, Base
-from models.city import City
-from os import getenv
-import sqlalchemy
-from sqlalchemy import Column, String, ForeignKey, Integer
+from sqlalchemy import Column, String, Integer
 from sqlalchemy.orm import relationship
 
 

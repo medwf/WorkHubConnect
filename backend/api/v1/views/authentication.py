@@ -209,13 +209,3 @@ def modify_token():
     instance = TokenBlockList(jti=jti)
     instance.save()
     return make_response(jsonify({"message": "logout successfully"}), 200)
-
-
-@app_views.route("/protected", methods=["GET"])
-@jwt_required()
-def protected():
-    current_user_id = get_jwt_identity()
-    user = storage.get(User, current_user_id)
-    if not user:
-        return make_response(jsonify({"error": "user not found"}), 400)
-    return make_response(jsonify({"id": user.id, "email": user.email}), 200)

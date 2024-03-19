@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """import module"""
 from flask import jsonify, make_response, request
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, JWTManager
+from flask_jwt_extended import jwt_required, get_jwt_identity, JWTManager
 from api.v1.views import app_views
 from models import storage
 from models.city import City
@@ -127,7 +127,6 @@ def update_worker(worker_id):
     worker.linkedin_url = data.get("linkedin_url", worker.linkedin_url)
     worker.is_available = data.get("is_available", worker.is_available)
     worker.website_url = data.get("website_url", worker.website_url)
-    # worker.user_id = worker.user_id
     worker.save()
     return jsonify(worker.to_dict()), 200
 
@@ -191,8 +190,6 @@ def workers_search():
     workers = []
     for worker in result:
         worker_dict = worker.to_dict()
-        # if 'amenities' in worker_dict:
-        #     del worker_dict['amenities']
         workers.append(worker_dict)
     return jsonify(workers), 200
 
@@ -228,11 +225,6 @@ def workers_filter():
     service_arg_str = request.args.get("service", default=None)
     page = request.args.get('page', default=1, type=int)
     limit = request.args.get('limit', default=10, type=int)
-    # print("limit : ",limit)
-    # print("state_id : ",state_id)
-    # print("city_id : ",city_id)
-    # print("page : ",page)
-    # print("service_arg_str : ",service_arg_str)
     if service_arg_str is not None and service_arg_str.isdigit():
         service_id = int(service_arg_str)
     else:
@@ -242,11 +234,6 @@ def workers_filter():
     service_id = service_id if service_id != "" else None
     page = page if page != "" else 1
     limit = limit if limit != "" else 10
-    print("limit : ",limit)
-    print("state_id : ",state_id)
-    print("city_id : ",city_id)
-    print("page : ",page)
-    print("service_id : ",service_id)
     result = []
     index = limit * (page - 1)
     def GetAllWorkers():
@@ -314,7 +301,6 @@ def workers_filter():
         if state_id is None and city_id is None:
             print("in None city state")
             result = GetAllWorkers()
-        # result = [worker for worker in result if worker.service_id == service.id]
         copy_result = result.copy()
         result = []
         for worker in copy_result:

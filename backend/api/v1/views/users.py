@@ -61,7 +61,6 @@ def users_id(user_id):
         user_data['region'] = StateName
         user_data['type'] = "worker"
         worker_data = user.worker.to_dict()
-        # del worker_data['__class__']
         user_data.update(worker_data)
     
     city = storage.get(City, user.city_id)
@@ -69,7 +68,6 @@ def users_id(user_id):
     user_data['city'] = city.name
     user_data['region'] = StateName
     del user_data['worker']
-    # del user_data['__class__']
     return jsonify(user_data)
 
 @app_views.route("/users/<int:user_id>", strict_slashes=False, methods=["DELETE"])
@@ -127,7 +125,6 @@ def update_user(user_id):
         if len(Phone) > 16:
             return make_response(jsonify({"error": "Input phone_number must be less than 16 characters"}), 400)
         data['phone_number'] = Phone
-    # fix problem encryption password 2 times.jsonify({"error": 
     pss = data.get("password", None)
     if pss:
         user.password = pss
@@ -168,7 +165,6 @@ def Create_user():
             return make_response(jsonify({"error": "Input password must be less than 16 characters"}), 400)
         if len(json_data['password']) < 6:
             return make_response(jsonify({"error": "Password very weak. It should be at least 6 characters long."}), 400)
-        # most cast city id.
         if "city_id" not in json_data:
             return make_response(jsonify({"error": "Missing city_id"}), 400)
         if not storage.get(City, json_data['city_id']):
@@ -238,7 +234,6 @@ def upload_img():
         user_info = f"profile_{current_user_id}"
         new_filename = generate_filename(file_extension, user_info)
         user = storage.get(User, current_user_id)
-        # print(user.email)
         current_directory = os.getcwd()
         os.makedirs('images/users/', exist_ok=True)
         file.save('images/users/' + new_filename)
@@ -281,7 +276,6 @@ def update_client_worker():
     json_data = request.get_json(force=True, silent=True)
     if json_data:
         if len(json_data) > 0 and 'type' not in json_data or json_data['type'] not in ("client", "worker"):
-            # print("type not found")
             return make_response(jsonify({"error": "Invalid request"}), 400)
         user_id = get_jwt_identity()
         user = storage.get(User, user_id)
@@ -331,7 +325,6 @@ def update_client_worker():
             worker.insta_url = worker_data.get("insta_url", worker.insta_url)
             worker.tiktok_url = worker_data.get("tiktok_url", worker.tiktok_url)
             worker.linkedin_url = worker_data.get("linkedin_url", worker.linkedin_url)
-            # worker.is_available = worker_data.get("is_available", worker.is_available)
             worker.website_url = worker_data.get("website_url", worker.website_url)
             user.save()
             worker.save()

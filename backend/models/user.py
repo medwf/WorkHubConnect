@@ -1,10 +1,8 @@
 #!/usr/bin/python3
 """ class User"""
 
-import models
 from models.base_model import BaseModel, Base
-import sqlalchemy
-from sqlalchemy import Column, String, Integer, UniqueConstraint, ForeignKey, Boolean
+from sqlalchemy import Column, String, Integer,  ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from hashlib import md5
 

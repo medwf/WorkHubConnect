@@ -2,10 +2,8 @@
 """ class Service"""
 
 
-import models
 from models.base_model import BaseModel, Base
-import sqlalchemy
-from sqlalchemy import Column, String, Integer, UniqueConstraint
+from sqlalchemy import Column, String, Integer
 from sqlalchemy.orm import relationship
 
 

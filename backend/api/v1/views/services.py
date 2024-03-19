@@ -98,7 +98,6 @@ def Update_Service(service_id):
     Returns: the new Service with the status code 200
     """
     json_data = request.get_json(force=True, silent=True)
-    # print("json data is:",json_data)
     if not json_data:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
     service = storage.get(Service, service_id)
@@ -119,7 +118,6 @@ def Update_Service(service_id):
 
 
 @app_views.route("/popular_services", strict_slashes=False, methods=["GET"])
-# @swag_from('documentation/service/get_services.yml', methods=['GET'])
 def PopularServices():
     """return a JSON: list of all Service objects or one Service,
     Or not found if id not exsit"""

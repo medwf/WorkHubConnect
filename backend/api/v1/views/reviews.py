@@ -4,12 +4,9 @@ from flask import jsonify, make_response, request
 
 from api.v1.views import app_views
 from models import storage
-# from models.city import City
 from models.worker import Worker
 from models.user import User
 from models.review import Review
-# from models.state import State
-# from models.service import Service
 from flasgger.utils import swag_from
 
 
@@ -105,6 +102,5 @@ def update_review(review_id):
         return make_response(jsonify({"error": "Not a JSON"}), 400)
     review.text = data.get("text", review.text)
     review.note = data.get("note", review.note)
-    # review.user_id = review.user_id
     review.save()
     return jsonify(review.to_dict()), 200

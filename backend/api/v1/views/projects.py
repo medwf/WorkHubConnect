@@ -115,7 +115,7 @@ def projects_with_offset(page=None, limit=None):
         result.append(project.to_dict())
     return jsonify(result), 200
 
-# en cours ...
+
 @app_views.route("/workers/projects/", strict_slashes=False, methods=["GET"])
 def projects_by_workers():
     """Retrieves a number of projects based on page and limit """
