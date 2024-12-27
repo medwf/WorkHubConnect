@@ -1,0 +1,9 @@
+Flask
+Flask-CORS
+flasgger
+flask_jwt_extended
+python-magic
+SQLAlchemy
+mysql-connector-python
+pymysql
+secure-smtplib

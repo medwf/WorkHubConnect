@@ -1,0 +1,36 @@
+services:
+  frontend:
+    image: node:14
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "3000:3000"
+    command: sh -c "npm install && npm run dev"
+
+  backend:
+    image: python:3.9
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    ports:
+      - "5000:5000"
+    command: sh -c "pip install -r requirements.txt && WORKHUB_MYSQL_USER=workhub_user WORKHUB_MYSQL_PWD=WHC_123_2024 WORKHUB_MYSQL_HOST=db WORKHUB_MYSQL_DB=workhubconnect_db flask run --host=0.0.0.0"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: workhubconnect_db
+      MYSQL_USER: workhub_user
+      MYSQL_PASSWORD: WHC_123_2024
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./backend/sql_dumps:/docker-entrypoint-initdb.d
+
+volumes:
+  db_data:
