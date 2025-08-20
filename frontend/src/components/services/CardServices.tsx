@@ -44,16 +44,16 @@ function CardServices({ service, index }: Prop) {
         >
           <div className="relative w-full h-full aspect-w-16 aspect-h-9">
             <Image
-              src={`${domain}/api/v1/get_image/${service.image}`}
+              src={`/${service.image}`}
               alt="service"
               fill
               loading="eager"
               sizes="(min-width: 808px) 50vw, 100vw"
               className=" group-hover:blur-sm object-cover object-center"
             />
-           
+
           </div>
-         
+
           <div className="absolute inset-0 flex flex-col justify-center items-center px-4 bg-black bg-opacity-40 transition-opacity duration-300 opacity-0 group-hover:opacity-100">
             <p className="text-md text-white font-bold mb-2">
               We have{" "}
@@ -70,11 +70,11 @@ function CardServices({ service, index }: Prop) {
             </p>
           </div>
         </Link>
-       
+
       </div>
       <h1 className=" z-30 text-xs md:text-md text-gray-900 font-bold  text-center">
-          {service.en_name}
-        </h1>
+        {service.en_name}
+      </h1>
     </div>
   );
 }

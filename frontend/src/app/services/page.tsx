@@ -19,17 +19,17 @@ export default function Services() {
       description: "Explore our diverse selection of services tailored to meet your needs."
     },
     {
-      icon: <GrUserExpert />, 
+      icon: <GrUserExpert />,
       title: "Expert Guidance",
       description: "Receive personalized guidance from our experienced team to find the best solution for you."
     },
     {
-      icon: <Globe />, 
+      icon: <Globe />,
       title: "Easy Navigation",
       description: "Our user-friendly interface makes it simple to locate the information you need quickly."
     }
   ];
-  const [services, setServices] = useState<{ 
+  const [services, setServices] = useState<{
     id: number;
     en_name?: string;
     href?: string;
@@ -45,17 +45,17 @@ export default function Services() {
           `${domain}/api/v1/services`
         );
         const services = response.data;
- 
+
         setServices(services);
-      } catch (error:any) {
-        
-          console.clear();
-        
+      } catch (error: any) {
+
+        console.clear();
+
       }
     };
-    
-      fetchServices();
-    
+
+    fetchServices();
+
   }, []);
   return (
     <>
@@ -65,7 +65,7 @@ export default function Services() {
           <h4 className="border-t border-gray-200 w-14 font-bold border-2"></h4>
         </div>
         <h1 className="text-center text-4xl">
-          Find what you&apos;re looking for 
+          Find what you&apos;re looking for
         </h1>
         <div className="grid md:grid-cols-3 grid-cols-1 gap-8 mt-8">
           {servicePoints.map((item, index) => (
@@ -81,16 +81,15 @@ export default function Services() {
       </div>
       <div className=" my-16 h-full">
         <MaxWidthWrapper>
-        <h1 className="text-4xl font-medium font-poppins border-b border-gray-600">
-          Our Services
-        </h1>
-        <div className="grid mx-auto md:grid-cols-4 grid-cols-2 md:gap-6 gap-3 p-2">
+          <h1 className="text-4xl font-medium font-poppins border-b border-gray-600">
+            Our Services
+          </h1>
+          <div className="grid mx-auto md:grid-cols-4 grid-cols-2 md:gap-6 gap-3 p-2">
 
-              {services && services.map((item:servicesProps,index) =>
-            <CardServices key={item.id} service={item} index={index} />)} 
-        </div>
+            {services && services.map((item: servicesProps, index) =>
+              <CardServices key={item.id} service={item} index={index} />)}
+          </div>
         </MaxWidthWrapper>
-       
       </div>
     </>
   );

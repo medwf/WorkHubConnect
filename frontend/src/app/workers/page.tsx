@@ -39,6 +39,7 @@ import {
 } from "@/components/ui/popover";
 import { fetchServices, fetchWorkers } from "../action";
 import { useCookies } from "next-client-cookies";
+import domain from "@/helpers/constants";
 interface Service {
   id: string;
   en_name: string;
@@ -87,7 +88,7 @@ export default function Workers() {
     // setSelectedCity(null);
     setOpen(!open);
     page = 1;
-    
+
   };
   const handleRegionChange = (regionName: string) => {
     const normalize = regionName.toLowerCase().trim();
@@ -100,61 +101,68 @@ export default function Workers() {
 
     setOpen(!open);
   };
- 
+
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        const services = await fetchServices();
-        setServices(services);
+        const response = await axios.get(
+          `${domain}/api/v1/services`
+        );
+        const servicesData = response.data;
+        setServices(servicesData);
+        // console.log("Services fetched:", servicesData);
       } catch (error) {
-        
+        // console.log("Error fetching services:", error);
       }
     };
 
     fetchInitialData();
-  }, [selectedService]);
+  }, []);
 
-//filter from service page
-const id = localStorage.getItem("id");
-if(id) {
+  //filter from service page
+  const id = localStorage.getItem("id");
+  if (id) {
 
-    
+
     setSelectedService(id);
     setServices(services.filter(service => service.id === id))
 
-  localStorage.removeItem("id");
-}
+    localStorage.removeItem("id");
+  }
   if (inView) {
     page++;
   }
   useEffect(() => {
     const handleFetchWorkers = async () => {
-      
-        page++;
-        try {
-          setIsLoading(true);
-          const data = await fetchWorkers(
-            page,
-            selectedService,
-            selectedRegion,
-            selectedCity
-          );
-          console.log(data);
-          setWorkers(data);
-          
-         
-        } catch (error) {
-          console.clear();
-         
-        } finally {
-          setIsLoading(false); 
-      
-        }
- 
-      
+
+      page++;
+      try {
+        setIsLoading(true);
+        const response = await axios.get(`${domain}/api/v1/workers_search`, {
+          params: {
+            page: page,
+            limit: 10,
+            service: selectedService,
+            state: selectedRegion?.id,
+            city: selectedCity?.id,
+          }
+        });
+        console.log(response);
+        const data = await response.data;
+        // console.log(data);
+        setWorkers(data);
+      } catch (error) {
+        console.clear();
+      } finally {
+        setIsLoading(false);
+      }
+
+
     };
     handleFetchWorkers();
-  }, [inView, selectedService,selectedRegion, selectedCity]);
+  }, [inView, selectedService, selectedRegion, selectedCity]);
+
+  console.log(workers);
 
   return (
     <>
@@ -183,8 +191,8 @@ if(id) {
               className="max-h-[75vh object-contain object-center 2xl:max-h-[60vh]"
             />
           </div>
-          
-        
+
+
 
         </section>
       </MaxWidthWrapper>
@@ -194,7 +202,7 @@ if(id) {
             <h1 className="font-bold text-2xl font-poppins text-gray-900 py-4">
               Workers
             </h1>
-           
+
             <div className="z-20 relative">
               <SlidersHorizontal className="my-2" onClick={handleMenu} />
               {open && (
@@ -202,11 +210,11 @@ if(id) {
                   <h3 className="font-medium py-2">Filter Workers</h3>
                   <div className="flex flex-col gap-2">
                     <Select
-                      value={selectedService || ""}
+                      value={selectedService}
                       onValueChange={handleServiceChange}
                     >
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="services"  />
+                        <SelectValue placeholder="services" />
                       </SelectTrigger>
                       <SelectContent>
                         {services &&
@@ -338,19 +346,19 @@ if(id) {
                   ))}
               </div>
             </div>
-           
+
           </div>
           {isLoading && (
-              <div className=" w-full h-full flex justify-center items-center">
-                <Image
-                  src="/static/spinner.svg"
-                  alt="spinner"
-                  width={30}
-                  height={30}
-                  className="object-contain"
-                />
-              </div>
-            )}
+            <div className=" w-full h-full flex justify-center items-center">
+              <Image
+                src="/static/spinner.svg"
+                alt="spinner"
+                width={30}
+                height={30}
+                className="object-contain"
+              />
+            </div>
+          )}
         </MaxWidthWrapper>
       </section>
     </>

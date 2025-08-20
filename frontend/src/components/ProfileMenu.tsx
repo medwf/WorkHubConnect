@@ -21,9 +21,9 @@ import {
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import {logout} from "@/state";
+import { logout } from "@/state";
 import { useDispatch } from 'react-redux';
-import { useSelector } from "react-redux"; 
+import { useSelector } from "react-redux";
 import { RootState } from "@/Redux/store";
 import domain from '@/helpers/constants';
 import { IsTokenExpired } from "@/helpers/expireToken";
@@ -37,7 +37,7 @@ export function DropdownMenuProfile() {
   const router = useRouter();
   const cookies = useCookies();
   const token = cookies.get("token");
-  const tokenState = useSelector((state:RootState) => state.token);
+  const tokenState = useSelector((state: RootState) => state.token);
   const logoutAction = async () => {
     try {
       const response = await axios.delete(`${domain}/api/v1/logout`, {
@@ -45,21 +45,21 @@ export function DropdownMenuProfile() {
           Authorization: `Bearer ${token}`,
         },
       });
-  
-   
+
+
       if (response.status === 200) {
-      dispatch(logout());
-      cookies.remove('token');
-      cookies.remove('userId');
-      toast.success('logged out successfully')
-      router.push('/')
+        dispatch(logout());
+        cookies.remove('token');
+        cookies.remove('userId');
+        toast.success('logged out successfully')
+        router.push('/')
       } else {
 
         toast.error('Logout failed');
       }
     } catch (error) {
-      
-     
+
+
     }
   };
 
@@ -67,7 +67,7 @@ export function DropdownMenuProfile() {
     { name: 'Profile', link: '/profile', icon: <User className="mr-2 h-4 w-4" /> },
     { name: 'Inbox', link: '/profile/inbox', icon: <CreditCard className="mr-2 h-4 w-4" /> },
     { name: 'Settings', link: '/profile/settings', icon: <Settings className="mr-2 h-4 w-4" /> },
-    { name: 'Log out', link: '/', icon: <LogOut className="mr-2 h-4 w-4" /> ,onclick: logoutAction},
+    { name: 'Log out', link: '/', icon: <LogOut className="mr-2 h-4 w-4" />, onclick: logoutAction },
   ];
   const userId = useSelector((state: RootState) => state.user);
   const UpId = useSelector((state: RootState) => state.updateId);
@@ -87,64 +87,64 @@ export function DropdownMenuProfile() {
   useEffect(() => {
 
     const fetchUserInfo = async () => {
- 
 
-        const response = await axios.get(
-          `${domain}/api/v1/users/${userId}`
-        );
-        setUserInfo(response.data);
-     
+
+      const response = await axios.get(
+        `${domain}/api/v1/users/${userId}`
+      );
+      setUserInfo(response.data);
+
     };
 
-    
-      fetchUserInfo();
-    
-  }, [userId,UpId]);
+
+    fetchUserInfo();
+
+  }, [userId, UpId]);
 
   useEffect(() => {
-    const checking =  IsTokenExpired(tokenState);
+    const checking = IsTokenExpired(tokenState);
     if (checking) {
       dispatch(logout());
       cookies.remove('token');
       cookies.remove('userId');
       router.push('/')
-      
+
     }
 
-  },[token,UpId,cookies,dispatch,router,tokenState]);
+  }, [token, UpId, cookies, dispatch, router, tokenState]);
   return (
-    
+
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className='p-1'>
           <div className='flex gap-2 items-center justify-center  '>
-          <Avatar className=''>
-            {userInfo.profile_img ? (
-  <AvatarImage src={`${domain}/api/v1/get_image/${userInfo.profile_img}`} alt="profile image"   />
-            ):(
-              // <AvatarFallback>{userInfo.first_name[0]}{userInfo.last_name[0]}</AvatarFallback>
-  <AvatarImage src="https://github.com/shadcn.png" alt="Profile image"  />
+            <Avatar className=''>
+              {userInfo.profile_img ? (
+                <AvatarImage src={`/${userInfo.profile_img}`} alt="profile image" />
+              ) : (
+                // <AvatarFallback>{userInfo.first_name[0]}{userInfo.last_name[0]}</AvatarFallback>
+                <AvatarImage src="https://github.com/shadcn.png" alt="Profile image" />
 
-            )}
+              )}
 
-          </Avatar>
-          <div>
-            {userInfo.first_name || userInfo.last_name ?
-            (
-              <div>
-                 <p className="md:text-[16px] font-semibold">
-                  {userInfo.first_name} {userInfo.last_name}
-                
-                </p>
-              </div>
-            ):(
-             null
-            )}
-               
-               
-              </div>
+            </Avatar>
+            <div>
+              {userInfo.first_name || userInfo.last_name ?
+                (
+                  <div>
+                    <p className="md:text-[16px] font-semibold">
+                      {userInfo.first_name} {userInfo.last_name}
+
+                    </p>
+                  </div>
+                ) : (
+                  null
+                )}
+
+
+            </div>
           </div>
-          </Button>
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -152,22 +152,23 @@ export function DropdownMenuProfile() {
         <DropdownMenuGroup>
           {menuItems.map((item, index) => (
             <DropdownMenuItem key={index}>
-              <Link href={item.link} passHref 
-              className=' flex items-center'
-             
+              <Link href={item.link} passHref
+                className=' flex items-center'
+
               >
-               <div
-               onClick={() => {
-                if (item.onclick) item.onclick();}}
-               className='flex'
-               
-               >
-               {item.icon}
+                <div
+                  onClick={() => {
+                    if (item.onclick) item.onclick();
+                  }}
+                  className='flex'
+
+                >
+                  {item.icon}
                   <span>{item.name}</span>
-               </div>
-                 
-                  
-               
+                </div>
+
+
+
               </Link>
             </DropdownMenuItem>
           ))}

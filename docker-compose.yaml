@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: node:14
+    image: node:latest
     working_dir: /app
     volumes:
       - ./frontend:/app
@@ -9,15 +9,16 @@ services:
     command: sh -c "npm install && npm run dev"
 
   backend:
-    image: python:3.9
+    image: python:latest
     working_dir: /app
     volumes:
       - ./backend:/app
     ports:
       - "5000:5000"
-    command: sh -c "pip install -r requirements.txt && WORKHUB_MYSQL_USER=workhub_user WORKHUB_MYSQL_PWD=WHC_123_2024 WORKHUB_MYSQL_HOST=db WORKHUB_MYSQL_DB=workhubconnect_db flask run --host=0.0.0.0"
+    command: sh -c "pip install -r requirements.txt && WORKHUB_MYSQL_USER=workhub_user WORKHUB_MYSQL_PWD=WHC_123_2024 WORKHUB_MYSQL_HOST=db WORKHUB_MYSQL_DB=workhubconnect_db python3 -m api.v1.app"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   db:
     image: mysql:5.7
@@ -30,7 +31,33 @@ services:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
-      - ./backend/sql_dumps:/docker-entrypoint-initdb.d
+      # - ./backend/sql_dumps:/docker-entrypoint-initdb.d
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-prootpassword",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_USER: workhub_user
+      PMA_PASSWORD: WHC_123_2024
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
 volumes:
   db_data:

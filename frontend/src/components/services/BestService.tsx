@@ -61,32 +61,33 @@ import { useState, useEffect } from "react";
 // ];
 
 export default function BestService() {
-    const [services, setServices] = useState<{ 
-        id: number;
-        en_name?: string;
-        href?: string;
-        description?: string;
-        image?: string;
-        numWorkers?: number;
-    
-      }[]>([]);
-    useEffect(() => {
-        const fetchServices = async () => {
-          try {
-            const response = await axios.get(
-              `${domain}/api/v1/services`
-            );
-            const services = response.data;
-            console.log(services)
-            setServices(services);
-          } catch (error) {
-            console.error("Error fetching services:", error);
-          }
-        };
-        
-          fetchServices();
-        
-      }, []);
+  const [services, setServices] = useState<{
+    id: number;
+    en_name?: string;
+    href?: string;
+    description?: string;
+    image?: string;
+    numWorkers?: number;
+
+  }[]>([]);
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        console.log(domain)
+        const response = await axios.get(
+          `${domain}/api/v1/services`
+        );
+        const services = response.data;
+        console.log(services)
+        setServices(services);
+      } catch (error) {
+        console.error("Error fetching services:", error);
+      }
+    };
+
+    fetchServices();
+
+  }, []);
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: true })
   );
@@ -110,7 +111,7 @@ export default function BestService() {
                     </CardHeader> */}
                     <CardContent className="relative flex aspect-square items-start justify-start  bg-transparent">
                       <Image
-                        src={`${domain}/api/v1/get_image/${service.image}`}
+                        src={`/${service.image}`}
                         alt={`${service.en_name}`}
                         width={1500}
                         height={1500}
@@ -118,7 +119,7 @@ export default function BestService() {
                       />
                     </CardContent>
                     <CardFooter className="flex flex-col items-start gap-1">
-                    <CardTitle>{service.en_name}</CardTitle>
+                      <CardTitle>{service.en_name}</CardTitle>
                       <CardDescription>{service.description}</CardDescription>
                     </CardFooter>
                   </Card>

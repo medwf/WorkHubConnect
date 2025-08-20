@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/sheet";
 import { CreditCard, LogOut, Settings, User } from "lucide-react";
 import { FaDiscord, FaGithub } from "react-icons/fa";
-import { RiDiscordFill,RiWhatsappFill } from "react-icons/ri";
+import { RiDiscordFill, RiWhatsappFill } from "react-icons/ri";
 import { DropdownMenuProfile } from "./ProfileMenu";
 import toast from "react-hot-toast";
 import axios from "axios";
@@ -40,32 +40,32 @@ const Navbar = () => {
   const router = useRouter();
   const token = cookies.get("token");
   const dispatch = useDispatch();
- 
+
   const logoutAction = async () => {
     try {
-      
+
       const response = await axios.delete(`${domain}/api/v1/logout`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-  
-   
+
+
       if (response.status === 200) {
-      dispatch(logout());
-      cookies.remove('token');
-      cookies.remove('userId');
-      toast.success('logged out successfully')
-      router.push('/')
+        dispatch(logout());
+        cookies.remove('token');
+        cookies.remove('userId');
+        toast.success('logged out successfully')
+        router.push('/')
       } else {
 
         toast.error('Logout failed');
       }
-     
-      
+
+
     } catch (error) {
-     
-     
+
+
     }
   };
   const menuItems = [
@@ -154,10 +154,10 @@ const Navbar = () => {
                   <DropdownMenuProfile />
                 ) : (
                   <div className="flex">
-                    {/* <Button variant={"outline"}>
+                    <Button variant={"outline"}>
                       {" "}
                       <Link href="/auth/signup">Become a worker</Link>{" "}
-                    </Button> */}
+                    </Button>
                     <Button
                       asChild
                       variant={"default"}

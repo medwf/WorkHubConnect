@@ -48,9 +48,9 @@ export default function ProfilePage() {
     const fetchUserInfo = async () => {
       try {
         const response = await axios.get(
-          `${domain}/api/v1/users/${userId}`,{
-            httpsAgent: new https.Agent({ rejectUnauthorized: false }),
-          }
+          `${domain}/api/v1/users/${userId}`, {
+          httpsAgent: new https.Agent({ rejectUnauthorized: false }),
+        }
         );
 
         setUserInfo(response.data);
@@ -78,20 +78,20 @@ export default function ProfilePage() {
         {userInfo && (
           <section className="flex items-center justify-between gap-4 w-full py-5 border rounded-lg p-4 my-2">
             <div className="flex items-center gap-4">
-            <div className="relative border rounded-full overflow-hidden w-20 h-20">
-  {userInfo.profile_img ? (
-    <Image
-      src={`${domain}/api/v1/get_image/${userInfo.profile_img}`}
-      alt="Avatar"
-      fill
-      className="rounded-full object-cover"
-    />
-  ) : (
-    <Avatar className="object-contain w-full h-full">
-      <AvatarImage src="https://github.com/shadcn.png" alt="Profile image" />
-    </Avatar>
-  )}
-</div>
+              <div className="relative border rounded-full overflow-hidden w-20 h-20">
+                {userInfo.profile_img ? (
+                  <Image
+                    src={`/${userInfo.profile_img}`}
+                    alt="Avatar"
+                    fill
+                    className="rounded-full object-cover"
+                  />
+                ) : (
+                  <Avatar className="object-contain w-full h-full">
+                    <AvatarImage src="https://github.com/shadcn.png" alt="Profile image" />
+                  </Avatar>
+                )}
+              </div>
 
               <div>
                 <p className="md:text-[16px] font-bold">
@@ -102,9 +102,9 @@ export default function ProfilePage() {
                 </p>
               </div>
             </div>
-          <div>
-          <StatusToggle userId={userId} />
-          </div>
+            <div>
+              <StatusToggle userId={userId} />
+            </div>
           </section>
         )}
 
@@ -115,59 +115,45 @@ export default function ProfilePage() {
             <h1 className="md:text-3xl text-md font-semibold font-poppins">
               Personal Information
             </h1>
-            
+
           </div>
           <div className="grid md:grid-cols-2 grid-cols-1 p-4 border rounded-lg my-2">
             {userInfo && (
               <>
                 <div>
-                 
+
                   {/* {userInfo.service || userInfo.phone_number || userInfo.email && ( */}
-                    
+
                   <div>
-                       <h1 className={titleClass}>Email Address</h1>
-                  <p className={labelClass}>{userInfo.email}</p>
-                  <br />
-                  <h1 className={titleClass}>Phone</h1>
-                  <p className={labelClass}>{userInfo.phone_number}</p>
-                  <br />
-                  {userInfo.type === 'workers' && (
-                    <div>
-                       <h1 className={titleClass}>Profession</h1>
-                       <p className={labelClass}>{userInfo.service}</p>
-                    </div>
-
-                  )}
-                     
-                    </div>
+                    <h1 className={titleClass}>Email Address</h1>
+                    <p className={labelClass}>{userInfo.email}</p>
+                    <br />
+                    <h1 className={titleClass}>Phone</h1>
+                    <p className={labelClass}>{userInfo.phone_number}</p>
+                    <br />
+                    {userInfo.type === 'workers' && (
+                      <div>
+                        <h1 className={titleClass}>Profession</h1>
+                        <p className={labelClass}>{userInfo.service}</p>
+                      </div>
+                    )}
+                  </div>
                   {/* )} */}
-                  
-
                 </div>
                 <div>
-             
-                   
-                 
-                 
-   
-                 
-                    <div>
-                      <h1 className={titleClass}>Region</h1>
-                      {userInfo.region ? (
-                        <p className={labelClass}>{userInfo.region}</p>
-                      ) : (null)}
-                    
-                      <br />
-                      <h1 className={titleClass}>City</h1>
-                      {userInfo.city ? (
-                        <p className={labelClass}>{userInfo.city}</p>
-                      ) : (null)}
-                   
-                  
-                    </div>
-                
+                  <div>
+                    <h1 className={titleClass}>Region</h1>
+                    {userInfo.region ? (
+                      <p className={labelClass}>{userInfo.region}</p>
+                    ) : (null)}
+
+                    <br />
+                    <h1 className={titleClass}>City</h1>
+                    {userInfo.city ? (
+                      <p className={labelClass}>{userInfo.city}</p>
+                    ) : (null)}
+                  </div>
                 </div>
-              
               </>
             )}
           </div>
@@ -230,24 +216,23 @@ export default function ProfilePage() {
 
       {/* Small devices */}
       <div className="md:hidden  h-screen bg-slate-100">
-      <div className=" bg-sky-400  h-[16vh] relative"></div>
+        <div className=" bg-sky-400  h-[16vh] relative"></div>
         <div className="flex items-center justify-center gap-4">
-        <div className="relative -top-12 border rounded-full overflow-hidden max-w-24 max-h-24 min-w-24 min-h-24">
-  {userInfo.profile_img ? (
-    <Image
-      src={`${domain}/api/v1/get_image/${userInfo.profile_img}`}
-      alt="Avatar"
-      fill
-    priority
-
-      className="rounded-full object-cover p-1"
-    />
-  ) : (
-    <Avatar className="object-cover object-center w-full h-full">
-      <AvatarImage src="https://github.com/shadcn.png" alt="Profile image" />
-    </Avatar>
-  )}
-</div>
+          <div className="relative -top-12 border rounded-full overflow-hidden max-w-24 max-h-24 min-w-24 min-h-24">
+            {userInfo.profile_img ? (
+              <Image
+                src={`/${userInfo.profile_img}`}
+                alt="Avatar"
+                fill
+                priority
+                className="rounded-full object-cover p-1"
+              />
+            ) : (
+              <Avatar className="object-cover object-center w-full h-full">
+                <AvatarImage src="https://github.com/shadcn.png" alt="Profile image" />
+              </Avatar>
+            )}
+          </div>
         </div>
         <div className="relative -top-10 flex flex-col justify-center items-center">
           <div className="flex justify-center items-center">
@@ -266,8 +251,8 @@ export default function ProfilePage() {
         </div>
         <div className="flex justify-between items-center px-4 py-4 border-y hover:bg-sky-300">
           <div className="flex justify-center items-center">
-          <GrStatusUnknown />
-          <h1 className="text-muted-foreground text-md text-gray-950 font-poppins pl-2">Status</h1>
+            <GrStatusUnknown />
+            <h1 className="text-muted-foreground text-md text-gray-950 font-poppins pl-2">Status</h1>
           </div>
 
           <StatusToggle userId={userId} />
@@ -275,14 +260,14 @@ export default function ProfilePage() {
         </div>
         <div className="flex justify-between items-center px-4 py-4 border-y hover:bg-sky-300">
           <Link href={'/profile/projects'} className="flex justify-center items-center">
-            <GrProjects/>
-          <h1 className="text-muted-foreground text-md text-gray-950 font-poppins pl-2">Projects</h1>
+            <GrProjects />
+            <h1 className="text-muted-foreground text-md text-gray-950 font-poppins pl-2">Projects</h1>
           </Link>
 
-        <ChevronRight />
+          <ChevronRight />
 
         </div>
-       
+
         {/* <div className="flex justify-between items-center px-4 py-4 border-y">
         <Link href={'/profile'} className="flex justify-center items-center">
             <CgProfile />
@@ -292,14 +277,14 @@ export default function ProfilePage() {
 
         </div> */}
         <div className="flex justify-between items-center px-4 py-4 border-y">
-        
+
           <Link href={'/profile/settings'} passHref className="flex justify-center items-center">
-          <IoMdSettings className="h-6 w-6" />
-          <h1 className="text-muted-foreground text-md text-gray-950 font-poppins pl-2">Settings</h1>
+            <IoMdSettings className="h-6 w-6" />
+            <h1 className="text-muted-foreground text-md text-gray-950 font-poppins pl-2">Settings</h1>
           </Link>
-           
-        
-        <ChevronRight />
+
+
+          <ChevronRight />
         </div>
       </div>
     </main>

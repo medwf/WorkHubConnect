@@ -11,9 +11,10 @@ class City(BaseModel, Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     state_id = Column(Integer, ForeignKey('states.id'), nullable=False)
     name = Column(String(128), nullable=False)
-    workers = relationship("Worker", backref=("city"), cascade="all, delete, save-update, delete-orphan")
-    users = relationship("User", backref=("city"), cascade="all, delete, save-update, delete-orphan")
-
+    workers = relationship("Worker", backref=(
+        "city"), cascade="all, delete, save-update, delete-orphan")
+    users = relationship("User", backref=(
+        "city"), cascade="all, delete, save-update, delete-orphan")
 
     def __init__(self, *args, **kwargs):
         """initializes city"""

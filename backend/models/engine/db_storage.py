@@ -15,14 +15,16 @@ from models.image import Image
 from models.project import Project
 from models.tokenblocklist import TokenBlockList
 from os import getenv
-import sqlalchemy
+# import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-classes = {"Worker": Worker, "City": City,
-           "Service": Service, "Review": Review,
-           "State": State, "User": User, "Project": Project,
-           "Image": Image, "TokenBlockList": TokenBlockList}
+classes = {
+    "Worker": Worker, "City": City,
+    "Service": Service, "Review": Review,
+    "State": State, "User": User, "Project": Project,
+    "Image": Image, "TokenBlockList": TokenBlockList
+}
 
 
 class DBStorage:
@@ -37,11 +39,15 @@ class DBStorage:
         WORKHUB_MYSQL_HOST = getenv('WORKHUB_MYSQL_HOST')
         WORKHUB_MYSQL_DB = getenv('WORKHUB_MYSQL_DB')
         WORKHUB_ENV = getenv('WORKHUB_ENV')
-        self.__engine = create_engine('mysql+pymysql://{}:{}@{}/{}?charset=utf8mb4'.
-                                      format(WORKHUB_MYSQL_USER,
-                                             WORKHUB_MYSQL_PWD,
-                                             WORKHUB_MYSQL_HOST,
-                                             WORKHUB_MYSQL_DB))
+        self.__engine = create_engine(
+            'mysql+pymysql://{}:{}@{}/{}?charset=utf8mb4'.
+            format(
+                WORKHUB_MYSQL_USER,
+                WORKHUB_MYSQL_PWD,
+                WORKHUB_MYSQL_HOST,
+                WORKHUB_MYSQL_DB
+            )
+        )
         if WORKHUB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
 
@@ -95,7 +101,6 @@ class DBStorage:
             if (int(value.id) == int(id)):
                 return value
         return None
-
 
     def GetUserEmail(self, cls, email, password):
         """
@@ -153,7 +158,7 @@ class DBStorage:
                     .offset(query_offset)
                     .limit(limit)
                     .all()
-                    )
+                )
                 for obj in objs:
                     key = f"{obj.__class__.__name__}.{obj.id}"
                     new_dict[key] = obj

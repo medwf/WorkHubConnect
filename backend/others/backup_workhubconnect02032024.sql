@@ -1,55 +1,135 @@
--- MySQL dump 10.13  Distrib 8.0.35, for Linux (x86_64)
+LOCK TABLES `services` WRITE;
+/*!40000 ALTER TABLE `services` DISABLE KEYS */
+;
+INSERT INTO
+    `services`
+VALUES (
+        1,
+        'Electricity',
+        'كهربائي',
+        'rani tanssayb ay haja dyal do',
+        '2024-02-13 19:56:17',
+        '2024-02-28 16:59:58'
+    ),
+    (
+        2,
+        'informaticien',
+        'm3lomati',
+        'rani tanssayb ay haja dyal piciyat',
+        '2024-02-13 19:56:17',
+        '2024-02-13 19:56:17'
+    ),
+    (
+        3,
+        'plombier',
+        'plombiii',
+        'rani tanssayb ay haja dyal lma',
+        '2024-02-13 19:56:17',
+        '2024-02-13 19:56:17'
+    ),
+    (
+        4,
+        'jlayji',
+        'mol zlij',
+        'rani tanssayb ay haja dyal zlij',
+        '2024-02-13 19:56:17',
+        '2024-02-13 19:56:17'
+    ),
+    (
+        5,
+        'economie',
+        'eccnomie',
+        'rani economist',
+        '2024-02-13 19:56:17',
+        '2024-02-13 19:56:17'
+    );
+/*!40000 ALTER TABLE `services` ENABLE KEYS */
+;
+UNLOCK TABLES;
 --
--- Host: localhost    Database: workhubconnect_db
--- ------------------------------------------------------
--- Server version	8.0.35-0ubuntu0.22.04.1
+-- Dumping data for table `states`
+--
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */
+LOCK TABLES `states` WRITE;
+/*!40000 ALTER TABLE `states` DISABLE KEYS */
 ;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */
+INSERT INTO
+    `states`
+VALUES (
+        1,
+        'Tanger-Tétouan-Al Hoceïma',
+        '2024-02-13 19:26:17',
+        '2024-02-13 19:26:17'
+    ),
+    (
+        2,
+        'l\'Oriental',
+        '2024-02-13 19:26:17',
+        '2024-02-13 19:26:17'
+    ),
+    (
+        3,
+        'Fès-Meknès',
+        '2024-02-13 19:26:17',
+        '2024-02-13 19:26:17'
+    ),
+    (
+        4,
+        'Rabat-Salé-Kénitra',
+        '2024-02-13 19:26:17',
+        '2024-02-13 19:26:17'
+    ),
+    (
+        5,
+        'Béni Mellal-Khénifra',
+        '2024-02-13 19:26:17',
+        '2024-02-13 19:26:17'
+    ),
+    (
+        6,
+        'Casablanca-Settat',
+        '2024-02-13 19:26:17',
+        '2024-02-13 19:26:17'
+    ),
+    (
+        7,
+        'Marrakech-Safi',
+        '2024-02-13 19:26:17',
+        '2024-02-13 19:26:17'
+    ),
+    (
+        8,
+        'Drâa-Tafilalet',
+        '2024-02-13 19:26:17',
+        '2024-02-13 19:26:17'
+    ),
+    (
+        9,
+        'Souss-Massa',
+        '2024-02-13 19:26:17',
+        '2024-02-13 19:26:17'
+    ),
+    (
+        10,
+        'Guelmim-Oued Noun',
+        '2024-02-13 19:26:17',
+        '2024-02-13 19:26:17'
+    ),
+    (
+        11,
+        'Laâyoune-Sakia El Hamra',
+        '2024-02-13 19:26:17',
+        '2024-02-13 19:26:17'
+    ),
+    (
+        12,
+        'Dakhla-Oued Ed Dahab',
+        '2024-02-13 19:26:17',
+        '2024-02-13 19:26:17'
+    );
+/*!40000 ALTER TABLE `states` ENABLE KEYS */
 ;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */
-;
-/*!50503 SET NAMES utf8mb4 */
-;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */
-;
-/*!40103 SET TIME_ZONE='+00:00' */
-;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */
-;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */
-;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */
-;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */
-;
-
---
--- Table structure for table `cities`
---
-
-DROP TABLE IF EXISTS `cities`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */
-;
-/*!50503 SET character_set_client = utf8mb4 */
-;
-CREATE TABLE `cities` (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `state_id` int NOT NULL,
-    `name` varchar(128) NOT NULL,
-    `created_at` datetime DEFAULT NULL,
-    `updated_at` datetime DEFAULT NULL,
-    PRIMARY KEY (`id`),
-    KEY `state_id` (`state_id`),
-    CONSTRAINT `cities_ibfk_1` FOREIGN KEY (`state_id`) REFERENCES `states` (`id`)
-) ENGINE = InnoDB AUTO_INCREMENT = 405 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */
-;
-
---
--- Dumping data for table `cities`
---
+UNLOCK TABLES;
 
 LOCK TABLES `cities` WRITE;
 /*!40000 ALTER TABLE `cities` DISABLE KEYS */
@@ -2586,14 +2666,14 @@ VALUES (
     (
         372,
         1,
-        'Ajdir‎',
+        'Ajdir',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
     (
         373,
         3,
-        'Aknoul‎',
+        'Aknoul',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
@@ -2607,14 +2687,14 @@ VALUES (
     (
         375,
         1,
-        'Aït Hichem‎',
+        'Aït Hichem',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
     (
         376,
         1,
-        'Bni Bouayach‎',
+        'Bni Bouayach',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
@@ -2628,14 +2708,14 @@ VALUES (
     (
         378,
         3,
-        'Ghafsai‎',
+        'Ghafsai',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
     (
         379,
         2,
-        'Guercif‎',
+        'Guercif',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
@@ -2649,140 +2729,140 @@ VALUES (
     (
         381,
         1,
-        'Inahnahen‎',
+        'Inahnahen',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
     (
         382,
         1,
-        'Issaguen (Ketama)‎',
+        'Issaguen (Ketama)',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
     (
         383,
         6,
-        'Karia (El Jadida)‎',
+        'Karia (El Jadida)',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
     (
         384,
         3,
-        'Karia Ba Mohamed‎',
+        'Karia Ba Mohamed',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
     (
         385,
         3,
-        'Oued Amlil‎',
+        'Oued Amlil',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
     (
         386,
         3,
-        'Oulad Zbair‎',
+        'Oulad Zbair',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
     (
         387,
         3,
-        'Tahla‎',
+        'Tahla',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
     (
         388,
         1,
-        'Tala Tazegwaght‎',
+        'Tala Tazegwaght',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
     (
         389,
         1,
-        'Tamassint‎',
+        'Tamassint',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
     (
         390,
         3,
-        'Taounate‎',
+        'Taounate',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
     (
         391,
         1,
-        'Targuist‎',
+        'Targuist',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
     (
         392,
         3,
-        'Taza‎',
+        'Taza',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
     (
         393,
         3,
-        'Taïnaste‎',
+        'Taïnaste',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
     (
         394,
         3,
-        'Thar Es-Souk‎',
+        'Thar Es-Souk',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
     (
         395,
         3,
-        'Tissa‎',
+        'Tissa',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
     (
         396,
         3,
-        'Tizi Ouasli‎',
+        'Tizi Ouasli',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
     (
         397,
         11,
-        'Laayoune‎',
+        'Laayoune',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
     (
         398,
         11,
-        'El Marsa‎',
+        'El Marsa',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
     (
         399,
         11,
-        'Tarfaya‎',
+        'Tarfaya',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
     (
         400,
         11,
-        'Boujdour‎',
+        'Boujdour',
         '2024-02-13 19:35:17',
         '2024-02-13 19:35:17'
     ),
@@ -2822,27 +2902,1851 @@ UNLOCK TABLES;
 -- Table structure for table `images`
 --
 
-DROP TABLE IF EXISTS `images`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */
 ;
-/*!50503 SET character_set_client = utf8mb4 */
+INSERT INTO
+    `users`
+VALUES (
+        1,
+        'med@gmail.com',
+        '202cb962ac59075b964b07152d234b70',
+        'Mohamed',
+        'Wafi',
+        4,
+        'workers/electricaltech1.jpg',
+        '0626003679',
+        1,
+        '2024-02-13 19:56:17',
+        '2024-02-20 22:37:34'
+    ),
+    (
+        2,
+        'aboubakr@gmail.com',
+        'caf1a3dfb505ffed0d024130f58c5cfa',
+        'Aboubakr',
+        'TAIBI',
+        103,
+        'workers/electricaltech2.jpg',
+        '0626003679',
+        1,
+        '2024-02-13 19:56:17',
+        '2024-02-22 22:17:37'
+    ),
+    (
+        3,
+        'lahcen@gmail.com',
+        'caf1a3dfb505ffed0d024130f58c5cfa',
+        NULL,
+        NULL,
+        103,
+        'workers/electricaltech3.jpg',
+        NULL,
+        1,
+        '2024-02-13 19:56:17',
+        '2024-02-13 19:56:17'
+    ),
+    (
+        4,
+        'mustapha@gmail.com',
+        '202cb962ac59075b964b07152d234b70',
+        NULL,
+        NULL,
+        4,
+        'workers/electricaltech4.jpg',
+        NULL,
+        1,
+        '2024-02-13 19:56:17',
+        '2024-02-13 19:56:17'
+    ),
+    (
+        5,
+        'ali@gmail.com',
+        '202cb962ac59075b964b07152d234b70',
+        NULL,
+        NULL,
+        4,
+        'workers/electricaltech5.jpg',
+        NULL,
+        1,
+        '2024-02-13 19:56:17',
+        '2024-02-13 19:56:17'
+    ),
+    (
+        6,
+        'adil@gmail.com',
+        '202cb962ac59075b964b07152d234b70',
+        NULL,
+        NULL,
+        4,
+        'workers/electricaltech6.jpg',
+        NULL,
+        1,
+        '2024-02-13 19:56:17',
+        '2024-02-13 19:56:17'
+    ),
+    (
+        7,
+        'c.aboubakr.taibi@gmail.com',
+        'c33367701511b4f6020ec61ded352059',
+        'Aboubakr',
+        'TAIBI',
+        103,
+        'workers/electricaltech7.jpg',
+        '0626003679',
+        1,
+        '2024-02-13 23:09:14',
+        '2024-02-27 23:14:48'
+    ),
+    (
+        10,
+        'c.aboubakr.taibi@gmail.comaa',
+        'e10adc3949ba59abbe56e057f20f883e',
+        'Aboubakr',
+        'TAIBI',
+        103,
+        'workers/electricaltech10.jpg',
+        '0626003679',
+        1,
+        '2024-02-13 23:13:43',
+        '2024-02-13 23:13:43'
+    ),
+    (
+        12,
+        'c.aboubakr.taibi',
+        '8b353d5cc07e13577608711f4602fcb7',
+        'Aboubakr',
+        'TAIBI',
+        103,
+        'workers/electricaltech12.jpg',
+        '0626003679',
+        1,
+        '2024-02-15 22:26:07',
+        '2024-02-15 22:26:07'
+    ),
+    (
+        13,
+        'c.aboubakr.taibiaa@gmail.com',
+        "e10adc3949ba59abbe56e057f20f883e",
+        'Aboubakr',
+        'TAIBI',
+        103,
+        'workers/electricaltech13.jpg',
+        '0626003679',
+        1,
+        '2024-02-15 22:31:07',
+        '2024-02-15 22:31:07'
+    ),
+    (
+        14,
+        'c.aboubakr.taibiaa@gmjail.com',
+        'b61f655727abfd4b8a7ca14c2c08378e',
+        'Aboubakr',
+        'TAIBI',
+        103,
+        'workers/electricaltech14.jpg',
+        '212626003679',
+        1,
+        '2024-02-15 22:33:01',
+        '2024-02-15 22:33:01'
+    ),
+    (
+        16,
+        'taibi@kk.ll',
+        'e10adc3949ba59abbe56e057f20f883e',
+        'Aboubakr',
+        'TAIBI',
+        103,
+        'workers/electricaltech16.jpg',
+        '+212626003679',
+        1,
+        '2024-02-16 14:51:06',
+        '2024-02-16 14:51:06'
+    ),
+    (
+        17,
+        'taibi@kk.lll',
+        'e10adc3949ba59abbe56e057f20f883e',
+        'Aboubakr',
+        'TAIBI',
+        103,
+        'workers/electricaltech17.jpg',
+        '0626003679',
+        1,
+        '2024-02-16 14:51:23',
+        '2024-02-16 14:51:23'
+    ),
+    (
+        18,
+        'taibi@kkm.lll',
+        'e10adc3949ba59abbe56e057f20f883e',
+        'Aboubakr',
+        'TAIBI',
+        103,
+        'workers/electricaltech18.jpg',
+        '0626003679',
+        1,
+        '2024-02-16 14:51:45',
+        '2024-02-16 14:51:45'
+    ),
+    (
+        19,
+        'tailbi@kkm.lll',
+        'e10adc3949ba59abbe56e057f20f883e',
+        'Aboubakr',
+        'TAIBI',
+        103,
+        'workers/electricaltech19.jpg',
+        '0600005015',
+        1,
+        '2024-02-16 14:57:40',
+        '2024-02-16 14:57:40'
+    ),
+    (
+        20,
+        'aa@gmail.com',
+        'e10adc3949ba59abbe56e057f20f883e',
+        'AA',
+        'OO',
+        4,
+        'workers/electricaltech20.jpg',
+        '0626003679',
+        1,
+        '2024-02-21 17:54:02',
+        '2024-02-21 17:54:02'
+    ),
+    (
+        21,
+        'register@gmail.com',
+        'c33367701511b4f6020ec61ded352059',
+        'Register',
+        'reg',
+        4,
+        'workers/electricaltech21.jpg',
+        '0600000000',
+        1,
+        '2024-02-21 22:17:45',
+        '2024-02-21 22:17:45'
+    ),
+    (
+        22,
+        'registerworker@gmail.com',
+        'c33367701511b4f6020ec61ded352059',
+        'RegisterWorker',
+        'Worker',
+        4,
+        'workers/electricaltech22.jpg',
+        '0611111112',
+        1,
+        '2024-02-21 22:19:25',
+        '2024-02-21 22:19:25'
+    ),
+    (
+        23,
+        'registerworkerv1@gmail.com',
+        'c33367701511b4f6020ec61ded352059',
+        'RegisterWorkerv1',
+        'Informaticien_v1',
+        4,
+        'workers/electricaltech23.jpg',
+        '0611111112',
+        1,
+        '2024-02-21 22:25:12',
+        '2024-02-21 22:25:12'
+    ),
+    (
+        24,
+        'registerworkerv2@gmail.com',
+        'c33367701511b4f6020ec61ded352059',
+        'RegisterWorkerv1',
+        'Informaticien_v1',
+        4,
+        'workers/electricaltech24.jpg',
+        '0611111112',
+        1,
+        '2024-02-21 22:26:28',
+        '2024-02-21 22:26:28'
+    ),
+    (
+        25,
+        'registerworkerv3@gmail.com',
+        'c33367701511b4f6020ec61ded352059',
+        'RegisterWorkerv3',
+        'Informaticien_v3',
+        4,
+        'workers/electricaltech25.jpg',
+        '0611111112',
+        1,
+        '2024-02-21 22:28:05',
+        '2024-02-21 22:28:05'
+    ),
+    (
+        27,
+        'aboubakrtaibi9@gmail.com',
+        'c33367701511b4f6020ec61ded352059',
+        'Aboubakr',
+        'TAIBI',
+        4,
+        'workers/electricaltech27.jpg',
+        '0626003679',
+        1,
+        '2024-02-21 23:08:32',
+        '2024-02-21 23:08:32'
+    ),
+    (
+        32,
+        'aboubakrtaibi@gmail.com',
+        'c33367701511b4f6020ec61ded352059',
+        'Aboubakr',
+        'TAIBI',
+        4,
+        'workers/electricaltech32.jpg',
+        '0626003679',
+        1,
+        '2024-02-22 12:36:50',
+        '2024-02-22 12:36:50'
+    ),
+    (
+        33,
+        'taibi@gmail.com',
+        'e10adc3949ba59abbe56e057f20f883e',
+        'Aboubakr',
+        'TAIBI',
+        4,
+        'workers/electricaltech33.jpg',
+        '0626003679',
+        1,
+        '2024-02-22 12:45:53',
+        '2024-02-22 12:45:53'
+    ),
+    (
+        40,
+        'aboubakrtaibi985@gmail.com',
+        'e10adc3949ba59abbe56e057f20f883e',
+        'Aboubakr',
+        'TAIBI',
+        126,
+        'workers/electricaltech40.jpg',
+        NULL,
+        1,
+        '2024-02-25 17:23:28',
+        '2024-02-25 17:23:28'
+    ),
+    (
+        43,
+        'aboubakrtaibi98@gmail.com',
+        'a9a708eebbfd48267afb1f146caf5229',
+        'Aboubakr',
+        'TAIBI',
+        95,
+        'workers/electricaltech43.jpg',
+        NULL,
+        1,
+        '2024-02-25 18:06:21',
+        '2024-02-25 18:06:21'
+    ),
+    (
+        44,
+        'c.aboubakr@gmail.com',
+        'e10adc3949ba59abbe56e057f20f883e',
+        'Aboubakr',
+        'TAIBI',
+        126,
+        'workers/electricaltech44.jpg',
+        NULL,
+        1,
+        '2024-02-25 18:09:41',
+        '2024-02-25 18:09:41'
+    ),
+    (
+        45,
+        'aboubakr1@gmail.com',
+        'e10adc3949ba59abbe56e057f20f883e',
+        'qqqq',
+        'aaaaa',
+        123,
+        'workers/electricaltech45.jpg',
+        NULL,
+        1,
+        '2024-02-26 11:52:26',
+        '2024-02-26 11:52:26'
+    ),
+    (
+        46,
+        'aboubakr2@gmail.com',
+        'cfdd72b84e1cf6432615b448900ad4d6',
+        'jgjjjg',
+        'jjkfkfk',
+        126,
+        'workers/electricaltech46.jpg',
+        NULL,
+        1,
+        '2024-02-26 11:55:24',
+        '2024-02-26 11:55:24'
+    ),
+    (
+        47,
+        'aboubakr3@gmail.com',
+        'cfdd72b84e1cf6432615b448900ad4d6',
+        'jgjjjg',
+        'jjkfkfk',
+        126,
+        'workers/electricaltech47.jpg',
+        NULL,
+        1,
+        '2024-02-26 11:55:54',
+        '2024-02-26 11:55:54'
+    ),
+    (
+        48,
+        'aboubakr4@gmail.com',
+        '150920ccedc34d24031cdd3711e43310',
+        '',
+        '',
+        123,
+        'workers/electricaltech48.jpg',
+        NULL,
+        1,
+        '2024-02-26 11:58:19',
+        '2024-02-26 11:58:19'
+    ),
+    (
+        49,
+        'aboubakr5@gmail.com',
+        '150920ccedc34d24031cdd3711e43310',
+        'mmmm',
+        'kkkk',
+        123,
+        'workers/electricaltech49.jpg',
+        NULL,
+        1,
+        '2024-02-26 12:09:06',
+        '2024-02-26 12:09:06'
+    ),
+    (
+        50,
+        'aboubakr7@gmail.com',
+        '150920ccedc34d24031cdd3711e43310',
+        'mmmm',
+        'kkkk',
+        123,
+        'workers/electricaltech50.jpg',
+        NULL,
+        1,
+        '2024-02-26 14:15:53',
+        '2024-02-26 14:15:53'
+    ),
+    (
+        51,
+        'aboubakr8@gmail.com',
+        '150920ccedc34d24031cdd3711e43310',
+        'mmmm',
+        'kkkk',
+        123,
+        'workers/electricaltech51.jpg',
+        NULL,
+        1,
+        '2024-02-26 14:17:36',
+        '2024-02-26 14:17:36'
+    ),
+    (
+        52,
+        'aboubakr9@gmail.com',
+        '150920ccedc34d24031cdd3711e43310',
+        'mmmm',
+        'kkkk',
+        123,
+        'workers/electricaltech52.jpg',
+        NULL,
+        1,
+        '2024-02-26 14:37:08',
+        '2024-02-26 14:37:08'
+    ),
+    (
+        53,
+        'aboubakr10@gmail.com',
+        '150920ccedc34d24031cdd3711e43310',
+        'mmmm',
+        'kkkk',
+        123,
+        'workers/electricaltech53.jpg',
+        NULL,
+        1,
+        '2024-02-26 14:37:28',
+        '2024-02-26 14:37:28'
+    ),
+    (
+        54,
+        'aboubakr11@gmail.com',
+        '150920ccedc34d24031cdd3711e43310',
+        'mmmm',
+        'kkkk',
+        123,
+        'workers/electricaltech54.jpg',
+        NULL,
+        1,
+        '2024-02-26 14:40:12',
+        '2024-02-26 14:40:12'
+    ),
+    (
+        55,
+        'aboubakr12@gmail.com',
+        '150920ccedc34d24031cdd3711e43310',
+        'mmmm',
+        'kkkk',
+        123,
+        'workers/electricaltech55.jpg',
+        NULL,
+        1,
+        '2024-02-26 14:40:40',
+        '2024-02-26 14:40:40'
+    ),
+    (
+        56,
+        'aboubakr13@gmail.com',
+        '150920ccedc34d24031cdd3711e43310',
+        'mmmm',
+        'kkkk',
+        123,
+        'workers/electricaltech56.jpg',
+        NULL,
+        1,
+        '2024-02-26 14:45:39',
+        '2024-02-26 14:45:39'
+    ),
+    (
+        57,
+        'aboubakr14@gmail.com',
+        '150920ccedc34d24031cdd3711e43310',
+        'mmmm',
+        'kkkk',
+        123,
+        'workers/electricaltech57.jpg',
+        NULL,
+        1,
+        '2024-02-26 14:46:32',
+        '2024-02-26 14:46:32'
+    ),
+    (
+        58,
+        'aboubakr15@gmail.com',
+        '150920ccedc34d24031cdd3711e43310',
+        'mmmm',
+        'kkkk',
+        123,
+        'workers/electricaltech58.jpg',
+        NULL,
+        1,
+        '2024-02-26 14:48:05',
+        '2024-02-26 14:48:05'
+    ),
+    (
+        59,
+        'c.aboubakrtaibi5@gmail.com',
+        'e10adc3949ba59abbe56e057f20f883e',
+        'ahmed',
+        'mahmoud',
+        94,
+        'workers/electricaltech59.jpg',
+        NULL,
+        1,
+        '2024-02-28 18:05:28',
+        '2024-02-28 18:05:28'
+    ),
+    (
+        60,
+        'layyoune@aa.oo',
+        'e10adc3949ba59abbe56e057f20f883e',
+        'yassine',
+        'yass',
+        198,
+        'workers/electricaltech60.jpg',
+        NULL,
+        1,
+        '2024-02-28 18:15:53',
+        '2024-02-28 18:15:53'
+    ),
+    (
+        61,
+        'oo@aa.aa',
+        'e10adc3949ba59abbe56e057f20f883e',
+        'hhh',
+        'kkkk',
+        198,
+        'workers/electricaltech61.jpg',
+        NULL,
+        1,
+        '2024-02-28 18:22:32',
+        '2024-02-28 18:22:32'
+    ),
+    (
+        62,
+        'c.aboubakr.taibi6@gmail.com',
+        'e10adc3949ba59abbe56e057f20f883e',
+        'ha',
+        'taibi',
+        384,
+        'workers/electricaltech62.jpg',
+        NULL,
+        1,
+        '2024-02-28 18:27:53',
+        '2024-02-28 18:27:53'
+    ),
+    (
+        63,
+        'c.aboubakr.taibi7@gmail.com',
+        'e10adc3949ba59abbe56e057f20f883e',
+        'ha',
+        'taibi',
+        62,
+        'workers/electricaltech63.jpg',
+        NULL,
+        1,
+        '2024-02-28 18:31:08',
+        '2024-02-28 18:31:08'
+    ),
+    (
+        64,
+        'oo@pp.qq',
+        '3859826becf78182127b6599cf615dfa',
+        '',
+        '',
+        23,
+        'workers/electricaltech64.jpg',
+        NULL,
+        1,
+        '2024-02-28 18:36:26',
+        '2024-02-28 18:36:26'
+    ),
+    (
+        65,
+        'ooo@aaa.qq',
+        'bf9f8d1f05dc08cc3b02e8fcf2c2ba57',
+        'lll',
+        'aaakk',
+        93,
+        'workers/electricaltech65.jpg',
+        NULL,
+        1,
+        '2024-02-28 18:42:41',
+        '2024-02-28 18:42:41'
+    ),
+    (
+        66,
+        'ooo@aaabbb.qq',
+        'bf9f8d1f05dc08cc3b02e8fcf2c2ba57',
+        'postman',
+        'aahhh',
+        93,
+        'workers/electricaltech66.jpg',
+        NULL,
+        1,
+        '2024-02-28 18:45:06',
+        '2024-02-28 18:45:06'
+    ),
+    (
+        67,
+        'oomo@aaabbb.qq',
+        'bf9f8d1f05dc08cc3b02e8fcf2c2ba57',
+        'postman',
+        'aahhh',
+        93,
+        'workers/electricaltech67.jpg',
+        NULL,
+        1,
+        '2024-02-28 18:47:36',
+        '2024-02-28 18:47:36'
+    ),
+    (
+        68,
+        'moomo@aaabbb.qq',
+        'bf9f8d1f05dc08cc3b02e8fcf2c2ba57',
+        'postman',
+        'aahhh',
+        93,
+        'workers/electricaltech68.jpg',
+        NULL,
+        1,
+        '2024-02-28 18:49:28',
+        '2024-02-28 18:49:28'
+    ),
+    (
+        69,
+        'moolmo@aaabbb.qq',
+        'bf9f8d1f05dc08cc3b02e8fcf2c2ba57',
+        'postman',
+        'aahhh',
+        93,
+        'workers/electricaltech69.jpg',
+        NULL,
+        1,
+        '2024-02-28 18:50:59',
+        '2024-02-28 18:50:59'
+    ),
+    (
+        70,
+        'momolmo@aaabbb.qq',
+        'bf9f8d1f05dc08cc3b02e8fcf2c2ba57',
+        'postman',
+        'aahhh',
+        93,
+        'workers/electricaltech70.jpg',
+        NULL,
+        1,
+        '2024-02-28 18:52:06',
+        '2024-02-28 18:52:06'
+    ),
+    (
+        71,
+        'c.aboubakr.taibi88@gmail.com',
+        'e10adc3949ba59abbe56e057f20f883e',
+        'hoo',
+        'taibi',
+        93,
+        'workers/electricaltech71.jpg',
+        NULL,
+        1,
+        '2024-02-28 18:54:18',
+        '2024-02-28 18:54:18'
+    ),
+    (
+        72,
+        'momolppmo@aaabbb.qq',
+        'bf9f8d1f05dc08cc3b02e8fcf2c2ba57',
+        'client',
+        'aahhh',
+        93,
+        'workers/electricaltech72.jpg',
+        NULL,
+        1,
+        '2024-02-28 19:03:03',
+        '2024-02-28 19:03:03'
+    ),
+    (
+        73,
+        'momolpp8mo@aaabbb.qq',
+        'bf9f8d1f05dc08cc3b02e8fcf2c2ba57',
+        'client',
+        'aahhh',
+        93,
+        'workers/electricaltech73.jpg',
+        NULL,
+        1,
+        '2024-02-28 19:04:27',
+        '2024-02-28 19:04:27'
+    ),
+    (
+        74,
+        'momomlpp8mo@aaabbb.qq',
+        'bf9f8d1f05dc08cc3b02e8fcf2c2ba57',
+        'client',
+        'aahhh',
+        93,
+        'workers/electricaltech74.jpg',
+        NULL,
+        1,
+        '2024-02-28 19:25:53',
+        '2024-02-28 19:25:53'
+    ),
+    (
+        75,
+        'pp@zz.aa',
+        'e10adc3949ba59abbe56e057f20f883e',
+        'mmm',
+        'pppp',
+        93,
+        'workers/electricaltech75.jpg',
+        NULL,
+        1,
+        '2024-02-28 19:27:07',
+        '2024-02-28 19:27:07'
+    ),
+    (
+        76,
+        'c.aboubakr.taibi9@gmail.com',
+        '9cf6f9edb58e7f3dadc1f65fdbe58b7a',
+        'haaapapapa',
+        'taibi',
+        4,
+        'workers/electricaltech76.jpg',
+        NULL,
+        1,
+        '2024-02-28 20:02:37',
+        '2024-02-28 20:02:37'
+    );
+/*!40000 ALTER TABLE `users` ENABLE KEYS */
 ;
-CREATE TABLE `images` (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `url` varchar(100) DEFAULT NULL,
-    `project_id` int DEFAULT NULL,
-    `created_at` datetime DEFAULT NULL,
-    `updated_at` datetime DEFAULT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `url` (`url`),
-    KEY `project_id` (`project_id`),
-    CONSTRAINT `images_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`)
-) ENGINE = InnoDB AUTO_INCREMENT = 12 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */
-;
+UNLOCK TABLES;
 
 --
--- Dumping data for table `images`
+-- Table structure for table `workers`
+--
+
+--
+-- Dumping data for table `workers`
+--
+/* INSERT INTO `workers` VALUES (1,1,1,4,'mohamed trissyan',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-13 19:56:17','2024-02-13 19:56:17');
+-- INSERT INTO `workers` VALUES (2,2,2,103,'aboubakr info','master','cert1','https://web.facebook.com/profile.php?id=100004475555979','https://www.instagram.com/','https://tiktok.com','https://www.linkedin.com/in/aboubakr-taibi-ba5b25149/','https://workhubconnect.com','2024-02-13 19:56:17','2024-02-22 22:20:45');
+-- INSERT INTO `workers` VALUES (3,3,5,103,'lahcen economie',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-13 19:56:17','2024-02-13 19:56:17');
+-- INSERT INTO `workers` VALUES (4,4,2,4,'essalhi info',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-13 19:56:17','2024-02-13 19:56:17');
+-- INSERT INTO `workers` VALUES (5,5,1,4,'ali trissyan',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-13 19:56:17','2024-02-13 19:56:17');
+-- INSERT INTO `workers` VALUES (6,6,1,4,'adil trissyan',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-13 19:56:17','2024-02-13 19:56:17');
+-- INSERT INTO `workers` VALUES (7,75,1,4,'ahmed trissyan','Master','CEHv11',NULL,NULL,NULL,NULL,NULL,'2024-02-13 19:56:17','2024-02-14 20:15:17');
+-- INSERT INTO `workers` VALUES (8,2,2,1,'info f ain harroda region Casa',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-14 21:53:19','2024-02-14 21:53:19');
+-- INSERT INTO `workers` VALUES (9,25,2,4,'Worker in Information Security',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-21 22:28:05','2024-02-21 22:28:05');
+-- INSERT INTO `workers` VALUES (11,27,2,4,'Worker in Information Technology',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-21 23:08:32','2024-02-21 23:08:32');
+-- INSERT INTO `workers` VALUES (20,40,2,126,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-25 17:23:28','2024-02-25 17:23:28');
+-- INSERT INTO `workers` VALUES (23,43,1,95,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-25 18:06:21','2024-02-25 18:06:21');
+-- INSERT INTO `workers` VALUES (24,44,2,126,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-25 18:09:41','2024-02-25 18:09:41');
+-- INSERT INTO `workers` VALUES (25,59,2,94,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-28 18:05:28','2024-02-28 18:05:28');
+-- INSERT INTO `workers` VALUES (26,60,3,198,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-28 18:15:53','2024-02-28 18:15:53');
+-- INSERT INTO `workers` VALUES (27,61,3,198,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-28 18:22:32','2024-02-28 18:22:32');
+-- INSERT INTO `workers` VALUES (28,62,5,384,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-28 18:27:53','2024-02-28 18:27:53');
+-- INSERT INTO `workers` VALUES (29,63,3,62,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-28 18:31:08','2024-02-28 18:31:08');
+-- INSERT INTO `workers` VALUES (30,64,1,23,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-28 18:36:26','2024-02-28 18:36:26');
+-- INSERT INTO `workers` VALUES (31,65,5,93,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-28 18:42:41','2024-02-28 18:42:41');
+-- INSERT INTO `workers` VALUES (32,66,5,93,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-28 18:45:06','2024-02-28 18:45:06');
+-- INSERT INTO `workers` VALUES (33,67,5,93,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-28 18:47:36','2024-02-28 18:47:36');
+-- INSERT INTO `workers` VALUES (34,68,5,93,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-28 18:49:28','2024-02-28 18:49:28');
+-- INSERT INTO `workers` VALUES (35,69,5,93,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-28 18:50:59','2024-02-28 18:50:59');
+-- INSERT INTO `workers` VALUES (36,70,5,93,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-28 18:52:06','2024-02-28 18:52:06');
+-- INSERT INTO `workers` VALUES (37,71,1,93,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2024-02-28 18:54:18','2024-02-28 18:54:18'); */
+
+/* 
+LOCK TABLES `workers` WRITE;
+/*!40000 ALTER TABLE `workers` DISABLE KEYS */
+;
+
+INSERT INTO
+    workers (
+        id,
+        user_id,
+        service_id,
+        city_id,
+        description,
+        diplome,
+        certifications,
+        fb_url,
+        insta_url,
+        tiktok_url,
+        linkedin_url,
+        website_url,
+        created_at,
+        updated_at
+    )
+VALUES (
+        2,
+        2,
+        2,
+        103,
+        'aboubakr info',
+        'master',
+        'cert1',
+        'https://web.facebook.com/profile.php?id=100004475555979',
+        'https://www.instagram.com/',
+        'https://tiktok.com',
+        'https://www.linkedin.com/in/aboubakr-taibi-ba5b25149/',
+        'https://workhubconnect.com',
+        '2024-02-13 19:56:17',
+        '2024-02-22 22:20:45'
+    ),
+    (
+        3,
+        3,
+        5,
+        103,
+        'lahcen economie',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2024-02-13 19:56:17',
+        '2024-02-13 19:56:17'
+    );
+
+INSERT INTO
+    workers (
+        id,
+        user_id,
+        service_id,
+        city_id,
+        description,
+        diplome,
+        certifications,
+        fb_url,
+        insta_url,
+        tiktok_url,
+        linkedin_url,
+        website_url,
+        created_at,
+        updated_at
+    )
+VALUES (
+        4,
+        4,
+        2,
+        4,
+        'essalhi info',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2024-02-13 19:56:17',
+        '2024-02-13 19:56:17'
+    );
+
+INSERT INTO
+    workers (
+        id,
+        user_id,
+        service_id,
+        city_id,
+        description,
+        diplome,
+        certifications,
+        fb_url,
+        insta_url,
+        tiktok_url,
+        linkedin_url,
+        website_url,
+        created_at,
+        updated_at
+    )
+VALUES (
+        5,
+        5,
+        1,
+        4,
+        'ali trissyan',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2024-02-13 19:56:17',
+        '2024-02-13 19:56:17'
+    );
+
+INSERT INTO
+    workers (
+        id,
+        user_id,
+        service_id,
+        city_id,
+        description,
+        diplome,
+        certifications,
+        fb_url,
+        insta_url,
+        tiktok_url,
+        linkedin_url,
+        website_url,
+        created_at,
+        updated_at
+    )
+VALUES (
+        6,
+        6,
+        1,
+        4,
+        'adil trissyan',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2024-02-13 19:56:17',
+        '2024-02-13 19:56:17'
+    );
+
+INSERT INTO
+    workers (
+        id,
+        user_id,
+        service_id,
+        city_id,
+        description,
+        diplome,
+        certifications,
+        fb_url,
+        insta_url,
+        tiktok_url,
+        linkedin_url,
+        website_url,
+        created_at,
+        updated_at
+    )
+VALUES (
+        7,
+        6,
+        1,
+        4,
+        'ahmed trissyan',
+        'Master',
+        'CEHv11',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2024-02-13 19:56:17',
+        '2024-02-14 20:15:17'
+    );
+
+INSERT INTO
+    workers (
+        id,
+        user_id,
+        service_id,
+        city_id,
+        description,
+        diplome,
+        certifications,
+        fb_url,
+        insta_url,
+        tiktok_url,
+        linkedin_url,
+        website_url,
+        created_at,
+        updated_at
+    )
+VALUES (
+        9,
+        25,
+        2,
+        4,
+        'Worker in Information Security',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2024-02-21 22:28:05',
+        '2024-02-21 22:28:05'
+    );
+
+INSERT INTO
+    workers (
+        id,
+        user_id,
+        service_id,
+        city_id,
+        description,
+        diplome,
+        certifications,
+        fb_url,
+        insta_url,
+        tiktok_url,
+        linkedin_url,
+        website_url,
+        created_at,
+        updated_at
+    )
+VALUES (
+        11,
+        27,
+        2,
+        4,
+        'Worker in Information Technology',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2024-02-21 23:08:32',
+        '2024-02-21 23:08:32'
+    );
+
+INSERT INTO
+    workers (
+        id,
+        user_id,
+        service_id,
+        city_id,
+        description,
+        diplome,
+        certifications,
+        fb_url,
+        insta_url,
+        tiktok_url,
+        linkedin_url,
+        website_url,
+        created_at,
+        updated_at
+    )
+VALUES (
+        20,
+        40,
+        2,
+        126,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2024-02-25 17:23:28',
+        '2024-02-25 17:23:28'
+    );
+
+INSERT INTO
+    workers (
+        id,
+        user_id,
+        service_id,
+        city_id,
+        description,
+        diplome,
+        certifications,
+        fb_url,
+        insta_url,
+        tiktok_url,
+        linkedin_url,
+        website_url,
+        created_at,
+        updated_at
+    )
+VALUES (
+        23,
+        43,
+        1,
+        95,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2024-02-25 18:06:21',
+        '2024-02-25 18:06:21'
+    );
+
+INSERT INTO
+    workers (
+        id,
+        user_id,
+        service_id,
+        city_id,
+        description,
+        diplome,
+        certifications,
+        fb_url,
+        insta_url,
+        tiktok_url,
+        linkedin_url,
+        website_url,
+        created_at,
+        updated_at
+    )
+VALUES (
+        24,
+        44,
+        2,
+        126,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2024-02-25 18:09:41',
+        '2024-02-25 18:09:41'
+    );
+
+INSERT INTO
+    workers (
+        id,
+        user_id,
+        service_id,
+        city_id,
+        description,
+        diplome,
+        certifications,
+        fb_url,
+        insta_url,
+        tiktok_url,
+        linkedin_url,
+        website_url,
+        created_at,
+        updated_at
+    )
+VALUES (
+        25,
+        59,
+        2,
+        94,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2024-02-28 18:05:28',
+        '2024-02-28 18:05:28'
+    );
+
+INSERT INTO
+    workers (
+        id,
+        user_id,
+        service_id,
+        city_id,
+        description,
+        diplome,
+        certifications,
+        fb_url,
+        insta_url,
+        tiktok_url,
+        linkedin_url,
+        website_url,
+        created_at,
+        updated_at
+    )
+VALUES (
+        26,
+        60,
+        3,
+        198,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2024-02-28 18:15:53',
+        '2024-02-28 18:15:53'
+    );
+
+INSERT INTO
+    workers (
+        id,
+        user_id,
+        service_id,
+        city_id,
+        description,
+        diplome,
+        certifications,
+        fb_url,
+        insta_url,
+        tiktok_url,
+        linkedin_url,
+        website_url,
+        created_at,
+        updated_at
+    )
+VALUES (
+        27,
+        61,
+        3,
+        198,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2024-02-28 18:22:32',
+        '2024-02-28 18:22:32'
+    );
+
+INSERT INTO
+    workers (
+        id,
+        user_id,
+        service_id,
+        city_id,
+        description,
+        diplome,
+        certifications,
+        fb_url,
+        insta_url,
+        tiktok_url,
+        linkedin_url,
+        website_url,
+        created_at,
+        updated_at
+    )
+VALUES (
+        28,
+        62,
+        5,
+        384,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2024-02-28 18:27:53',
+        '2024-02-28 18:27:53'
+    );
+
+INSERT INTO
+    workers (
+        id,
+        user_id,
+        service_id,
+        city_id,
+        description,
+        diplome,
+        certifications,
+        fb_url,
+        insta_url,
+        tiktok_url,
+        linkedin_url,
+        website_url,
+        created_at,
+        updated_at
+    )
+VALUES (
+        29,
+        63,
+        3,
+        62,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2024-02-28 18:31:08',
+        '2024-02-28 18:31:08'
+    );
+
+INSERT INTO
+    workers (
+        id,
+        user_id,
+        service_id,
+        city_id,
+        description,
+        diplome,
+        certifications,
+        fb_url,
+        insta_url,
+        tiktok_url,
+        linkedin_url,
+        website_url,
+        created_at,
+        updated_at
+    )
+VALUES (
+        30,
+        64,
+        1,
+        23,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2024-02-28 18:36:26',
+        '2024-02-28 18:36:26'
+    );
+
+INSERT INTO
+    workers (
+        id,
+        user_id,
+        service_id,
+        city_id,
+        description,
+        diplome,
+        certifications,
+        fb_url,
+        insta_url,
+        tiktok_url,
+        linkedin_url,
+        website_url,
+        created_at,
+        updated_at
+    )
+VALUES (
+        31,
+        65,
+        5,
+        93,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2024-02-28 18:42:41',
+        '2024-02-28 18:42:41'
+    );
+
+INSERT INTO
+    workers (
+        id,
+        user_id,
+        service_id,
+        city_id,
+        description,
+        diplome,
+        certifications,
+        fb_url,
+        insta_url,
+        tiktok_url,
+        linkedin_url,
+        website_url,
+        created_at,
+        updated_at
+    )
+VALUES (
+        32,
+        66,
+        5,
+        93,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2024-02-28 18:45:06',
+        '2024-02-28 18:45:06'
+    );
+
+INSERT INTO
+    workers (
+        id,
+        user_id,
+        service_id,
+        city_id,
+        description,
+        diplome,
+        certifications,
+        fb_url,
+        insta_url,
+        tiktok_url,
+        linkedin_url,
+        website_url,
+        created_at,
+        updated_at
+    )
+VALUES (
+        33,
+        67,
+        5,
+        93,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2024-02-28 18:47:36',
+        '2024-02-28 18:47:36'
+    );
+
+INSERT INTO
+    workers (
+        id,
+        user_id,
+        service_id,
+        city_id,
+        description,
+        diplome,
+        certifications,
+        fb_url,
+        insta_url,
+        tiktok_url,
+        linkedin_url,
+        website_url,
+        created_at,
+        updated_at
+    )
+VALUES (
+        34,
+        68,
+        5,
+        93,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2024-02-28 18:49:28',
+        '2024-02-28 18:49:28'
+    );
+
+INSERT INTO
+    workers (
+        id,
+        user_id,
+        service_id,
+        city_id,
+        description,
+        diplome,
+        certifications,
+        fb_url,
+        insta_url,
+        tiktok_url,
+        linkedin_url,
+        website_url,
+        created_at,
+        updated_at
+    )
+VALUES (
+        35,
+        69,
+        5,
+        93,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2024-02-28 18:50:59',
+        '2024-02-28 18:50:59'
+    );
+
+INSERT INTO
+    workers (
+        id,
+        user_id,
+        service_id,
+        city_id,
+        description,
+        diplome,
+        certifications,
+        fb_url,
+        insta_url,
+        tiktok_url,
+        linkedin_url,
+        website_url,
+        created_at,
+        updated_at
+    )
+VALUES (
+        36,
+        70,
+        5,
+        93,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2024-02-28 18:52:06',
+        '2024-02-28 18:52:06'
+    );
+
+INSERT INTO
+    workers (
+        id,
+        user_id,
+        service_id,
+        city_id,
+        description,
+        diplome,
+        certifications,
+        fb_url,
+        insta_url,
+        tiktok_url,
+        linkedin_url,
+        website_url,
+        created_at,
+        updated_at
+    )
+VALUES (
+        37,
+        71,
+        1,
+        93,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2024-02-28 18:54:18',
+        '2024-02-28 18:54:18'
+    );
+
+/*!40000 ALTER TABLE `workers` ENABLE KEYS */
+;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `projects`
+--
+
+LOCK TABLES `projects` WRITE;
+/*!40000 ALTER TABLE `projects` DISABLE KEYS */
+;
+INSERT INTO
+    `projects` (
+        id,
+        worker_id,
+        created_at,
+        updated_at,
+        title,
+        description
+    )
+VALUES (
+        1,
+        1,
+        '2024-02-13 20:26:11',
+        '2024-02-13 20:26:11',
+        'project villa Casa',
+        'had project nadi'
+    );
+
+INSERT INTO
+    `projects` (
+        id,
+        worker_id,
+        created_at,
+        updated_at,
+        title,
+        description
+    )
+VALUES (
+        2,
+        1,
+        '2024-02-13 20:26:11',
+        '2024-02-13 20:26:11',
+        'project riad rabat',
+        'had project mzyan'
+    );
+
+INSERT INTO
+    `projects` (
+        id,
+        worker_id,
+        created_at,
+        updated_at,
+        title,
+        description
+    )
+VALUES (
+        3,
+        1,
+        '2024-02-13 20:26:11',
+        '2024-02-13 20:26:11',
+        'project doaur 9etta henna',
+        'had project ns ns'
+    );
+
+INSERT INTO
+    `projects` (
+        id,
+        worker_id,
+        created_at,
+        updated_at,
+        title,
+        description
+    )
+VALUES (
+        4,
+        2,
+        '2024-02-13 20:26:11',
+        '2024-02-13 20:26:11',
+        'project gueliz',
+        'had project mabihch'
+    );
+
+INSERT INTO
+    `projects` (
+        id,
+        worker_id,
+        created_at,
+        updated_at,
+        title,
+        description
+    )
+VALUES (
+        5,
+        2,
+        '2024-02-13 20:26:11',
+        '2024-02-13 20:26:11',
+        'project douar lhna',
+        'had project informatique'
+    );
+
+INSERT INTO
+    `projects` (
+        id,
+        worker_id,
+        created_at,
+        updated_at,
+        title,
+        description
+    )
+VALUES (
+        6,
+        2,
+        '2024-02-13 20:26:11',
+        '2024-02-13 20:26:11',
+        'project douar koko',
+        'had project 5/5'
+    );
+
+INSERT INTO
+    `projects` (
+        id,
+        worker_id,
+        created_at,
+        updated_at,
+        title,
+        description
+    )
+VALUES (
+        9,
+        1,
+        '2024-02-13 20:30:44',
+        '2024-02-13 20:30:44',
+        'project villa Casa',
+        'had project nadi'
+    );
+
+INSERT INTO
+    `projects` (
+        id,
+        worker_id,
+        created_at,
+        updated_at,
+        title,
+        description
+    )
+VALUES (
+        10,
+        1,
+        '2024-02-13 20:30:44',
+        '2024-02-13 20:30:44',
+        'project riad rabat',
+        'had project mzyan'
+    );
+
+INSERT INTO
+    `projects` (
+        id,
+        worker_id,
+        created_at,
+        updated_at,
+        title,
+        description
+    )
+VALUES (
+        11,
+        1,
+        '2024-02-13 20:30:44',
+        '2024-02-13 20:30:44',
+        'project doaur 9etta henna',
+        'had project ns ns'
+    );
+
+INSERT INTO
+    `projects` (
+        id,
+        worker_id,
+        created_at,
+        updated_at,
+        title,
+        description
+    )
+VALUES (
+        12,
+        2,
+        '2024-02-13 20:30:44',
+        '2024-02-13 20:30:44',
+        'project gueliz',
+        'had project mabihch'
+    );
+
+INSERT INTO
+    `projects` (
+        id,
+        worker_id,
+        created_at,
+        updated_at,
+        title,
+        description
+    )
+VALUES (
+        13,
+        2,
+        '2024-02-13 20:30:44',
+        '2024-02-13 20:30:44',
+        'project douar lhna',
+        'had project informatique'
+    );
+
+INSERT INTO
+    `projects` (
+        id,
+        worker_id,
+        created_at,
+        updated_at,
+        title,
+        description
+    )
+VALUES (
+        14,
+        2,
+        '2024-02-13 20:30:44',
+        '2024-02-13 20:30:44',
+        'project douar koko',
+        'had project 5/5'
+    );
+/*!40000 ALTER TABLE `projects` ENABLE KEYS */
+;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `reviews`
 --
 
 LOCK TABLES `images` WRITE;
@@ -2856,57 +4760,81 @@ VALUES (
         1,
         '2024-02-13 20:30:44',
         '2024-02-13 20:30:44'
-    ),
-    (
+    );
+
+INSERT INTO
+    `images`
+VALUES (
         3,
         '/images/img1 2.png',
         1,
         '2024-02-13 20:30:44',
         '2024-02-13 20:30:44'
-    ),
-    (
+    );
+
+INSERT INTO
+    `images`
+VALUES (
         4,
         '/images/img1 3.png',
         1,
         '2024-02-13 20:30:44',
         '2024-02-13 20:30:44'
-    ),
-    (
+    );
+
+INSERT INTO
+    `images`
+VALUES (
         5,
         '/images/img2 1.png',
         2,
         '2024-02-13 20:30:44',
         '2024-02-13 20:30:44'
-    ),
-    (
+    );
+
+INSERT INTO
+    `images`
+VALUES (
         6,
         '/images/img3 1.png',
         3,
         '2024-02-13 20:30:44',
         '2024-02-13 20:30:44'
-    ),
-    (
+    );
+
+INSERT INTO
+    `images`
+VALUES (
         7,
         '/images/img4 1.png',
         4,
         '2024-02-13 20:30:44',
         '2024-02-13 20:30:44'
-    ),
-    (
+    );
+
+INSERT INTO
+    `images`
+VALUES (
         8,
         '/images/img4 2.png',
         4,
         '2024-02-13 20:30:44',
         '2024-02-13 20:30:44'
-    ),
-    (
+    );
+
+INSERT INTO
+    `images`
+VALUES (
         9,
         '/images/img5 1.png',
         5,
         '2024-02-13 20:30:44',
         '2024-02-13 20:30:44'
-    ),
-    (
+    );
+
+INSERT INTO
+    `images`
+VALUES (
         10,
         '/images/img5 2.png',
         5,
@@ -2924,167 +4852,6 @@ VALUES (
 ;
 UNLOCK TABLES;
 
---
--- Table structure for table `projects`
---
-
-DROP TABLE IF EXISTS `projects`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */
-;
-/*!50503 SET character_set_client = utf8mb4 */
-;
-CREATE TABLE `projects` (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `worker_id` int NOT NULL,
-    `created_at` datetime DEFAULT NULL,
-    `updated_at` datetime DEFAULT NULL,
-    `title` varchar(255) NOT NULL,
-    `description` varchar(1024) NOT NULL,
-    PRIMARY KEY (`id`),
-    KEY `worker_id` (`worker_id`),
-    CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`worker_id`) REFERENCES `workers` (`id`)
-) ENGINE = InnoDB AUTO_INCREMENT = 15 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */
-;
-
---
--- Dumping data for table `projects`
---
-
-LOCK TABLES `projects` WRITE;
-/*!40000 ALTER TABLE `projects` DISABLE KEYS */
-;
-INSERT INTO
-    `projects`
-VALUES (
-        1,
-        1,
-        '2024-02-13 20:26:11',
-        '2024-02-13 20:26:11',
-        'project villa Casa',
-        'had project nadi'
-    ),
-    (
-        2,
-        1,
-        '2024-02-13 20:26:11',
-        '2024-02-13 20:26:11',
-        'project riad rabat',
-        'had project mzyan'
-    ),
-    (
-        3,
-        1,
-        '2024-02-13 20:26:11',
-        '2024-02-13 20:26:11',
-        'project doaur 9etta henna',
-        'had project ns ns'
-    ),
-    (
-        4,
-        2,
-        '2024-02-13 20:26:11',
-        '2024-02-13 20:26:11',
-        'project gueliz',
-        'had project mabihch'
-    ),
-    (
-        5,
-        2,
-        '2024-02-13 20:26:11',
-        '2024-02-13 20:26:11',
-        'project douar lhna',
-        'had project informatique'
-    ),
-    (
-        6,
-        2,
-        '2024-02-13 20:26:11',
-        '2024-02-13 20:26:11',
-        'project douar koko',
-        'had project 5/5'
-    ),
-    (
-        9,
-        1,
-        '2024-02-13 20:30:44',
-        '2024-02-13 20:30:44',
-        'project villa Casa',
-        'had project nadi'
-    ),
-    (
-        10,
-        1,
-        '2024-02-13 20:30:44',
-        '2024-02-13 20:30:44',
-        'project riad rabat',
-        'had project mzyan'
-    ),
-    (
-        11,
-        1,
-        '2024-02-13 20:30:44',
-        '2024-02-13 20:30:44',
-        'project doaur 9etta henna',
-        'had project ns ns'
-    ),
-    (
-        12,
-        2,
-        '2024-02-13 20:30:44',
-        '2024-02-13 20:30:44',
-        'project gueliz',
-        'had project mabihch'
-    ),
-    (
-        13,
-        2,
-        '2024-02-13 20:30:44',
-        '2024-02-13 20:30:44',
-        'project douar lhna',
-        'had project informatique'
-    ),
-    (
-        14,
-        2,
-        '2024-02-13 20:30:44',
-        '2024-02-13 20:30:44',
-        'project douar koko',
-        'had project 5/5'
-    );
-/*!40000 ALTER TABLE `projects` ENABLE KEYS */
-;
-UNLOCK TABLES;
-
---
--- Table structure for table `reviews`
---
-
-DROP TABLE IF EXISTS `reviews`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */
-;
-/*!50503 SET character_set_client = utf8mb4 */
-;
-CREATE TABLE `reviews` (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `worker_id` int NOT NULL,
-    `user_id` int NOT NULL,
-    `text` varchar(1024) NOT NULL,
-    `created_at` datetime DEFAULT NULL,
-    `updated_at` datetime DEFAULT NULL,
-    PRIMARY KEY (`id`),
-    KEY `worker_id` (`worker_id`),
-    KEY `user_id` (`user_id`),
-    CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`worker_id`) REFERENCES `workers` (`id`),
-    CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE = InnoDB AUTO_INCREMENT = 5 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */
-;
-
---
--- Dumping data for table `reviews`
---
-
 LOCK TABLES `reviews` WRITE;
 /*!40000 ALTER TABLE `reviews` DISABLE KEYS */
 ;
@@ -3097,24 +4864,33 @@ VALUES (
         'ly3tik sehha mohamed project mzn khdma n9iya',
         '2024-02-13 20:30:44',
         '2024-02-13 20:30:44'
-    ),
-    (
+    );
+
+INSERT INTO
+    `reviews`
+VALUES (
         2,
         1,
         4,
         'ly3tik sehha mohamed project mzn khdma mzyana ana essalhi',
         '2024-02-13 20:30:44',
         '2024-02-13 20:30:44'
-    ),
-    (
+    );
+
+INSERT INTO
+    `reviews`
+VALUES (
         3,
         2,
         1,
         'ly3tik sehha aboubakr project mzn khdma mzyana ana mohamed',
         '2024-02-13 20:30:44',
         '2024-02-13 20:30:44'
-    ),
-    (
+    );
+
+INSERT INTO
+    `reviews`
+VALUES (
         4,
         2,
         3,
@@ -3130,446 +4906,12 @@ UNLOCK TABLES;
 -- Table structure for table `services`
 --
 
-DROP TABLE IF EXISTS `services`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */
-;
-/*!50503 SET character_set_client = utf8mb4 */
-;
-CREATE TABLE `services` (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `en_name` varchar(128) NOT NULL,
-    `ar_name` varchar(128) NOT NULL,
-    `description` varchar(255) NOT NULL,
-    `created_at` datetime DEFAULT NULL,
-    `updated_at` datetime DEFAULT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `en_name` (`en_name`),
-    UNIQUE KEY `ar_name` (`ar_name`),
-    UNIQUE KEY `description` (`description`)
-) ENGINE = InnoDB AUTO_INCREMENT = 6 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */
-;
-
---
--- Dumping data for table `services`
---
-
-LOCK TABLES `services` WRITE;
-/*!40000 ALTER TABLE `services` DISABLE KEYS */
-;
-INSERT INTO
-    `services`
-VALUES (
-        1,
-        'Electricity',
-        'trissyan',
-        'rani tanssayb ay haja dyal do',
-        '2024-02-13 19:56:17',
-        '2024-02-13 19:56:17'
-    ),
-    (
-        2,
-        'informaticien',
-        'm3lomati',
-        'rani tanssayb ay haja dyal piciyat',
-        '2024-02-13 19:56:17',
-        '2024-02-13 19:56:17'
-    ),
-    (
-        3,
-        'plombier',
-        'plombiii',
-        'rani tanssayb ay haja dyal lma',
-        '2024-02-13 19:56:17',
-        '2024-02-13 19:56:17'
-    ),
-    (
-        4,
-        'jlayji',
-        'mol zlij',
-        'rani tanssayb ay haja dyal zlij',
-        '2024-02-13 19:56:17',
-        '2024-02-13 19:56:17'
-    ),
-    (
-        5,
-        'economie',
-        'eccnomie',
-        'rani economist',
-        '2024-02-13 19:56:17',
-        '2024-02-13 19:56:17'
-    );
-/*!40000 ALTER TABLE `services` ENABLE KEYS */
-;
-UNLOCK TABLES;
-
---
--- Table structure for table `states`
---
-
-DROP TABLE IF EXISTS `states`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */
-;
-/*!50503 SET character_set_client = utf8mb4 */
-;
-CREATE TABLE `states` (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `name` varchar(128) NOT NULL,
-    `created_at` datetime DEFAULT NULL,
-    `updated_at` datetime DEFAULT NULL,
-    PRIMARY KEY (`id`)
-) ENGINE = InnoDB AUTO_INCREMENT = 13 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */
-;
-
---
--- Dumping data for table `states`
---
-
-LOCK TABLES `states` WRITE;
-/*!40000 ALTER TABLE `states` DISABLE KEYS */
-;
-INSERT INTO
-    `states`
-VALUES (
-        1,
-        'Tanger-Tétouan-Al Hoceïma',
-        '2024-02-13 19:26:17',
-        '2024-02-13 19:26:17'
-    ),
-    (
-        2,
-        'l\'Oriental',
-        '2024-02-13 19:26:17',
-        '2024-02-13 19:26:17'
-    ),
-    (
-        3,
-        'Fès-Meknès',
-        '2024-02-13 19:26:17',
-        '2024-02-13 19:26:17'
-    ),
-    (
-        4,
-        'Rabat-Salé-Kénitra',
-        '2024-02-13 19:26:17',
-        '2024-02-13 19:26:17'
-    ),
-    (
-        5,
-        'Béni Mellal-Khénifra',
-        '2024-02-13 19:26:17',
-        '2024-02-13 19:26:17'
-    ),
-    (
-        6,
-        'Casablanca-Settat',
-        '2024-02-13 19:26:17',
-        '2024-02-13 19:26:17'
-    ),
-    (
-        7,
-        'Marrakech-Safi',
-        '2024-02-13 19:26:17',
-        '2024-02-13 19:26:17'
-    ),
-    (
-        8,
-        'Drâa-Tafilalet',
-        '2024-02-13 19:26:17',
-        '2024-02-13 19:26:17'
-    ),
-    (
-        9,
-        'Souss-Massa',
-        '2024-02-13 19:26:17',
-        '2024-02-13 19:26:17'
-    ),
-    (
-        10,
-        'Guelmim-Oued Noun',
-        '2024-02-13 19:26:17',
-        '2024-02-13 19:26:17'
-    ),
-    (
-        11,
-        'Laâyoune-Sakia El Hamra',
-        '2024-02-13 19:26:17',
-        '2024-02-13 19:26:17'
-    ),
-    (
-        12,
-        'Dakhla-Oued Ed Dahab',
-        '2024-02-13 19:26:17',
-        '2024-02-13 19:26:17'
-    );
-/*!40000 ALTER TABLE `states` ENABLE KEYS */
-;
-UNLOCK TABLES;
-
---
 -- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */
-;
-/*!50503 SET character_set_client = utf8mb4 */
-;
-CREATE TABLE `users` (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `email` varchar(50) NOT NULL,
-    `password` varchar(100) DEFAULT NULL,
-    `first_name` varchar(20) DEFAULT NULL,
-    `last_name` varchar(20) DEFAULT NULL,
-    `city_id` int NOT NULL,
-    `profile_img` varchar(128) DEFAULT NULL,
-    `phone_number` varchar(16) DEFAULT NULL,
-    `is_active` tinyint(1) DEFAULT NULL,
-    `created_at` datetime DEFAULT NULL,
-    `updated_at` datetime DEFAULT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `email` (`email`),
-    KEY `city_id` (`city_id`),
-    CONSTRAINT `users_ibfk_1` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`)
-) ENGINE = InnoDB AUTO_INCREMENT = 7 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */
-;
-
---
 -- Dumping data for table `users`
 --
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */
-;
-INSERT INTO
-    `users`
-VALUES (
-        1,
-        'med@gmail.com',
-        '202cb962ac59075b964b07152d234b70',
-        NULL,
-        NULL,
-        4,
-        NULL,
-        NULL,
-        1,
-        '2024-02-13 19:56:17',
-        '2024-02-13 19:56:17'
-    ),
-    (
-        2,
-        'aboubakr@gmail.com',
-        'caf1a3dfb505ffed0d024130f58c5cfa',
-        NULL,
-        NULL,
-        103,
-        NULL,
-        NULL,
-        1,
-        '2024-02-13 19:56:17',
-        '2024-02-13 19:56:17'
-    ),
-    (
-        3,
-        'lahcen@gmail.com',
-        'caf1a3dfb505ffed0d024130f58c5cfa',
-        NULL,
-        NULL,
-        103,
-        NULL,
-        NULL,
-        1,
-        '2024-02-13 19:56:17',
-        '2024-02-13 19:56:17'
-    ),
-    (
-        4,
-        'mustapha@gmail.com',
-        '202cb962ac59075b964b07152d234b70',
-        NULL,
-        NULL,
-        4,
-        NULL,
-        NULL,
-        1,
-        '2024-02-13 19:56:17',
-        '2024-02-13 19:56:17'
-    ),
-    (
-        5,
-        'ali@gmail.com',
-        '202cb962ac59075b964b07152d234b70',
-        NULL,
-        NULL,
-        4,
-        NULL,
-        NULL,
-        1,
-        '2024-02-13 19:56:17',
-        '2024-02-13 19:56:17'
-    ),
-    (
-        6,
-        'adil@gmail.com',
-        '202cb962ac59075b964b07152d234b70',
-        NULL,
-        NULL,
-        4,
-        NULL,
-        NULL,
-        1,
-        '2024-02-13 19:56:17',
-        '2024-02-13 19:56:17'
-    );
-/*!40000 ALTER TABLE `users` ENABLE KEYS */
-;
-UNLOCK TABLES;
-
---
--- Table structure for table `workers`
---
-
-DROP TABLE IF EXISTS `workers`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */
-;
-/*!50503 SET character_set_client = utf8mb4 */
-;
-CREATE TABLE `workers` (
-    `id` int NOT NULL AUTO_INCREMENT,
-    `user_id` int NOT NULL,
-    `service_id` int NOT NULL,
-    `city_id` int NOT NULL,
-    `description` varchar(255) DEFAULT NULL,
-    `diplome` varchar(100) DEFAULT NULL,
-    `certifications` varchar(255) DEFAULT NULL,
-    `fb_url` varchar(100) DEFAULT NULL,
-    `insta_url` varchar(100) DEFAULT NULL,
-    `tiktok_url` varchar(100) DEFAULT NULL,
-    `linkedin_url` varchar(100) DEFAULT NULL,
-    `website_url` varchar(100) DEFAULT NULL,
-    `created_at` datetime DEFAULT NULL,
-    `updated_at` datetime DEFAULT NULL,
-    PRIMARY KEY (`id`),
-    KEY `user_id` (`user_id`),
-    KEY `service_id` (`service_id`),
-    KEY `city_id` (`city_id`),
-    CONSTRAINT `workers_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-    CONSTRAINT `workers_ibfk_2` FOREIGN KEY (`service_id`) REFERENCES `services` (`id`),
-    CONSTRAINT `workers_ibfk_3` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`)
-) ENGINE = InnoDB AUTO_INCREMENT = 7 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */
-;
-
---
--- Dumping data for table `workers`
---
-
-LOCK TABLES `workers` WRITE;
-/*!40000 ALTER TABLE `workers` DISABLE KEYS */
-;
-INSERT INTO
-    `workers`
-VALUES (
-        1,
-        1,
-        1,
-        4,
-        'mohamed trissyan',
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        '2024-02-13 19:56:17',
-        '2024-02-13 19:56:17'
-    ),
-    (
-        2,
-        2,
-        2,
-        103,
-        'aboubakr info',
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        '2024-02-13 19:56:17',
-        '2024-02-13 19:56:17'
-    ),
-    (
-        3,
-        3,
-        5,
-        103,
-        'lahcen economie',
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        '2024-02-13 19:56:17',
-        '2024-02-13 19:56:17'
-    ),
-    (
-        4,
-        4,
-        2,
-        4,
-        'essalhi info',
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        '2024-02-13 19:56:17',
-        '2024-02-13 19:56:17'
-    ),
-    (
-        5,
-        5,
-        1,
-        4,
-        'ali trissyan',
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        '2024-02-13 19:56:17',
-        '2024-02-13 19:56:17'
-    ),
-    (
-        6,
-        6,
-        1,
-        4,
-        'adil trissyan',
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-        '2024-02-13 19:56:17',
-        '2024-02-13 19:56:17'
-    );
-/*!40000 ALTER TABLE `workers` ENABLE KEYS */
-;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */
 ;
 
@@ -3588,4 +4930,4 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */
 ;
 
--- Dump completed on 2024-02-13 21:46:31
+-- Dump completed on 2024-03-02 15:07:50

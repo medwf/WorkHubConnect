@@ -78,7 +78,7 @@ const BREADCRUMBS = [
 const Page = ({ params }: PageProps) => {
   const { id } = params;
   const [date, setDate] = useState<Date>();
-  const userID = useSelector((state:RootState) => state.user)
+  const userID = useSelector((state: RootState) => state.user)
   const [wokerData, setWorkerData] = useState<Worker | null>(null);
 
   useEffect(() => {
@@ -99,12 +99,12 @@ const Page = ({ params }: PageProps) => {
     description: z.string().min(10),
     city: z.string().min(2),
     phone: z.string().min(10).max(14),
-    date:  z.object({
+    date: z.object({
       from: z.date().optional(),
       to: z.date().optional(),
-  }, {required_error: DATE_REQUIRED_ERROR}).refine((date) => {
+    }, { required_error: DATE_REQUIRED_ERROR }).refine((date) => {
       return !!date.from;
-  }, DATE_REQUIRED_ERROR),
+    }, DATE_REQUIRED_ERROR),
   });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -116,9 +116,9 @@ const Page = ({ params }: PageProps) => {
       date: {
         from: undefined,
         to: undefined,
-    },
-  }
-    
+      },
+    }
+
   });
   async function onSubmit(data: z.infer<typeof formSchema>) {
 
@@ -127,20 +127,20 @@ const Page = ({ params }: PageProps) => {
       id,
     }
 
-      try {
-        const res = await axios.post(`${domain}/api/v1/contact`,DataWithId);
+    try {
+      const res = await axios.post(`${domain}/api/v1/contact`, DataWithId);
 
-        toast.success(res.data.message);
-      } catch (error: any) {
-       
-        if (error.response.data.error){
-          toast.error(error.response.data.error);
-        }else{
-          console.clear();
-        }
-       }
-    
-   
+      toast.success(res.data.message);
+    } catch (error: any) {
+
+      if (error.response.data.error) {
+        toast.error(error.response.data.error);
+      } else {
+        console.clear();
+      }
+    }
+
+
   }
 
   return (
@@ -217,7 +217,7 @@ const Page = ({ params }: PageProps) => {
                   {wokerData?.is_available ? "available" : "not available"}
                 </p>
               </div>
-              
+
             </section>
           </div>
 
@@ -227,15 +227,15 @@ const Page = ({ params }: PageProps) => {
             <div className="aspect-square rounded-lg">
               {wokerData?.profile_img ? (
                 <Image
-                src={`${domain}/api/v1/get_image/${wokerData.profile_img}`}
+                  src={`/${wokerData.profile_img}`}
                   alt="profile image"
                   width={500}
                   height={500}
                   className="object-contain rounded-md mt-20"
                 />
-              ):(
+              ) : (
                 <Image
-                src={"/static/defaultProfile.jpg"}
+                  src={"/static/defaultProfile.jpg"}
                   alt="profile image"
                   width={500}
                   height={500}
@@ -243,11 +243,11 @@ const Page = ({ params }: PageProps) => {
                 />
               )}
             </div>
-            
-          </div>
-    
 
-       
+          </div>
+
+
+
           <div className=" lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start">
             <div>
               <div className="bottom-10">
@@ -303,7 +303,7 @@ const Page = ({ params }: PageProps) => {
                                 <FormItem>
                                   <FormLabel>Description</FormLabel>
                                   <FormControl>
-                                  <Textarea placeholder="Type your message here." id="message" {...field} />
+                                    <Textarea placeholder="Type your message here." id="message" {...field} />
                                   </FormControl>
                                   <FormDescription>
                                     describe your task
@@ -343,17 +343,17 @@ const Page = ({ params }: PageProps) => {
                                         >
                                           <CalendarIcon className="mr-2 h-4 w-4" />
                                           {field.value.from ? (
-                                        field.value.to ? (
-                                            <>
+                                            field.value.to ? (
+                                              <>
                                                 {format(field.value.from, "LLL dd, y")} -{" "}
                                                 {format(field.value.to, "LLL dd, y")}
-                                            </>
-                                        ) : (
-                                            format(field.value.from, "LLL dd, y")
-                                        )
-                                    ) : (
-                                        <span>Pick a date</span>
-                                    )}
+                                              </>
+                                            ) : (
+                                              format(field.value.from, "LLL dd, y")
+                                            )
+                                          ) : (
+                                            <span>Pick a date</span>
+                                          )}
                                         </Button>
                                       </PopoverTrigger>
                                       <PopoverContent
@@ -361,34 +361,34 @@ const Page = ({ params }: PageProps) => {
                                         align="start"
                                       >
                                         <Calendar
-                                           initialFocus
-                                           mode="range"
-                                           defaultMonth={field.value.from}
-                                           selected={{from: field.value.from!, to: field.value.to}}
-                                           onSelect={field.onChange}
-                                           numberOfMonths={1}
+                                          initialFocus
+                                          mode="range"
+                                          defaultMonth={field.value.from}
+                                          selected={{ from: field.value.from!, to: field.value.to }}
+                                          onSelect={field.onChange}
+                                          numberOfMonths={1}
                                         />
                                       </PopoverContent>
                                     </Popover>
                                   </FormControl>
-                                  
+
                                   <FormMessage />
                                 </FormItem>
                               )}
                             />
                             <div className="w-full flex flex-col gap-2 py-3">
-                            <Button type={"submit"}>Submit</Button>
-                        <DrawerClose asChild>
-                          <Button variant="outline">Cancel</Button>
-                        </DrawerClose>
+                              <Button type={"submit"}>Submit</Button>
+                              <DrawerClose asChild>
+                                <Button variant="outline">Cancel</Button>
+                              </DrawerClose>
                             </div>
-                            
+
                           </form>
                         </Form>
                       </div>
-                      
-                        
-                     
+
+
+
                     </div>
                   </DrawerContent>
                 </Drawer>
@@ -408,16 +408,16 @@ const Page = ({ params }: PageProps) => {
           </div>
         </div>
         <div className="-mt-40">
-        <ProjectReel
-        href="/products"
-        title={`The latest projects`}
-        subtitle={`this part of project is under construction and those projects are static files`}
-      />
+          <ProjectReel
+            href="/products"
+            title={`The latest projects`}
+            subtitle={`this part of project is under construction and those projects are static files`}
+          />
         </div>
-       
+
       </div>
 
-      
+
     </MaxWidthWrapper>
   );
 };
