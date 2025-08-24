@@ -277,13 +277,10 @@ export default function ProfilePage() {
 
         </div> */}
         <div className="flex justify-between items-center px-4 py-4 border-y">
-
           <Link href={'/profile/settings'} passHref className="flex justify-center items-center">
             <IoMdSettings className="h-6 w-6" />
             <h1 className="text-muted-foreground text-md text-gray-950 font-poppins pl-2">Settings</h1>
           </Link>
-
-
           <ChevronRight />
         </div>
       </div>

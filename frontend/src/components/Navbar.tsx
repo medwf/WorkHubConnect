@@ -110,7 +110,7 @@ const Navbar = () => {
   };
 
   const isAuth = Boolean(useSelector((state: any) => state.token));
-  // console.log("isAuth" + isAuth);
+  console.log("isAuth : " + isAuth);
 
   return (
     <div className="bg-white sticky z-50 top-0 inset-x-0 h-16 w-full">
